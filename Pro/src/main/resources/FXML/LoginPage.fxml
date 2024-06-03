@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" stylesheets="@../CSS/css1.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.OtherMenu.LoginMenu">
+   <children>
+      <Label layoutX="300.0" layoutY="246.0" prefHeight="18.0" prefWidth="169.0" text="Enter your username" />
+      <Label layoutX="300.0" layoutY="310.0" prefHeight="18.0" prefWidth="170.0" text="Enter your password" />
+      <TextField fx:id="usernameTextField" layoutX="300.0" layoutY="274.0" prefWidth="200.0" promptText="username" />
+      <PasswordField fx:id="passwordField" layoutX="300.0" layoutY="334.0" prefWidth="200.0" promptText="password" />
+      <TextArea fx:id="ErrorTextArea" layoutX="300.0" layoutY="369.0" prefHeight="64.0" prefWidth="200.0" styleClass="text-area-loginMenu" />
+   </children>
+</AnchorPane>

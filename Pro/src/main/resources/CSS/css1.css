@@ -1,0 +1,5 @@
+.text-area-loginMenu {
+    -fx-border-color: white;
+    -fx-text-fill: red;
+    -fx-font-size: 10px;
+}
