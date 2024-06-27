@@ -85,7 +85,7 @@ public class PreGameMenuController {
             Pair<Card, Integer> cardIntegerPair = factionCards.get(i);
             Card card = cardIntegerPair.getFirst();
             int numberOfCard = cardIntegerPair.getSecond();
-            toPrint.append(card)
+            toPrint.append(card.get).append(" ")
         }
         return null; // todo
     }
