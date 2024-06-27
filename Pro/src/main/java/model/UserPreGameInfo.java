@@ -30,4 +30,24 @@ public class UserPreGameInfo {
     public Leaders getLeader() {
         return leader;
     }
+
+    public void setLeader(Leaders leader) {
+        this.leader = leader;
+    }
+
+    public ArrayList<Pair<Card, Integer>> getCardCollection() {
+        return cardCollection;
+    }
+
+    public void setCardCollection(ArrayList<Pair<Card, Integer>> cardCollection) {
+        this.cardCollection = cardCollection;
+    }
+
+    public ArrayList<Pair<Card, Integer>> getCardsInDeck() {
+        return cardsInDeck;
+    }
+
+    public void setCardsInDeck(ArrayList<Pair<Card, Integer>> cardsInDeck) {
+        this.cardsInDeck = cardsInDeck;
+    }
 }

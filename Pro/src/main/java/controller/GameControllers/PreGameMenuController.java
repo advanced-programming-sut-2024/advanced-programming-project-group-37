@@ -85,9 +85,47 @@ public class PreGameMenuController {
             Pair<Card, Integer> cardIntegerPair = factionCards.get(i);
             Card card = cardIntegerPair.getFirst();
             int numberOfCard = cardIntegerPair.getSecond();
-            toPrint.append(card.get).append(" ")
+            //Printing Number
+            toPrint.append(card.getName()).append(":\n");
+
+            //TYPE
+            toPrint.append("Type").append(card.getType().name()).append("\n");
+
+            //IS HERO OR NOT
+            toPrint.append("Is Hero:").append(card.getIsHero()).append("\n");
+
+            //PLACE IN BOARD
+            toPrint.append("Place in board:").append(i + 1).append("\n");
+
+            //ABILITY
+            toPrint.append("Ability: ");
+            String ability = (card.getAbility() == null) ? "no ability" : card.getAbility().name();
+            toPrint.append(ability).append("\n");
+
+            //NUMBER OF CARD IN DECK
+            int numberOfThisCardInDeck = searchForCardInDeck(card, user);
+            toPrint.append("Number Of Cards in Deck: ").append(numberOfCard).append("\n");
+
+            //NUMBER OF TOTAL CARDS
+            toPrint.append("Number Of Cards to Pick: ").append(card.getNumberOfCardInGame() - numberOfCard).append("\n");
+
+            //CARD POWER
+            toPrint.append("Card Power: ").append(card.getPower()).append("\n");
         }
-        return null; // todo
+        return new Result(true, toPrint.toString());
+    }
+
+    private static int searchForCardInDeck(Card card, User user) {
+        int n = 0;
+        UserPreGameInfo userPreGameInfo = user.getUserPreGameInfo();
+        ArrayList<Pair<Card, Integer>> deck = userPreGameInfo.getCardsInDeck();
+        for (Pair<Card, Integer> cardInDeck : deck) {
+            if (cardInDeck.getFirst().equals(card)) {
+                n = cardInDeck.getSecond();
+                break;
+            }
+        }
+        return n;
     }
 
 

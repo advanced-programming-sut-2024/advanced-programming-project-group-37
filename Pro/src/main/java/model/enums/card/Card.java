@@ -177,6 +177,10 @@ public enum Card {
         return faction;
     }
 
+    public Ability getAbility() {
+        return ability;
+    }
+
     public String getName() {
         return name();
     }
