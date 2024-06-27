@@ -33,8 +33,12 @@ public class PreGameMenu {
             } else if ((matcher = PreGameCommands.DELETE_FROM_DECK.getMatcher(input)) != null) {
                 Result result = PreGameMenuController.deleteFromDeck(matcher.group("cardname"), Integer.parseInt(matcher.group("count")),
                         matcher.group("n"));
+            } else if (PreGameCommands.START_GAME.getMatcher(input) != null) {
+                GameMenu.run(scanner);
+            } else {
+                System.out.println("invalid command");
             }
-
+            input = scanner.nextLine();
 
             //TODO Save Deck by file address and name
             //Todo load deck by file address and name
