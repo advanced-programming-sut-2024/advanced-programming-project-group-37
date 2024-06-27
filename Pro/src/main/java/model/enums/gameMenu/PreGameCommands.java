@@ -17,8 +17,8 @@ public enum PreGameCommands {
     LOAD_DECK_WITH_NAME(""),
     SHOW_LEADERS("show leaders -n (?<n>\\S+)"),
     SELECT_LEADER("select leader -l (?<leadernum>\\S+) -n (?<"),
-    ADD_TO_DECK(""),
-    DELETE_FROM_DECK(""),
+    ADD_TO_DECK("add to deck -c (?<cardname>\\S+\\s*\\S+) (?<count>\\d+) -n (?<n>\\d+)"),
+    DELETE_FROM_DECK("delete from deck -c (?<cardname>\\S+) (?<count>\\S+) -n (?<n>\\d+)"),
     CHANGE_TURN(""),
     START_GAME("");
     private final String regex;

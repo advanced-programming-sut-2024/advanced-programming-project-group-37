@@ -1,8 +1,10 @@
 package controller.GameControllers;
 
+import javafx.scene.paint.Paint;
 import model.User;
 import model.UserPreGameInfo;
 import model.enums.card.Card;
+import model.enums.card.CardType;
 import model.enums.card.Leaders;
 import model.enums.gameMenu.Factions;
 import model.toolClasses.Pair;
@@ -59,11 +61,13 @@ public class PreGameMenuController {
             User user = User.getLoggedInUser();
             UserPreGameInfo userPreGameInfo = user.getUserPreGameInfo();
             userPreGameInfo.setFaction(factions);
+            userPreGameInfo.setCardCollection(userPreGameInfo.getFaction().getDeepCopyOfArraylist());
             user.setUserPreGameInfo(userPreGameInfo);
             User.setLoggedInUser(user);
         } else if (playerNum.equals("2")) {
             UserPreGameInfo userPreGameInfo = opponentUser.getUserPreGameInfo();
             userPreGameInfo.setFaction(factions);
+            userPreGameInfo.setCardCollection(userPreGameInfo.getFaction().getDeepCopyOfArraylist());
             opponentUser.setUserPreGameInfo(userPreGameInfo);
         }
 
@@ -266,8 +270,139 @@ public class PreGameMenuController {
     }
 
     // add to deck
-    public static Result addToDeck(String cardName, int count) {
-        return null;
+    public static Result addToDeck(String cardName, int count, String playerNum) {
+        User user;
+        if (playerNum.equals("1")) user = currentUser;
+        else user = opponentUser;
+
+        //get card by name
+        Card card = Card.getCardByName(cardName);
+        if (card == null) {
+            return new Result(false, "invalid card name");
+        }
+
+
+        //get card in collection for calculating the number of cards available
+        ArrayList<Pair<Card, Integer>> cardCollection = user.getUserPreGameInfo().getCardCollection();
+        Pair<Card, Integer> cardInCollection = null;
+        for (Pair<Card, Integer> pair : cardCollection) {
+            if (pair.getFirst().equals(card))
+                cardInCollection = pair;
+        }
+
+
+        //get card in deck
+        ArrayList<Pair<Card, Integer>> cardsInDeck = user.getUserPreGameInfo().getCardsInDeck();
+        Pair<Card, Integer> cardInDeck = null;
+        for (Pair<Card, Integer> pair : cardsInDeck) {
+            if (pair.getFirst().equals(card))
+                cardInDeck = pair;
+        }
+
+        //check if count is valid or not
+        if (count > cardInCollection.getSecond())
+            return new Result(false, "not enough card available");
+
+        //check special cards
+        if ((card.getType().equals(CardType.SPELL) || card.getType().equals(CardType.WEATHER)) &&
+                user.getUserPreGameInfo().calculateSpecialCardsInDeck() + count > 10) {
+            return new Result(false, "more than 10 special cards");
+        }
+
+        //add card to deck
+        //if there wasn't this card before
+        if (cardInDeck == null) {
+            //add to deck
+            cardsInDeck.add(new Pair<>(card, count));
+            UserPreGameInfo userPreGameInfo = user.getUserPreGameInfo();
+            userPreGameInfo.setCardsInDeck(cardsInDeck);
+            //remove from collection
+            int n = cardInCollection.getSecond();
+            cardCollection.remove(cardInCollection);
+            cardCollection.add(new Pair<>(card, n - count));
+        } else {
+            int n = cardInDeck.getSecond();
+            cardsInDeck.remove(cardInDeck);
+            //add to deck
+            cardsInDeck.add(new Pair<>(card, count + n));
+            UserPreGameInfo userPreGameInfo = user.getUserPreGameInfo();
+            userPreGameInfo.setCardsInDeck(cardsInDeck);
+            //remove from collection
+
+            n = cardInCollection.getSecond();
+            cardCollection.remove(cardInCollection);
+            cardCollection.add(new Pair<>(card, n - count));
+        }
+
+        return new Result(false, "card added to deck successfully");
+    }
+
+    // delete card from deck
+    public static Result deleteFromDeck(String cardName, int count, String playerNum) {
+        User user;
+        if (playerNum.equals("1")) user = currentUser;
+        else user = opponentUser;
+
+        //get card by name
+        Card card = Card.getCardByName(cardName);
+        if (card == null) {
+            return new Result(false, "invalid card name");
+        }
+
+
+        //get card in collection for calculating the number of cards available
+        ArrayList<Pair<Card, Integer>> cardCollection = user.getUserPreGameInfo().getCardCollection();
+        Pair<Card, Integer> cardInCollection = null;
+        for (Pair<Card, Integer> pair : cardCollection) {
+            if (pair.getFirst().equals(card))
+                cardInCollection = pair;
+        }
+
+
+        //get card in deck
+        ArrayList<Pair<Card, Integer>> cardsInDeck = user.getUserPreGameInfo().getCardsInDeck();
+        Pair<Card, Integer> cardInDeck = null;
+        for (Pair<Card, Integer> pair : cardsInDeck) {
+            if (pair.getFirst().equals(card))
+                cardInDeck = pair;
+        }
+
+        //check if count is valid or not
+        if (count > cardInDeck.getSecond())
+            return new Result(false, "not enough card available In deck");
+
+
+        //add card to deck
+        //if there wasn't this card before
+        if (cardInCollection == null) {
+            //add to deck
+            cardCollection.add(new Pair<>(card, count));
+            UserPreGameInfo userPreGameInfo = user.getUserPreGameInfo();
+            userPreGameInfo.setCardCollection(cardCollection);
+            //remove from collection
+            int n = cardInDeck.getSecond();
+            cardsInDeck.remove(cardsInDeck);
+            cardsInDeck.add(new Pair<>(card, n - count));
+            user.setUserPreGameInfo(userPreGameInfo);
+        } else {
+            int n = cardInDeck.getSecond();
+            cardCollection.remove(cardInCollection);
+            //add to deck
+            cardCollection.add(new Pair<>(card, count + n));
+            UserPreGameInfo userPreGameInfo = user.getUserPreGameInfo();
+            userPreGameInfo.setCardCollection(cardCollection);
+            //remove from collection
+
+            n = cardInDeck.getSecond();
+            cardsInDeck.remove(cardInDeck);
+            cardsInDeck.add(new Pair<>(card, n - count));
+            user.setUserPreGameInfo(userPreGameInfo);
+        }
+
+
+        if (playerNum.equals("1")) User.setLoggedInUser(user);
+
+        return new Result(true, "card deleted from deck successfully");
     }
 
     private static boolean isCountValid(int count) {
@@ -284,11 +419,6 @@ public class PreGameMenuController {
 
     private static boolean checkSpecialCardInDeck() {
         return true;
-    }
-
-    // delete card from deck
-    public static Result deleteFromDeck(String cardName, int count) {
-        return null;
     }
 
     // change turn

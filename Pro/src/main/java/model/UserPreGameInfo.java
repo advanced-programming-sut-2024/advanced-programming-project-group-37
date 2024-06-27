@@ -1,6 +1,7 @@
 package model;
 
 import model.enums.card.Card;
+import model.enums.card.CardType;
 import model.enums.card.Leaders;
 import model.enums.gameMenu.Factions;
 import model.toolClasses.Pair;
@@ -24,9 +25,11 @@ public class UserPreGameInfo {
     public Factions getFaction() {
         return faction;
     }
+
     public void setFaction(Factions faction) {
         this.faction = faction;
     }
+
     public Leaders getLeader() {
         return leader;
     }
@@ -49,5 +52,25 @@ public class UserPreGameInfo {
 
     public void setCardsInDeck(ArrayList<Pair<Card, Integer>> cardsInDeck) {
         this.cardsInDeck = cardsInDeck;
+    }
+
+    public int calculateSpecialCardsInDeck() {
+        int n = 0;
+        for (Pair<Card, Integer> pair : this.cardsInDeck) {
+            if (pair.getFirst().getType().equals(CardType.WEATHER) || pair.getFirst().getType().equals(CardType.SPELL)) {
+                n+=pair.getSecond();
+            }
+        }
+        return n;
+    }
+
+    public int calculateSoldierCardsInDeck() {
+        int n = 0;
+        for (Pair<Card, Integer> pair : this.cardsInDeck) {
+            if (!pair.getFirst().getType().equals(CardType.WEATHER) && !pair.getFirst().getType().equals(CardType.SPELL)) {
+                n+=pair.getSecond();
+            }
+        }
+        return n;
     }
 }

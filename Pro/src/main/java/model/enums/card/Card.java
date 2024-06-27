@@ -3,6 +3,8 @@ package model.enums.card;
 import model.enums.gameMenu.Factions;
 import model.toolClasses.Result;
 
+import java.util.Stack;
+
 public enum Card {
     Mardoeme("Mardoeme", Factions.SKELLIGE, 0, 3, CardType.SPELL, false, Ability.MARDROEME),
     Berserker("Berserker", Factions.SKELLIGE, 4, 1, CardType.CLOSE_COMBAT, false, Ability.BERSERKER),
@@ -155,6 +157,34 @@ public enum Card {
     Nekker("Nekker", Factions.MONSTER, 2, 3, CardType.CLOSE_COMBAT, false, Ability.MUSTER),
     Wyvern("Wyvern", Factions.MONSTER, 2, 1, CardType.RANGED_COMBAT, false, null),
     Ghoul("Ghoul", Factions.MONSTER, 1, 3, CardType.CLOSE_COMBAT, false, Ability.MUSTER),
+
+
+
+    //neutral
+    BitingForest("Biting Forest", Factions.NEUTRAL, -1, 3, CardType.WEATHER, false, null),
+    ImpenetrableFog("Impenetrable Fog", Factions.NEUTRAL, -1, 3, CardType.WEATHER, false, null),
+    TorrentialRain("Torrential Rain", Factions.NEUTRAL, -1, 3, CardType.WEATHER, false, null),
+    SkelligeStorm("Skellige Storm", Factions.NEUTRAL, -1, 3, CardType.WEATHER, false, null),
+    ClearWeather("Clear Weather", Factions.NEUTRAL, -1, 3, CardType.WEATHER, false, null),
+    Scorch("Scorch", Factions.NEUTRAL, -1, 3, CardType.SPELL, false, null),
+    CommanderHorn("Commander’s Horn", Factions.NEUTRAL, -1, 3, CardType.SPELL, false, null),
+    Decoy("Decoy", Factions.NEUTRAL, -1, 3, CardType.SPELL, false, null),
+    Dandelion("Dandelion", Factions.NEUTRAL, 2, 1, CardType.CLOSE_COMBAT, false, null),
+    Cow("Cow", Factions.NEUTRAL, 0, 1, CardType.RANGED_COMBAT, false, Ability.COMMANDER_HORN),
+    EmielRegis("Emiel Regis", Factions.NEUTRAL, 5, 1, CardType.CLOSE_COMBAT, false, Ability.TRANSFORMERS),
+    GaunterODimm("Gaunter O’Dimm", Factions.NEUTRAL, 2, 1, CardType.SIEGE, false, Ability.MUSTER),
+    GaunterODImmDarkness("Gaunter O’DImm Darkness", Factions.NEUTRAL, 4, 3, CardType.RANGED_COMBAT, false, Ability.MUSTER),
+    GeraltOfRivia("Geralt of Rivia", Factions.NEUTRAL, 15, 1, CardType.CLOSE_COMBAT, true, null),
+    MysteriousElf("Mysterious Elf", Factions.NEUTRAL, 0, 1, CardType.CLOSE_COMBAT, true, Ability.SPY),
+    OlgierdVonEverc("Olgierd Von Everc", Factions.NEUTRAL, 6, 1, CardType.AGILE, false, Ability.MORALBOOST),
+    TrissMerigold("Triss Merigold", Factions.NEUTRAL, 7, 1, CardType.CLOSE_COMBAT, true, null),
+    Vesemir("Vesemir", Factions.NEUTRAL, 6, 1, CardType.CLOSE_COMBAT, true, null),
+    Villentretenmerth("Villentretenmerth", Factions.NEUTRAL, 7, 1, CardType.CLOSE_COMBAT, false, Ability.SCROCH),
+    YenneferOfVengerberg("Yennefer of Vengerberg", Factions.NEUTRAL, 7, 1, CardType.RANGED_COMBAT, true, Ability.MEDIC),
+    ZoltanChivay("Zoltan Chivay", Factions.NEUTRAL, 5, 1, CardType.CLOSE_COMBAT, false, null)
+
+
+
     ;
 
     private final Factions faction;
@@ -173,6 +203,13 @@ public enum Card {
         this.ability = ability;
     }
 
+    public static Card getCardByName(String name) {
+        for (Card card : Card.values()){
+            if (card.getName().equals(name))
+                return card;
+        }
+        return null;
+    }
     public Factions getFaction() {
         return faction;
     }

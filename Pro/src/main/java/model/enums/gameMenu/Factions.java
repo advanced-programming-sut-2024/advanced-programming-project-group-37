@@ -11,7 +11,17 @@ public enum Factions {
     EMPIRE_NILFGARDEN("Empire NilfGaarden", setForEmpireNilfGaarden()),
     REALMS_NORTHERN("Realm Northern", setForRealmsNorthern()),
     SCOIATEAL("Scoiateal", setForScoiaTael()),
-    SKELLIGE("Skellige", setForSkellige());
+    SKELLIGE("Skellige", setForSkellige()),
+    NEUTRAL("Neutral" , setForNeutal());
+
+    private static ArrayList<Pair<Card, Integer>> setForNeutal() {
+        ArrayList<Pair<Card, Integer>> list = new ArrayList<>();
+        for (Card card : Card.values()) {
+            if (card.getFaction().name.equals("Neutral"))
+                list.add(new Pair<>(card, card.getNumberOfCardInGame()));
+        }
+        return list;
+    }
 
     public final String name;
     private final ArrayList<Pair<Card, Integer>> cardCollection;
@@ -40,7 +50,7 @@ public enum Factions {
     private static ArrayList<Pair<Card, Integer>> setForMonster() {
         ArrayList<Pair<Card, Integer>> list = new ArrayList<>();
         for (Card card : Card.values()) {
-            if (card.getFaction().name.equals("Monster"))
+            if (card.getFaction().name.equals("Monster") || card.getFaction().name.equals("Neutral"))
                 list.add(new Pair<>(card, card.getNumberOfCardInGame()));
         }
         return list;
@@ -49,7 +59,7 @@ public enum Factions {
     private static ArrayList<Pair<Card, Integer>> setForEmpireNilfGaarden() {
         ArrayList<Pair<Card, Integer>> list = new ArrayList<>();
         for (Card card : Card.values()) {
-            if (card.getFaction().name.equals("Empire NilfGaarden"))
+            if (card.getFaction().name.equals("Empire NilfGaarden") || card.getFaction().name.equals("Neutral"))
                 list.add(new Pair<>(card, card.getNumberOfCardInGame()));
         }
         return list;
@@ -58,7 +68,7 @@ public enum Factions {
     private static ArrayList<Pair<Card, Integer>> setForRealmsNorthern() {
         ArrayList<Pair<Card, Integer>> list = new ArrayList<>();
         for (Card card : Card.values()) {
-            if (card.getFaction().name.equals("Realms Northern"))
+            if (card.getFaction().name.equals("Realms Northern") || card.getFaction().name.equals("Neutral"))
                 list.add(new Pair<>(card, card.getNumberOfCardInGame()));
         }
         return list;
@@ -67,7 +77,7 @@ public enum Factions {
     private static ArrayList<Pair<Card, Integer>> setForScoiaTael() {
         ArrayList<Pair<Card, Integer>> list = new ArrayList<>();
         for (Card card : Card.values()) {
-            if (card.getFaction().name.equals("Scoiatael"))
+            if (card.getFaction().name.equals("Scoiatael") || card.getFaction().name.equals("Neutral"))
                 list.add(new Pair<>(card, card.getNumberOfCardInGame()));
         }
         return list;
@@ -76,7 +86,7 @@ public enum Factions {
     private static ArrayList<Pair<Card, Integer>> setForSkellige() {
         ArrayList<Pair<Card, Integer>> list = new ArrayList<>();
         for (Card card : Card.values()) {
-            if (card.getFaction().name.equals("Skellige"))
+            if (card.getFaction().name.equals("Skellige") || card.getFaction().name.equals("Neutral"))
                 list.add(new Pair<>(card, card.getNumberOfCardInGame()));
         }
         return list;

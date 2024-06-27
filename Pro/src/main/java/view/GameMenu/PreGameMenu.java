@@ -27,6 +27,12 @@ public class PreGameMenu {
                 Result result = PreGameMenuController.showLeaders(matcher.group("n"));
             } else if ((matcher = PreGameCommands.SELECT_LEADER.getMatcher(input)) != null) {
                 Result result = PreGameMenuController.selectLeader(Integer.parseInt(matcher.group("leadernum")), matcher.group("n"));
+            } else if ((matcher = PreGameCommands.ADD_TO_DECK.getMatcher(input)) != null) {
+                Result result = PreGameMenuController.addToDeck(matcher.group("cardname"), Integer.parseInt(matcher.group("count"))
+                        , matcher.group("n"));
+            } else if ((matcher = PreGameCommands.DELETE_FROM_DECK.getMatcher(input)) != null) {
+                Result result = PreGameMenuController.deleteFromDeck(matcher.group("cardname"), Integer.parseInt(matcher.group("count")),
+                        matcher.group("n"));
             }
 
 
