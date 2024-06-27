@@ -19,6 +19,8 @@ public class PreGameMenu {
                 PreGameMenuController.selectFaction(matcher.group("factionname"), matcher.group("n"));
             } else if ((matcher = PreGameCommands.SHOW_CARDS.getMatcher(input)) != null) {
                 Result result = PreGameMenuController.showCards(matcher.group("n"));
+            } else if ((matcher = PreGameCommands.SHOW_DECK.getMatcher(input)) != null) {
+                Result result = PreGameMenuController.showDeck(matcher.group("n"));
             }
         }
     }

@@ -9,7 +9,7 @@ public enum PreGameCommands {
     SHOW_FACTIONS("show factions -n (?<n>\\d+)"),
     SELECT_FACTION("select faction -f (?<factionname>\\S+) -n (?<n>\\d+)"),
     SHOW_CARDS("show cards -n (?<n>\\S+)"),
-    SHOW_DECK(""),
+    SHOW_DECK("show deck -n (?<n>\\S+)"),
     SHOW_INFORMATION_CURRENT_USER(""),
     SAVE_DECK_WITH_ADDRESS(""),
     SAVE_DECK_WITH_NAME(""),

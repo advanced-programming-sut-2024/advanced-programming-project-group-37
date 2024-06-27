@@ -222,4 +222,20 @@ public class PreGameMenuController {
         return null;
     }
 
+    public static Result showDeck(String playerNum) {
+        User user;
+        if (playerNum.equals("1")) user = currentUser;
+        else user = opponentUser;
+
+        ArrayList<Pair<Card, Integer>> deckCards = user.getUserPreGameInfo().getCardsInDeck();
+        StringBuilder cards = new StringBuilder();
+
+        for (Pair<Card, Integer> cardIntegerPair : deckCards) {
+            cards.append(cardIntegerPair.getFirst().name()).append(" ").append(cardIntegerPair.getSecond()).append("\n");
+        }
+
+        return new Result(true, cards.toString());
+
+    }
+
 }
