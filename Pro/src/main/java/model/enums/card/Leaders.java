@@ -140,4 +140,8 @@ public enum Leaders {
     public Result passivePurebloodElf() {
         return null;
     }
+
+    public Factions getFaction() {
+        return faction;
+    }
 }

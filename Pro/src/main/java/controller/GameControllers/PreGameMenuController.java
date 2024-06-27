@@ -3,6 +3,7 @@ package controller.GameControllers;
 import model.User;
 import model.UserPreGameInfo;
 import model.enums.card.Card;
+import model.enums.card.Leaders;
 import model.enums.gameMenu.Factions;
 import model.toolClasses.Pair;
 import model.toolClasses.Result;
@@ -217,16 +218,51 @@ public class PreGameMenuController {
     }
 
     // leader commands
-    public static Result showLeaders() {
-        return null;
+    public static Result showLeaders(String playerNum) {
+        //Set user
+        User user;
+        if (playerNum.equals("1")) user = currentUser;
+        else user = opponentUser;
+
+        StringBuilder toPrint = new StringBuilder();
+        int n = 1;
+
+        for (Leaders leaders : Leaders.values()) {
+            if (leaders.getFaction().equals(user.getUserPreGameInfo().getFaction())) {
+                toPrint.append(n).append("- ").append(leaders.name());
+                if (user.getUserPreGameInfo().getLeader().equals(leaders))
+                    toPrint.append(" : Selected Leader\n");
+                else toPrint.append("\n");
+            }
+        }
+
+        return new Result(true, toPrint.toString());
     }
 
-    public static Result selectLeader(int leaderNumber) {
-        return null;
-    }
+    public static Result selectLeader(int leaderNumber, String playerNum) {
+        User user;
+        if (playerNum.equals("1")) user = currentUser;
+        else user = opponentUser;
 
-    private static boolean isLeaderNumValid(int leaderNumber) {
-        return true;
+        ArrayList<Leaders> leaders = new ArrayList<>();
+        for (Leaders leader : Leaders.values()) {
+            if (leader.getFaction().equals(user.getUserPreGameInfo().getFaction())) {
+                leaders.add(leader);
+            }
+        }
+
+        //check if number is valid
+        if (leaderNumber < 0 || leaderNumber > leaders.size() + 1)
+            return new Result(false, "invalid Leader Number");
+
+
+        UserPreGameInfo userPreGameInfo = user.getUserPreGameInfo();
+        // leaderNumber - 1 because the leaderNumber that passed to this function is 1 based
+        userPreGameInfo.setLeader(leaders.get(leaderNumber - 1));
+        user.setUserPreGameInfo(userPreGameInfo);
+
+        return new Result(true, "Leader " + user.getUserPreGameInfo().getLeader().name() +
+                " set for player " + user.getUsername());
     }
 
     // add to deck

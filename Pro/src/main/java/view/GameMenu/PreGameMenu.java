@@ -23,7 +23,15 @@ public class PreGameMenu {
                 Result result = PreGameMenuController.showDeck(matcher.group("n"));
             } else if ((matcher = PreGameCommands.SHOW_INFORMATION_CURRENT_USER.getMatcher(input)) != null) {
                 Result result = PreGameMenuController.showInfoCurrentUser(matcher.group("n"));
+            } else if ((matcher = PreGameCommands.SHOW_LEADERS.getMatcher(input)) != null) {
+                Result result = PreGameMenuController.showLeaders(matcher.group("n"));
+            } else if ((matcher = PreGameCommands.SELECT_LEADER.getMatcher(input)) != null) {
+                Result result = PreGameMenuController.selectLeader(Integer.parseInt(matcher.group("leadernum")), matcher.group("n"));
             }
+
+
+            //TODO Save Deck by file address and name
+            //Todo load deck by file address and name
         }
     }
 
