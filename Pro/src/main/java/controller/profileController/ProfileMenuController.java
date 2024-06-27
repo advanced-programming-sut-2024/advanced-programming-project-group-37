@@ -28,37 +28,6 @@ public class ProfileMenuController extends LoginMenuController {
         return new Result(true, "Username changed successfully.");
     }
 
-    private static boolean isUsernameAlreadyUsed(String username) {
-        //get all users
-        ArrayList<User> allUsers = User.getAllUsers();
-
-        //check if the username found in all users or not
-        for (int i = 0; i < allUsers.size(); i++)
-            if (allUsers.get(i).getUsername().equals(username))
-                return true;
-        return false;
-    }
-
-    private static boolean isUsernameValid(String username) {
-        return username.matches(RegEx.VALID_USERNAME.getRegex());
-    }
-
-    private static boolean isEmailValid(String email) {
-        return email.matches(RegEx.validEmail.getRegex());
-    }
-
-    private static boolean isPasswordValid(String password) {
-        return password.matches(RegEx.validPassword.getRegex());
-    }
-
-    private static boolean isPasswordStrong(String password) {
-        return password.matches(RegEx.strongPassword.getRegex());
-    }
-
-    private static boolean isPasswordConfirmed(String password, String confirmPassword) {
-        return password.equals(confirmPassword);
-    }
-
     //change nickname
     public static Result changeNickName(String newNickname) {
         User user = User.getLoggedInUser();
@@ -121,5 +90,4 @@ public class ProfileMenuController extends LoginMenuController {
     //go to user info menu and show user's information
     public static void goToUserInfoMenu(Scanner scanner) {
     }
-
 }

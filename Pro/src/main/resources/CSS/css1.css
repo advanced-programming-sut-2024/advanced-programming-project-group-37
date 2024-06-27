@@ -3,3 +3,14 @@
     -fx-text-fill: red;
     -fx-font-size: 10px;
 }
+
+.labelEffect:hover {
+    -fx-underline: true;
+    -fx-text-fill: BLUE;
+}
+
+.terminal {
+    -fx-control-inner-background: black;
+    -fx-text-fill: #6faf48;
+    -fx-border-color: #6faf48;
+}

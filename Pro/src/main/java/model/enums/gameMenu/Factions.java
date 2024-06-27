@@ -7,11 +7,11 @@ import model.toolClasses.Result;
 import java.util.ArrayList;
 
 public enum Factions {
-    MONSTER("", setForMonster()),
-    EMPIRE_NILFGARDEN("", setForEmpireNilfGaarden()),
-    REALMS_NORTHERN("", setForRealmsNorthern()),
-    SCOIATEAL("", setForScoiaTael()),
-    SKELLIGE("", setForSkellige());
+    MONSTER("Monster", setForMonster()),
+    EMPIRE_NILFGARDEN("Empire NilfGaarden", setForEmpireNilfGaarden()),
+    REALMS_NORTHERN("Realm Northern", setForRealmsNorthern()),
+    SCOIATEAL("Scoiateal", setForScoiaTael()),
+    SKELLIGE("Skellige", setForSkellige());
 
     public final String name;
     private final ArrayList<Pair<Card, Integer>> cardCollection;
@@ -21,6 +21,16 @@ public enum Factions {
         this.cardCollection = cardCollection;
     }
 
+    public static Factions getFaction(String targetName) {
+        for (Factions faction : Factions.values()) {
+            if (faction.name.equals(targetName)) {
+                return faction;
+            }
+        }
+        // Throw an exception or handle the case where no matching faction is found
+        return null;
+    }
+
     // return deepCopy of cardCollection
     public ArrayList<Pair<Card, Integer>> getDeepCopyOfArraylist() {
         return null;
@@ -28,36 +38,71 @@ public enum Factions {
 
     // methods for fill default arraylist
     private static ArrayList<Pair<Card, Integer>> setForMonster() {
-        return null;
+        ArrayList<Pair<Card, Integer>> list = new ArrayList<>();
+        for (Card card : Card.values()) {
+            if (card.getFaction().name.equals("Monster"))
+                list.add(new Pair<>(card, card.getNumberOfCardInGame()));
+        }
+        return list;
     }
+
     private static ArrayList<Pair<Card, Integer>> setForEmpireNilfGaarden() {
-        return null;
+        ArrayList<Pair<Card, Integer>> list = new ArrayList<>();
+        for (Card card : Card.values()) {
+            if (card.getFaction().name.equals("Empire NilfGaarden"))
+                list.add(new Pair<>(card, card.getNumberOfCardInGame()));
+        }
+        return list;
     }
+
     private static ArrayList<Pair<Card, Integer>> setForRealmsNorthern() {
-        return null;
+        ArrayList<Pair<Card, Integer>> list = new ArrayList<>();
+        for (Card card : Card.values()) {
+            if (card.getFaction().name.equals("Realms Northern"))
+                list.add(new Pair<>(card, card.getNumberOfCardInGame()));
+        }
+        return list;
     }
+
     private static ArrayList<Pair<Card, Integer>> setForScoiaTael() {
-        return null;
+        ArrayList<Pair<Card, Integer>> list = new ArrayList<>();
+        for (Card card : Card.values()) {
+            if (card.getFaction().name.equals("Scoiatael"))
+                list.add(new Pair<>(card, card.getNumberOfCardInGame()));
+        }
+        return list;
     }
+
     private static ArrayList<Pair<Card, Integer>> setForSkellige() {
-        return null;
+        ArrayList<Pair<Card, Integer>> list = new ArrayList<>();
+        for (Card card : Card.values()) {
+            if (card.getFaction().name.equals("Skellige"))
+                list.add(new Pair<>(card, card.getNumberOfCardInGame()));
+        }
+        return list;
     }
-    private static void setCommonCards() {}
+
+    private static void setCommonCards() {
+    }
 
 
     // methods for ability of each faction
     private static Result monsterAbility() {
         return null;
     }
+
     private static Result empireNilfGaardenAbility() {
         return null;
     }
+
     private static Result realmsNorthernAbility() {
         return null;
     }
+
     private static Result scoiaTaelAbility() {
         return null;
     }
+
     private static Result skelligeAbility() {
         return null;
     }

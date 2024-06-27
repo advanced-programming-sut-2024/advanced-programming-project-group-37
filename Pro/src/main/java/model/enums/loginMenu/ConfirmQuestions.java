@@ -3,7 +3,7 @@ package model.enums.loginMenu;
 public enum ConfirmQuestions {
     q1("What is your lucky number?"),
     q2("What is your favorite color?"),
-    q3(""),
+    q3("Why are you gay?"),
     q4(""),
     q5("");
 

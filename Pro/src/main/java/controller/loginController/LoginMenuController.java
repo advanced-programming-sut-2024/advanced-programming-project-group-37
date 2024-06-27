@@ -41,11 +41,11 @@ public class LoginMenuController{
 
         return new Result(true, "No Error found!");
     }
-    public static Result registerNewUser(ConfirmQuestions confirmQuestions, String username, String password, String nickname, String email, String ansewr) {
-        User user = new User(confirmQuestions, username, password, nickname, email, ansewr);
+    public static Result registerNewUser(ConfirmQuestions confirmQuestions, String username, String password, String nickname, String email, String answer) {
+        User user = new User(confirmQuestions, username, password, nickname, email, answer);
         return new Result(true, "User created successfully");
     }
-    private static boolean isUsernameAlreadyUsed(String username) {
+    protected static boolean isUsernameAlreadyUsed(String username) {
         //get all users
         ArrayList<User> allUsers = User.getAllUsers();
 
@@ -55,16 +55,16 @@ public class LoginMenuController{
                 return true;
         return false;
     }
-    private static boolean isUsernameValid(String username) {
+    protected static boolean isUsernameValid(String username) {
         return username.matches(RegEx.VALID_USERNAME.getRegex());
     }
-    private static boolean isEmailValid(String email) {
+    protected static boolean isEmailValid(String email) {
         return email.matches(RegEx.validEmail.getRegex());
     }
-    private static boolean isPasswordValid(String password) {
+    protected static boolean isPasswordValid(String password) {
         return password.matches(RegEx.validPassword.getRegex());
     }
-    private static boolean isPasswordStrong(String password) {
+    protected static boolean isPasswordStrong(String password) {
         return password.matches(RegEx.strongPassword.getRegex());
     }
     private static boolean isPasswordConfirmed(String password, String confirmPassword) {
@@ -120,7 +120,6 @@ public class LoginMenuController{
         }
         return validPassword.toString();
     }
-
     private static void addingCharToPassword(StringBuilder validPassword, ArrayList<Character> password) {
         Random random = new Random();
         //choose random place for putting in string builder
@@ -130,30 +129,32 @@ public class LoginMenuController{
         password.remove(randomPlace);
     }
 
+
+
     // login
     public static Result login(String username, String password) {
         //check if username is valid and available
-        if (isUsernameAlreadyUsed(username))
+        if (!isUsernameAlreadyUsed(username))
             return new Result(false, "Username not found!");
 
         //check if username and password matches
         User user = User.getUserByUsername(username);
-        if (user.getPassword().equals(password))
+
+        if (!user.getPassword().equals(password))
             return new Result(false, "Password doesn't match!");
         //login successful
         User.setLoggedInUser(user);
         return new Result(true, "Login successfully.");
     }
     // use the  <isUsernameAlreadyUsed> for check existence of username
-    private static boolean isPasswordCorrect(String username, String password) {return true;}
 
     // forget password
-    private static Result forgetPassword(String username, String ansewr) {
+    private static Result forgetPassword(String username, String answer) {  // todo : اول چک کن ببین یوزر وجود داره و اینکه کاری کن بتونم بزنم اول باید برات بفرستم  که چک
         //get user by username
         User user = User.getUserByUsername(username);
 
         //check if answer matches
-        if (ansewr.equals(user.getAnswer()))
+        if (answer.equals(user.getAnswer()))
             return new Result(true, "answer matches!");
 
         return new Result(false, "answer doesn't match.");

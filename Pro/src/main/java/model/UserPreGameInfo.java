@@ -1,7 +1,7 @@
 package model;
 
 import model.enums.card.Card;
-import model.cards.leaders.LeaderCards;
+import model.enums.card.Leaders;
 import model.enums.gameMenu.Factions;
 import model.toolClasses.Pair;
 
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class UserPreGameInfo {
     private Factions faction;
-    private LeaderCards leader;
+    private Leaders leader;
     private ArrayList<Pair<Card, Integer>> cardCollection;
     private ArrayList<Pair<Card, Integer>> cardsInDeck;
 
@@ -27,7 +27,7 @@ public class UserPreGameInfo {
     public void setFaction(Factions faction) {
         this.faction = faction;
     }
-    public LeaderCards getLeader() {
+    public Leaders getLeader() {
         return leader;
     }
 }

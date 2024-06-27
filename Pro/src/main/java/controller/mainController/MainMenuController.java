@@ -12,7 +12,11 @@ public class MainMenuController {
     }
 
     //go to profile menu
-    public static void goToProfileMenu(Scanner scanner){}
+    public static void goToProfileMenu() {
+        // TODO:
+    }
     //go to pregame menu
-    public static void goToPreGameMenu(Scanner scanner){}
+    public static void goToPreGameMenu() {
+        // TODO:
+    }
 }
