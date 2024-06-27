@@ -21,6 +21,8 @@ public class PreGameMenu {
                 Result result = PreGameMenuController.showCards(matcher.group("n"));
             } else if ((matcher = PreGameCommands.SHOW_DECK.getMatcher(input)) != null) {
                 Result result = PreGameMenuController.showDeck(matcher.group("n"));
+            } else if ((matcher = PreGameCommands.SHOW_INFORMATION_CURRENT_USER.getMatcher(input)) != null) {
+                Result result = PreGameMenuController.showInfoCurrentUser(matcher.group("n"));
             }
         }
     }

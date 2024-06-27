@@ -6,10 +6,8 @@ import model.enums.card.Card;
 import model.enums.gameMenu.Factions;
 import model.toolClasses.Pair;
 import model.toolClasses.Result;
-import view.GameMenu.PreGameMenu;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class PreGameMenuController {
     public static User currentUser = User.getLoggedInUser();
@@ -130,8 +128,58 @@ public class PreGameMenuController {
 
 
     // show information current user
-    public static Result showInfoCurrentUser() {
-        return null;
+    public static Result showInfoCurrentUser(String playerNum) {
+        //set the user we want to print its information
+        User user;
+        if (playerNum.equals("1")) user = currentUser;
+        else user = opponentUser;
+
+        StringBuilder information = new StringBuilder();
+
+        //NAME
+        information.append("Username: ").append(user.getUsername()).append("\n");
+        //FACTION NAME
+        information.append("Faction: ").append(user.getUserPreGameInfo().getFaction().name).append("\n");
+        //NUMBER OF CARDS IN DECK
+        int numberOfCardsInDeck = calculateNumberOfCardsInDeck(user);
+        information.append("Number of cards in deck:").append(numberOfCardsInDeck).append("\n");
+
+
+        //TODO Soldier cards
+        //TODO Special cards
+
+        //HERO CARDS
+        int heroCards = calculateNumberOfHerosInDeck(user);
+        information.append("Number of Hero Cards in deck: ").append(heroCards).append("\n");
+
+        //Power of cards
+        int powerSum = calculatePowerOfAllCardsInDeck(user);
+        information.append("Power Of Cards in Deck: ").append(powerSum).append("\n");
+        return new Result(true, information.toString());
+    }
+
+    private static int calculatePowerOfAllCardsInDeck(User user) {
+        int powerSum = 0;
+        for (Pair<Card, Integer> pair : user.getUserPreGameInfo().getCardsInDeck()) {
+            powerSum += pair.getSecond() * pair.getFirst().getPower();
+        }
+        return powerSum;
+    }
+
+    private static int calculateNumberOfHerosInDeck(User user) {
+        int n = 0;
+        for (Pair<Card, Integer> pair : user.getUserPreGameInfo().getCardsInDeck()) {
+            if (pair.getFirst().getIsHero()) n += pair.getSecond();
+        }
+
+    }
+
+    private static int calculateNumberOfCardsInDeck(User user) {
+        int n = 0;
+        for (Pair<Card, Integer> pair : user.getUserPreGameInfo().getCardsInDeck()) {
+            n += pair.getSecond();
+        }
+        return n;
     }
 
     // save deck
