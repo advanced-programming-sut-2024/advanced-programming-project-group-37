@@ -26,7 +26,7 @@ public class GameMenu {
             if ((matcher = GameMenuCommands.VETO_CARD.getMatcher(input)) != null){
                 Result result = newGame.vetoCard(matcher.group("cardnumber"));
             } else if (GameMenuCommands.IN_HAND_DECK.getMatcher(input) != null) {
-
+                Result result = newGame.inHandDeck(-1);
             }
         }
     }

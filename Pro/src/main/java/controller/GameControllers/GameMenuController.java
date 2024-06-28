@@ -99,63 +99,76 @@ public class GameMenuController {
     }
 
     // showing hand
-    public static Result inHandDeck(int place) {
-        return null;
+    public Result inHandDeck(int place) {
+        //check if it has an option or not
+        StringBuilder toPrint = new StringBuilder();
+
+        if (place == -1) {
+            //no having option
+            toPrint.append("cards in hand:\n");
+            int n = 1;
+            for (Card card : userTurn.getGameTable().getInHandsCards())
+                toPrint.append(n).append("- ").append(card.name()).append("\n");
+        } else {
+            Card card = userTurn.getGameTable().getInHandsCards().get(place - 1);
+            toPrint.append(place).append("- ").append(card.name()).append("\n");
+        }
+        return new Result(true, toPrint.toString());
     }
 
     //remaining cards to play
-    public static Result remainingCardsToPlay() {
+    public Result remainingCardsToPlay() {
         return null;
     }
 
     //show out of play cards
-    public static Result outOfPlayCards() {
+    public Result outOfPlayCards() {
         return null;
     }
 
     //show cards in one row
-    public static Result cardsInRow() {
+    public Result cardsInRow() {
         return null;
     }
 
     //spells in play
-    public static Result spellsInRow(int rowNumber) {
+    public Result spellsInRow(int rowNumber) {
         return null;
     }
 
-    public static Result placeCard(int cardNumber, int rowNumber) {
+    public Result placeCard(int cardNumber, int rowNumber) {
         return null;
     }
 
-    public static Result showCommander() {
+    public Result showCommander() {
         return null;
     }
 
-    public static Result commanderPowerPLay() {
+    public Result commanderPowerPLay() {
         return null;
     }
 
-    public static Result showPlayersLives() {
+    public Result showPlayersLives() {
         return null;
     }
 
-    public static Result showNumberOfCardsInHand() {
+    public Result showNumberOfCardsInHand() {
         return null;
     }
 
-    public static Result showTurnInfo() {
+    public Result showTurnInfo() {
         return null;
     }
 
-    public static Result showTotalScore() {
+    public Result showTotalScore() {
         return null;
     }
 
-    public static Result showTotalScoreOfRow(int rowNumber) {
+    public Result showTotalScoreOfRow(int rowNumber) {
         return null;
     }
 
-    public static Result passRound() {
+    public Result passRound() {
         return null;
     }
 

@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 public enum GameMenuCommands {
     VETO_CARD("veto card (?<cardnumber>\\d+)"),
-    IN_HAND_DECK(""),
+    IN_HAND_DECK("in hand deck"),
     REMAINING_CARD(""),
     OUT_OF_PLAY_CARD(""),
     CARDS_IN_ROW(""),
