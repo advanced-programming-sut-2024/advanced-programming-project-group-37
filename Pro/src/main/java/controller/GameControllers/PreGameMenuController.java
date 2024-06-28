@@ -175,7 +175,7 @@ public class PreGameMenuController {
         for (Pair<Card, Integer> pair : user.getUserPreGameInfo().getCardsInDeck()) {
             if (pair.getFirst().getIsHero()) n += pair.getSecond();
         }
-
+        return n;
     }
 
     private static int calculateNumberOfCardsInDeck(User user) {
