@@ -34,7 +34,9 @@ public class PreGameMenu {
                 Result result = PreGameMenuController.deleteFromDeck(matcher.group("cardname"), Integer.parseInt(matcher.group("count")),
                         matcher.group("n"));
             } else if (PreGameCommands.START_GAME.getMatcher(input) != null) {
-                GameMenu.run(scanner);
+                Result result = PreGameMenuController.startGame();
+                if (result.isSuccessful())
+                    GameMenu.run(scanner);
             } else {
                 System.out.println("invalid command");
             }

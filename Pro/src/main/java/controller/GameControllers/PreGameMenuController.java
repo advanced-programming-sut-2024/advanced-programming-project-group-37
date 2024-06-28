@@ -1,6 +1,5 @@
 package controller.GameControllers;
 
-import javafx.scene.paint.Paint;
 import model.User;
 import model.UserPreGameInfo;
 import model.enums.card.Card;
@@ -426,14 +425,22 @@ public class PreGameMenuController {
         return null;
     }
 
-    private static boolean checkDeckIsOk() {
-        return true;
+    private static boolean checkDeckIsOk(User user) {
+        //check if soldier cards are more than 22
+        return user.getUserPreGameInfo().calculateSoldierCardsInDeck() >= 22;
     }
 
 
     // start game
     public static Result startGame() {
-        return null;
+        //check first player deck
+        if (!checkDeckIsOk(currentUser))
+            return new Result(false, "first player deck is not complete.");
+        //check second player deck
+        if (!checkDeckIsOk(opponentUser))
+            return new Result(false, "second player deck is not complete.");
+
+        return new Result(true, "game begins");
     }
 
     public static Result showDeck(String playerNum) {
