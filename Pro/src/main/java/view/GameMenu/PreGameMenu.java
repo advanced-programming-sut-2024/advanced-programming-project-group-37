@@ -1,7 +1,6 @@
 package view.GameMenu;
 
 import controller.GameControllers.PreGameMenuController;
-import javafx.css.Match;
 import model.enums.gameMenu.PreGameCommands;
 import model.toolClasses.Result;
 
@@ -35,8 +34,11 @@ public class PreGameMenu {
                         matcher.group("n"));
             } else if (PreGameCommands.START_GAME.getMatcher(input) != null) {
                 Result result = PreGameMenuController.startGame();
-                if (result.isSuccessful())
+                if (result.isSuccessful()) {
                     GameMenu.run(scanner);
+                    GameMenu.firstPlayer = PreGameMenuController.currentUser;
+                    GameMenu.secondPlayer = PreGameMenuController.opponentUser;
+                }
             } else {
                 System.out.println("invalid command");
             }
