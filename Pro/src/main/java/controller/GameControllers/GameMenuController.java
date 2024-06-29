@@ -2,6 +2,7 @@ package controller.GameControllers;
 
 import model.User;
 import model.enums.card.Card;
+import model.enums.card.Leaders;
 import model.gameTable.GameTable;
 import model.gameTable.UserInGame;
 import model.toolClasses.Pair;
@@ -10,6 +11,15 @@ import model.toolClasses.Result;
 import java.util.*;
 
 public class GameMenuController {
+    private int roundNumber = 1;
+
+    public int getRoundNumber() {
+        return roundNumber;
+    }
+
+    public void setRoundNumber(int roundNumber) {
+        this.roundNumber = roundNumber;
+    }
 
     private UserInGame player1, player2;
     private UserInGame userTurn = player1;
@@ -118,50 +128,109 @@ public class GameMenuController {
 
     //remaining cards to play
     public Result remainingCardsToPlay() {
-        return null;
+        StringBuilder toPrint = new StringBuilder();
+        int n = 1;
+        for (Card card : userTurn.getGameTable().getDeckCards()) {
+            toPrint.append(n).append("- ");
+            toPrint.append(card.name()).append("\n");
+            n++;
+        }
+        return new Result(true, toPrint.toString());
     }
 
     //show out of play cards
     public Result outOfPlayCards() {
-        return null;
+        StringBuilder toPrint = new StringBuilder();
+        int n = 1;
+        for (Card card : userTurn.getGameTable().getDeadCards()) {
+            toPrint.append(n).append("- ");
+            toPrint.append(card.name()).append("\n");
+            n++;
+        }
+        return new Result(true, toPrint.toString());
     }
 
     //show cards in one row
-    public Result cardsInRow() {
-        return null;
+    public Result cardsInRow(int rowNumber) {
+        StringBuilder toPrint = new StringBuilder();
+        if (rowNumber != 1 && rowNumber != 2 && rowNumber != 3)
+            return new Result(false, "invalid row number");
+
+        //check if there is a horn
+        GameTable gameTable = userTurn.getGameTable();
+        Card horn = gameTable.getCardsOfRow().get(rowNumber - 1).getFirst();
+        if (horn == null) toPrint.append("no horn in this row | ");
+        else toPrint.append(horn.name()).append("|");
+
+        //append all cards
+        ArrayList<Card> cardsInRow = gameTable.getCardsOfRow().get(rowNumber - 1).getSecond();
+        for (Card card : cardsInRow) {
+            toPrint.append(card.name()).append("| ");
+        }
+        return new Result(true, toPrint.toString());
     }
 
     //spells in play
-    public Result spellsInRow(int rowNumber) {
-        return null;
+    public Result spellsInPlay() {
+        StringBuilder toPrint = new StringBuilder();
+        ArrayList<Card> spellCards = userTurn.getGameTable().getSpells();
+        if (spellCards.isEmpty()) toPrint.append("No spell card");
+        else {
+            toPrint.append("| ");
+            for (Card card : spellCards)
+                toPrint.append(card.name()).append(" | ");
+        }
+        return new Result(true, toPrint.toString());
     }
-
     public Result placeCard(int cardNumber, int rowNumber) {
         return null;
     }
 
     public Result showCommander() {
-        return null;
+        Leaders leaders = userTurn.getGameTable().getLeader();
+        return new Result(true, leaders.name());
     }
 
     public Result commanderPowerPLay() {
         return null;
     }
-
+    public Result showPlayersInfo(){
+        StringBuilder info = new StringBuilder();
+        info.append("player: ").append(player1.getUser().getUsername()).append(" Faction:")
+                .append(player1.getUser().getUserPreGameInfo().getFaction()).append("\n");
+        info.append("player: ").append(player2.getUser().getUsername()).append(" Faction:")
+                .append(player2.getUser().getUserPreGameInfo().getFaction()).append("\n");
+    }
     public Result showPlayersLives() {
-        return null;
+        StringBuilder toPrint = new StringBuilder();
+        toPrint.append(player1.getUser().getUsername()).append(" Hp :").append(player1.getGameTable().getHP()).append("\n");
+        toPrint.append(player2.getUser().getUsername()).append(" Hp :").append(player2.getGameTable().getHP()).append("\n");
+        return new Result(true, toPrint.toString());
     }
 
     public Result showNumberOfCardsInHand() {
-        return null;
+        StringBuilder toPrint = new StringBuilder();
+        toPrint.append("first player: ").append(player1.getUser().getUsername()).append(" number of cards in hand: ")
+                .append(player1.getGameTable().getInHandsCards().size());
+        toPrint.append("second player: ").append(player2.getUser().getUsername()).append(" number of cards in hand: ")
+                .append(player2.getGameTable().getInHandsCards().size());
+        return new Result(true, toPrint.toString());
     }
 
     public Result showTurnInfo() {
-        return null;
+        return new Result(true, userTurn.getUser().getUsername() + "'s Turn");
     }
 
     public Result showTotalScore() {
-        return null;
+        int firstPlayerTotalScore = calculateTotalScore(player1);
+        int secondPlayerTotalScore = calculateTotalScore(player2);
+    }
+    public int calculateTotalScore(UserInGame player){
+        int sum = 0;
+        calculateScoreInRow(player, 1);
+    }
+
+    private void calculateScoreInRow(UserInGame player1, int i) {
     }
 
     public Result showTotalScoreOfRow(int rowNumber) {

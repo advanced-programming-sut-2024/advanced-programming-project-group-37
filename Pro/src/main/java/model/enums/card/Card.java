@@ -278,6 +278,4 @@ public enum Card {
     public static Result transformers() {
         return null;
     }
-
-
 }

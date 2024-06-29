@@ -7,13 +7,14 @@ import model.toolClasses.Pair;
 import java.util.ArrayList;
 
 public class GameTable {
-    int HP;
+    int HP = 2;
     private Leaders leader;
+    private ArrayList<Card> spells = new ArrayList<>();
     private ArrayList<Pair<Card, Integer>> deckPairs = new ArrayList<>();
     private ArrayList<Card> deckCards = new ArrayList<>();
     private ArrayList<Card> deadCards = new ArrayList<>();
     private ArrayList<Card> inHandsCards = new ArrayList<>();
-    private ArrayList<Pair<Card, ArrayList<Card>>> CardsOfRow = new ArrayList<>();
+    private ArrayList<Pair<Card, ArrayList<Card>>> CardsOfRow = new ArrayList<>(3);
 
     public GameTable(ArrayList<Pair<Card, Integer>> deckPairs, Leaders leader) {
         this.deckPairs = deckPairs;
@@ -74,5 +75,13 @@ public class GameTable {
 
     public ArrayList<Pair<Card, ArrayList<Card>>> getCardsOfRow() {
         return CardsOfRow;
+    }
+
+    public ArrayList<Card> getSpells() {
+        return spells;
+    }
+
+    public void setSpells(ArrayList<Card> spells) {
+        this.spells = spells;
     }
 }
