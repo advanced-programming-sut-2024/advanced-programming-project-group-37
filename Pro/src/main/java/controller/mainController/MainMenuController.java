@@ -10,13 +10,4 @@ public class MainMenuController {
     public static void userLogout(){
         User.setLoggedInUser(null);
     }
-
-    //go to profile menu
-    public static void goToProfileMenu() {
-        // TODO:
-    }
-    //go to pregame menu
-    public static void goToPreGameMenu() {
-        // TODO:
-    }
 }

@@ -17,21 +17,24 @@ import view.HeadViewController;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
-/** @author Foad
+
+/**
+ * @author Foad
  * methods:
- *      private ArrayList<String> savedData = new ArrayList<>();
- *      private String usernameForForget;
- *      public void checkCommand(KeyEvent keyEvent)
- *      private Result setPassword(Matcher matcher)
- *      private Result answerQ(Matcher matcher)
- *      private Result forgetPasswordCommand(Matcher matcher)
- *
- *
- * */
+ * private ArrayList<String> savedData = new ArrayList<>();
+ * private String usernameForForget;
+ * public void checkCommand(KeyEvent keyEvent)
+ * private Result setPassword(Matcher matcher)
+ * private Result answerQ(Matcher matcher)
+ * private Result forgetPasswordCommand(Matcher matcher)
+ */
 public class LoginMenu {
+    // terminal part
     public AnchorPane terminalPane;
     public TextArea terminalTextArea;
     private boolean isTerminalVisible = false;
+    private ArrayList<String> savedData = new ArrayList<>();
+    private String usernameForForget;
 
     public void showTerminal(KeyEvent keyEvent) {
         if (keyEvent.getCode().equals(KeyCode.ESCAPE)) {
@@ -39,15 +42,14 @@ public class LoginMenu {
         }
     }
 
-    private ArrayList<String> savedData = new ArrayList<>();
-    private String usernameForForget;
-
     public void checkCommand(KeyEvent keyEvent) {
         if (keyEvent.getCode().equals(KeyCode.ENTER)) {
             String[] inputLines = terminalTextArea.getText().split("\n");
             String inputLine = inputLines[inputLines.length - 1];
 
-            // TODO : some if else for this menu (start menu) see the code44
+            terminalTextArea.setText(terminalTextArea.getText() + "\n" + "-------------------------------------------" +
+                    "-----------------------------------------" + "\n");
+
             Matcher matcher;
             if ((matcher = LoginMenuCommands.register.getMatcher(inputLine)) != null) {
                 Result message = registerCommand(matcher);
@@ -59,39 +61,35 @@ public class LoginMenu {
                         ConfirmQuestions.q3.getQuestion() + "\n" +
                         ConfirmQuestions.q4.getQuestion() + "\n" +
                         ConfirmQuestions.q5.getQuestion() + "\n");
-                terminalTextArea.positionCaret(terminalTextArea.getText().length());
             } else if ((matcher = LoginMenuCommands.login.getMatcher(inputLine)) != null) {
                 Result message = loginCommand(matcher);
                 //chop the message returned in terminal
                 terminalTextArea.setText(terminalTextArea.getText() + message + "\n");
-                terminalTextArea.positionCaret(terminalTextArea.getText().length());
             } else if ((matcher = LoginMenuCommands.pickQuestion.getMatcher(inputLine)) != null) {
                 Result message = pickQuestion(matcher);
                 //chop the message returned in terminal
                 terminalTextArea.setText(terminalTextArea.getText() + message + "\n");
-                terminalTextArea.positionCaret(terminalTextArea.getText().length());
             } else if ((matcher = LoginMenuCommands.forgetPassword.getMatcher(inputLine)) != null) {
                 Result message = forgetPasswordCommand(matcher);
                 //chop the message returned in terminal
                 terminalTextArea.setText(terminalTextArea.getText() + message + "\n");
-                terminalTextArea.positionCaret(terminalTextArea.getText().length());
-            } else if ((matcher = LoginMenuCommands.answerQ.getMatcher(inputLine)) != null){
+            } else if ((matcher = LoginMenuCommands.answerQ.getMatcher(inputLine)) != null) {
                 Result message = answerQ(matcher);
                 terminalTextArea.setText(terminalTextArea.getText() + message + "\n");
-                terminalTextArea.positionCaret(terminalTextArea.getText().length());
             } else if ((matcher = LoginMenuCommands.setPassword.getMatcher(inputLine)) != null) {
                 Result message = setPassword(matcher);
                 //chop the message returned
                 terminalTextArea.setText(terminalTextArea.getText() + message + "\n");
-                terminalTextArea.positionCaret(terminalTextArea.getText().length());
-            } else if ((matcher = LoginMenuCommands.enterMainMenu.getMatcher(inputLine)) != null){
-                MainMenu.run(new Scanner(System.in));
             } else {
                 terminalTextArea.setText(terminalTextArea.getText() + "Invalid Command" + "\n");
-                terminalTextArea.positionCaret(terminalTextArea.getText().length());
             }
+
+            terminalTextArea.setText(terminalTextArea.getText() + "-------------------------------------------" +
+                    "-----------------------------------------" + "\n");
+            terminalTextArea.positionCaret(terminalTextArea.getText().length());
         }
     }
+
     private Result setPassword(Matcher matcher) {
         User user = User.getUserByUsername(usernameForForget);
         user.setPassword(matcher.group("password"));
@@ -101,7 +99,7 @@ public class LoginMenu {
     private Result answerQ(Matcher matcher) {
         String answer = matcher.group("answer");
         User user = User.getUserByUsername(usernameForForget);
-        if (!user.getAnswer().equals(answer)){
+        if (!user.getAnswer().equals(answer)) {
             return new Result(false, "Wrong answer!");
         }
         return new Result(false, "now change your password!");
@@ -172,6 +170,8 @@ public class LoginMenu {
         return result;
     }
 
+
+    // graphic part
     // declare some fields for fxml file
     public TextField usernameTextField;
     public PasswordField passwordField;
@@ -214,7 +214,7 @@ public class LoginMenu {
     }
 
     public void forgetPassword() {
-        // todo:
+        // todo: IF
     }
 
     // register method

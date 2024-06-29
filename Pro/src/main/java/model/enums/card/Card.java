@@ -181,11 +181,7 @@ public enum Card {
     Vesemir("Vesemir", Factions.NEUTRAL, 6, 1, CardType.CLOSE_COMBAT, true, null),
     Villentretenmerth("Villentretenmerth", Factions.NEUTRAL, 7, 1, CardType.CLOSE_COMBAT, false, Ability.SCROCH),
     YenneferOfVengerberg("Yennefer of Vengerberg", Factions.NEUTRAL, 7, 1, CardType.RANGED_COMBAT, true, Ability.MEDIC),
-    ZoltanChivay("Zoltan Chivay", Factions.NEUTRAL, 5, 1, CardType.CLOSE_COMBAT, false, null)
-
-
-
-    ;
+    ZoltanChivay("Zoltan Chivay", Factions.NEUTRAL, 5, 1, CardType.CLOSE_COMBAT, false, null);
 
     private final Factions faction;
     private final int power;

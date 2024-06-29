@@ -16,7 +16,7 @@ public enum PreGameCommands {
     LOAD_DECK_WITH_ADDRESS(""),
     LOAD_DECK_WITH_NAME(""),
     SHOW_LEADERS("show leaders -n (?<n>\\S+)"),
-    SELECT_LEADER("select leader -l (?<leadernum>\\S+) -n (?<"),
+    SELECT_LEADER("select leader -l (?<leadernum>\\S+) -n (?<n>\\d+)"),
     ADD_TO_DECK("add to deck -c (?<cardname>\\S+\\s*\\S+) (?<count>\\d+) -n (?<n>\\d+)"),
     DELETE_FROM_DECK("delete from deck -c (?<cardname>\\S+) (?<count>\\S+) -n (?<n>\\d+)"),
     CHANGE_TURN(""),

@@ -7,9 +7,9 @@ public enum ProfileMenuCommands {
     changeUsername("change username -u (?<username>\\S+)"),
     changeNickname("change nickname -n (?<nickname>\\S+)"),
     changeEmail("change email -e (?<email>\\S+)"),
-    changePassword("change password -p (?<newpassword>\\S+) -o (?<oldpassword>\\S+)"),
-    enterUserInfoMenu(""), //todo ILIYA
-    goToPreviousMenu(""); //todo ILIYA
+    changePassword("change password -p (?<newPassword>\\S+) -o (?<oldPassword>\\S+)"), // todo: foad dorostan?????
+    enterOtherMenu("menu enter (.+)");
+
     private final String regex;
 
     ProfileMenuCommands(String regex) {
@@ -17,8 +17,7 @@ public enum ProfileMenuCommands {
     }
 
     public Matcher getMatcher(String input) {
-        Matcher matcher = Pattern.compile(this.regex).matcher(input);
-        if (matcher.matches()) {
-            return matcher;
-        } else return null;    }
+        Pattern pattern = Pattern.compile(regex);
+        return pattern.matcher(input);
+    }
 }

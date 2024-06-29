@@ -86,8 +86,4 @@ public class ProfileMenuController extends LoginMenuController {
     }
 
     //check if 2 strings are the same
-
-    //go to user info menu and show user's information
-    public static void goToUserInfoMenu(Scanner scanner) {
-    }
 }
