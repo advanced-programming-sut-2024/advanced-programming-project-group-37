@@ -253,7 +253,7 @@ public class GameMenuController {
         if (player1.isPassed() && player2.isPassed()) {
             UserInGame winner = null;
             if (calculateTotalScore(player1) > calculateTotalScore(player2)) {
-//                player1.getUser().setWonGames(player1.getUser().getWonGames());
+                makeEmpty(player1, player2, player1);
                 GameTable gameTable = player1.getGameTable();
                 gameTable.setHP(gameTable.getHP() - 1);
                 winner = player1;
@@ -261,34 +261,41 @@ public class GameMenuController {
             }
             if (calculateTotalScore(player2) > calculateTotalScore(player1)) {
 //                player2.getUser().setWonGames(player2.getUser().getWonGames());
+                makeEmpty(player1, player2, player1);
                 GameTable gameTable = player2.getGameTable();
                 gameTable.setHP(gameTable.getHP() - 1);
                 winner = player2;
                 return new Result(true, player2.getUser().getUsername() + " won");
             }
             if (calculateTotalScore(player1) == calculateTotalScore(player2)) {
-                niflgaardianPower(player1, player2);
+                makeEmpty(player1, player2, player1);
+                return niflgaardianPower(player1, player2); // if game is draw return "player " + losser.getUser().getUsername() + " lost" and returns
+//                "no winner, game draw" if round is draw
             }
-            maximizeScore(player1);
-            maximizeScore(player2);
 
-
-            //check Faction Abilities
-            factionAbility(player1, player2, winner);
-
-
-
-            //make everything empty and round++
-            roundNumber++;
-            spells = new ArrayList<>();
-            Pair<Card, ArrayList<Card>>[] pair = new Pair[3];
-            for (int i = 0; i < 3; i++) {
-                pair[i] = new Pair<>(null, new ArrayList<>());
-            }
-            player1.getGameTable().setCardsOfRow(pair);
-            player2.getGameTable().setCardsOfRow(pair);
         }
         return new Result(false, "no winner");
+    }
+
+    private void makeEmpty(UserInGame player1, UserInGame player2 , UserInGame winner) {
+        maximizeScore(player1);
+        maximizeScore(player2);
+
+
+        //check Faction Abilities
+        factionAbility(player1, player2, winner);
+
+
+
+        //make everything empty and round++
+        roundNumber++;
+        spells = new ArrayList<>();
+        Pair<Card, ArrayList<Card>>[] pair = new Pair[3];
+        for (int i = 0; i < 3; i++) {
+            pair[i] = new Pair<>(null, new ArrayList<>());
+        }
+        player1.getGameTable().setCardsOfRow(pair);
+        player2.getGameTable().setCardsOfRow(pair);
     }
 
     private void factionAbility(UserInGame player1, UserInGame player2, UserInGame winner) {
@@ -304,13 +311,14 @@ public class GameMenuController {
             user.setHighestScore(highestScore);
     }
 
-    private void niflgaardianPower(UserInGame player1, UserInGame player2) {
+    private Result niflgaardianPower(UserInGame player1, UserInGame player2) {
         UserInGame losser = null;
         if (player1.getGameTable().getLeader().getFaction() == Factions.EMPIRE_NILFGARDEN) losser = player1;
         else if (player2.getGameTable().getLeader().getFaction() == Factions.EMPIRE_NILFGARDEN) losser = player2;
-        if (losser == null) return;
+        if (losser == null) return new Result(false,"no winner, game draw");
         GameTable gameTable = losser.getGameTable();
         gameTable.setHP(gameTable.getHP() - 1);
+        return new Result(true, "player " + losser.getUser().getUsername() + " lost");
     }
 
     private Result ability(Card card, int rowNumber) {
@@ -466,8 +474,9 @@ public class GameMenuController {
     public Result passRound(UserInGame player) {
         player.setPassed(true);
         //check if game is over
-        if (checkroundWinner().isSuccessful())
-            return checkroundWinner();
+        Result result = null;
+        if ((result = checkroundWinner()).isSuccessful())
+            return result;
         return changeTurn();
     }
 
