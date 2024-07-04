@@ -62,7 +62,7 @@ public class GameMenuController {
         if (userTurn.getNumberOfVeto() == 2)
             return new Result(false, "you can't veto card");
 
-        int n = Integer.getInteger(cardNumber);
+        int n = Integer.parseInt(cardNumber);
         GameTable gameTable = userTurn.getGameTable();
 
         ArrayList<Card> cardsInDeck = gameTable.getDeckCards();
@@ -81,7 +81,7 @@ public class GameMenuController {
         // add to hand and remove from deck
         cardsInHand.add(cardToAdd);
         cardsInDeck.add(cardToRemove);
-        cardsInHand.remove(cardToAdd);  // todo : what
+        cardsInDeck.remove(cardToAdd);  // todo : what
 
         //set everything
         gameTable.setDeckCards(cardsInDeck);
@@ -91,7 +91,7 @@ public class GameMenuController {
 
         //increase number of veto times
         userTurn.setNumberOfVeto(userTurn.getNumberOfVeto() + 1);
-        return new Result(true, "card replaced successfully");
+        return new Result(true, "card replaced successfully " + userTurn.getNumberOfVeto());
     }
 
     //creating random cards in hand from deck

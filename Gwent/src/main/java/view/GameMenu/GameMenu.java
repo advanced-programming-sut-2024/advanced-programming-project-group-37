@@ -5,6 +5,7 @@ import controller.GameControllers.PreGameMenuController;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -135,15 +136,58 @@ public class GameMenu {
 
 // show vetoCards
     private void showVetoCards() {
+        selectPane.setVisible(true);
+
         ImageView image1 = (ImageView) selectPane.getChildren().get(0);
         ImageView image2 = (ImageView) selectPane.getChildren().get(1);
         ImageView image3 = (ImageView) selectPane.getChildren().get(2);
         ImageView image4 = (ImageView) selectPane.getChildren().get(3);
         ImageView image5 = (ImageView) selectPane.getChildren().get(4);
 
+        ArrayList<Card> Hand = player1.getGameTable().getInHandsCards();
+        image1.setImage(Hand.get(0).getImage());
+        image2.setImage(Hand.get(1).getImage());
+        image3.setImage(Hand.get(2).getImage());
+        image4.setImage(Hand.get(3).getImage());
+        image5.setImage(Hand.get(4).getImage());
 
+        image1.setOnMouseClicked(mouseEvent -> changePlaceOfImage(-2, Hand, image1, image2, image3, image4, image5));
+        image2.setOnMouseClicked(mouseEvent -> changePlaceOfImage(-1, Hand, image1, image2, image3, image4, image5));
+        image4.setOnMouseClicked(mouseEvent -> changePlaceOfImage(1, Hand, image1, image2, image3, image4, image5));
+        image5.setOnMouseClicked(mouseEvent -> changePlaceOfImage(2, Hand, image1, image2, image3, image4, image5));
+
+        image3.setOnMouseClicked(mouseEvent -> selectVetoCard(mouseEvent, Hand));
 
         updateTable();
+    }
+    private void changePlaceOfImage(int mode, ArrayList<Card> Hand, ImageView... images) {
+        int centerIndex = Hand.indexOf(Card.getCardByImage(images[2].getImage()));
+
+        for (int i = 0; i < 5; i++) {
+            if (centerIndex + mode + (i - 2) < 0 || centerIndex + mode + (i - 2) >= Hand.size()) {
+                images[i].setImage(null);
+                continue;
+            }
+
+            images[i].setImage(Hand.get(centerIndex + mode + (i - 2)).getImage());
+        }
+    }
+    private void selectVetoCard(MouseEvent mouseEvent, ArrayList<Card> hand) {
+        Image image = ((ImageView) mouseEvent.getSource()).getImage();
+
+        Card card = Card.getCardByImage(image);
+
+        Result result = game.vetoCard(String.valueOf(hand.indexOf(card) + 1));
+
+        String[] temp = result.getMessage().split(" ");
+        int numOfVeto = Integer.parseInt(temp[temp.length - 1]);
+
+        if (numOfVeto == 1) {
+            showVetoCards();
+        } else {
+            selectPane.setVisible(false);
+            updateTable();
+        }
     }
 
 // update table
