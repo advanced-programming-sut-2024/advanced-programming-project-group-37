@@ -55,7 +55,7 @@ public class GameMenuController {
     public Result changeTurn() {
         if (userTurn == player1) userTurn = player2;
         else userTurn = player1;
-        return new Result(true, "turn changed to" + userTurn.getUser().getUsername());
+        return new Result(false, "turn changed to" + userTurn.getUser().getUsername());
     }
 
     //
@@ -483,7 +483,7 @@ public class GameMenuController {
         Result result = null;
         if ((result = checkroundWinner()).isSuccessful())
             return result;
-        return changeTurn();
+        return new Result(false, "");
     }
 
     public Pair<Boolean, UserInGame> isOver() {

@@ -137,11 +137,11 @@
       </Label>
       <ImageView fx:id="player2shield" fitHeight="60.0" fitWidth="60.0" layoutX="134.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="player1shield" fitHeight="60.0" fitWidth="60.0" layoutX="134.0" layoutY="550.0" pickOnBounds="true" preserveRatio="true" />
-      <Button layoutX="247.0" layoutY="127.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="94.0" style="-fx-background-color: #0007; -fx-border-color: c48000;" text="PASS" textFill="#c48000">
+      <Button layoutX="247.0" layoutY="127.0" mnemonicParsing="false" onAction="#passTurn" prefHeight="40.0" prefWidth="94.0" style="-fx-background-color: #0007; -fx-border-color: c48000;" text="PASS" textFill="#c48000">
          <font>
             <Font name="System Bold Italic" size="17.0" />
          </font></Button>
-      <Button layoutX="247.0" layoutY="714.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="94.0" style="-fx-background-color: #0007; -fx-border-color: c48000;" text="PASS" textFill="#c48000">
+      <Button layoutX="247.0" layoutY="714.0" mnemonicParsing="false" onAction="#passTurn" prefHeight="40.0" prefWidth="94.0" style="-fx-background-color: #0007; -fx-border-color: c48000;" text="PASS" textFill="#c48000">
          <font>
             <Font name="System Bold Italic" size="17.0" />
          </font></Button>
@@ -164,6 +164,117 @@
                   <Font name="Freestyle Script" size="73.0" />
                </font>
             </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="result" layoutX="331.0" layoutY="320.0" prefHeight="200.0" prefWidth="864.0" style="-fx-background-color: #000d;" visible="false">
+         <children>
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="573.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../asset/img/icons/notif_win_round.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="93.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true" scaleX="-1.0">
+               <image>
+                  <Image url="@../asset/img/icons/notif_lose_round.png" />
+               </image>
+            </ImageView>
+            <Label alignment="CENTER" layoutX="291.0" layoutY="42.0" textFill="#c48000">
+               <font>
+                  <Font name="Freestyle Script" size="82.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="passPane" layoutX="341.0" layoutY="330.0" prefHeight="200.0" prefWidth="864.0" style="-fx-background-color: #000d;" visible="false">
+         <children>
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="562.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../asset/img/icons/notif_round_passed.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="93.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true" scaleX="-1.0">
+               <image>
+                  <Image url="@../asset/img/icons/notif_round_passed.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="291.0" layoutY="42.0" text="you pass turn" textFill="#c48000">
+               <font>
+                  <Font name="Freestyle Script" size="82.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="winnerPane" layoutX="365.0" layoutY="139.0" prefHeight="500.0" prefWidth="900.0" style="-fx-background-color: #000a;" visible="false">
+         <children>
+            <Label alignment="CENTER" layoutX="350.0" layoutY="295.0" prefHeight="18.0" prefWidth="200.0" textFill="#c48000">
+               <font>
+                  <Font name="System Bold Italic" size="20.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" layoutX="373.0" layoutY="216.0" prefWidth="28.0" text="0" textFill="#c48000">
+               <font>
+                  <Font name="System Bold Italic" size="14.0" />
+               </font></Label>
+            <Label alignment="CENTER" layoutX="373.0" layoutY="245.0" prefWidth="28.0" text="0" textFill="#c48000">
+               <font>
+                  <Font name="System Bold Italic" size="14.0" />
+               </font></Label>
+            <Label alignment="CENTER" layoutX="467.0" layoutY="216.0" prefWidth="28.0" text="0" textFill="#c48000">
+               <font>
+                  <Font name="System Bold Italic" size="14.0" />
+               </font></Label>
+            <Label alignment="CENTER" layoutX="467.0" layoutY="245.0" prefWidth="28.0" text="0" textFill="#c48000">
+               <font>
+                  <Font name="System Bold Italic" size="14.0" />
+               </font></Label>
+            <Label alignment="CENTER" layoutX="553.0" layoutY="216.0" prefWidth="28.0" text="0" textFill="#c48000">
+               <font>
+                  <Font name="System Bold Italic" size="14.0" />
+               </font></Label>
+            <Label alignment="CENTER" layoutX="553.0" layoutY="245.0" prefWidth="28.0" text="0" textFill="#c48000">
+               <font>
+                  <Font name="System Bold Italic" size="14.0" />
+               </font></Label>
+            <Label layoutX="289.0" layoutY="215.0" prefHeight="18.0" prefWidth="90.0" text="label" textFill="#c48000">
+               <font>
+                  <Font name="System Bold Italic" size="13.0" />
+               </font></Label>
+            <Label layoutX="289.0" layoutY="245.0" prefWidth="90.0" text="Label" textFill="#c48000">
+               <font>
+                  <Font name="System Bold Italic" size="13.0" />
+               </font></Label>
+            <Label layoutX="365.0" layoutY="186.0" text="Round 1" textFill="#c48000">
+               <font>
+                  <Font name="System Bold Italic" size="13.0" />
+               </font></Label>
+            <Label layoutX="459.0" layoutY="186.0" text="Round 2" textFill="#c48000">
+               <font>
+                  <Font name="System Bold Italic" size="13.0" />
+               </font></Label>
+            <Label layoutX="545.0" layoutY="186.0" text="Round 3" textFill="#c48000">
+               <font>
+                  <Font name="System Bold Italic" size="13.0" />
+               </font></Label>
+            <Button layoutX="466.0" layoutY="450.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="96.0" style="-fx-background-color: #000a; -fx-border-color: #c48000;" text="Rematch" textFill="#c48000">
+               <font>
+                  <Font name="System Bold Italic" size="15.0" />
+               </font>
+            </Button>
+            <Button layoutX="328.0" layoutY="450.0" mnemonicParsing="false" style="-fx-background-color: #000a; -fx-border-color: #c48000;" text="Customize" textFill="#c48000">
+               <font>
+                  <Font name="System Bold Italic" size="15.0" />
+               </font>
+            </Button>
+            <ImageView fitHeight="385.0" fitWidth="640.0" layoutX="198.0" layoutY="57.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../asset/img/icons/icon_high_score.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="166.0" fitWidth="254.0" layoutX="323.0" layoutY="-14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../asset/img/icons/end_win.png" />
+               </image>
+            </ImageView>
          </children>
       </AnchorPane>
    </children>

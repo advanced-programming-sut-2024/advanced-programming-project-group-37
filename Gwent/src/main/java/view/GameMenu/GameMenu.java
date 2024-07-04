@@ -16,6 +16,7 @@ import javafx.util.Duration;
 import model.User;
 import model.enums.card.Card;
 import model.enums.card.CardType;
+import model.enums.gameMenu.Factions;
 import model.enums.gameMenu.Shields;
 import model.gameTable.UserInGame;
 import model.toolClasses.Pair;
@@ -104,6 +105,9 @@ public class GameMenu {
     public ImageView player1shield;
     public AnchorPane selectPane;
     public AnchorPane turnPane;
+    public AnchorPane passPane;
+    public AnchorPane result;
+    public AnchorPane winnerPane;
 
 
     public GameMenuController game;
@@ -393,7 +397,7 @@ public class GameMenu {
         }
     }
 
-    // play card methods
+// play card method
     private void playCard(Card card, HBox hBox, int row) {
         // add card to imageview
         hBox.getChildren().add(new ImageView(card.getImage()));
@@ -408,7 +412,7 @@ public class GameMenu {
         updateTable();
     }
 
-    // change turn
+// change turn
     private void changeTurn() {
         game.changeTurn();
 
@@ -425,8 +429,69 @@ public class GameMenu {
         })).play();
     }
 
-    // pass turn
+// pass turn
     public void passTurn() {
+        passPane.setVisible(true);
+        ((Label) passPane.getChildren().get(2)).setText(game.getUserTurn().getUser().getUsername() + "pass turn");
 
+        new Timeline(new KeyFrame(Duration.seconds(2), event -> {
+            passPane.setVisible(false);
+            Result result = game.passRound(game.getUserTurn());
+            changeTurn();
+
+            if (result.isSuccessful()) { // it means that we have a winner or draw in this round
+                String massage = result.getMessage();
+
+                if (massage.contains("won")) {  // it can be end of the game
+                    new Timeline(
+                        new KeyFrame(Duration.seconds(2), event1 -> {
+                            this.result.setVisible(true);
+                            ((Label) this.result.getChildren().get(2)).setText(massage);
+
+                            // set image of shield
+                            setShield(massage.split(" ")[0]);
+                        }),
+                        new KeyFrame(Duration.seconds(4), event2 -> {
+                            this.result.setVisible(false);
+
+                            Pair<Boolean, UserInGame> pair;
+                            if ((pair = game.isOver()).getFirst()) { // it means one of the player won total game and, it's end of game
+                                updateEndPage(pair.getSecond());
+                            }})
+                    ).play();
+                } else if (massage.contains("draw")) {
+                    new Timeline(
+                    new KeyFrame(Duration.seconds(2), event1 -> {
+                        this.result.setVisible(true);
+                        ((Label) this.result.getChildren().get(2)).setText(massage);
+                    }),
+                    new KeyFrame(Duration.seconds(2), event2 -> {
+                        this.result.setVisible(false);
+                    })).play();
+                }
+            }
+        })).play();
+
+        updateTable();
     }
+    private void updateEndPage(UserInGame user) {
+        winnerPane.setVisible(true);
+
+        // todo : easy set labels
+
+        // todo : easy back to user in game and replay
+    }
+    private void setShield(String username) {
+        User user = User.getUserByUsername(username);
+
+
+        if (player1.getUser().equals(user)) {
+            Factions factions = player2.getGameTable().getLeader().getFaction();
+            player2shield.setImage(Shields.valueOf(factions.name()).getImage2());
+        } else {
+            Factions factions = player1.getGameTable().getLeader().getFaction();
+            player1shield.setImage(Shields.valueOf(factions.name()).getImage2());
+        }
+    }
+
 }
