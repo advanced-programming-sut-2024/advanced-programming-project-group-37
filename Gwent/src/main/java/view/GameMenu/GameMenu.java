@@ -276,13 +276,15 @@ public class GameMenu {
 
         image.setFitHeight(pictureWidth);
         image.setPreserveRatio(true);
-        setHover(image);
 
         hBox.getChildren().add(image);
 
         // set on mouth click for each card of hand
         if (hBox.equals(hand)) {
-            image.setOnMouseClicked(mouseEvent -> playCard(card));
+            setHover(image);
+            image.setOnMouseClicked(mouseEvent -> {
+                image.setOnMouseExited(null);
+            });
         }
     }
     // these methods are for effect of card --> x1.5
@@ -298,30 +300,43 @@ public class GameMenu {
         CardType type = Card.getCardByImage(((ImageView) mouseEvent.getSource()).getImage()).getType();
         Color color = Color.web("00F7FF4C");
         if (game.getUserTurn().equals(player1)) {
-            if (type.equals(CardType.CLOSE_COMBAT))
+            if (type.equals(CardType.CLOSE_COMBAT)) {
                 player1closeCombat.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
-            else if (type.equals(CardType.RANGED_COMBAT))
+                player1closeCombat.setOnMouseClicked(event -> playCard(Card.getCardByImage(image.getImage()), player1closeCombat, 3));
+            } else if (type.equals(CardType.RANGED_COMBAT)) {
                 player1rangedCombat.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
-            else if (type.equals(CardType.SIEGE))
+                player1rangedCombat.setOnMouseClicked(event -> playCard(Card.getCardByImage(image.getImage()), player1rangedCombat, 2));
+            } else if (type.equals(CardType.SIEGE)) {
                 player1siege.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
-            else if (type.equals(CardType.WEATHER))
+                player1siege.setOnMouseClicked(event -> playCard(Card.getCardByImage(image.getImage()), player1siege, 1));
+            } else if (type.equals(CardType.WEATHER)) {
                 weather.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
-            else if (type.equals(CardType.AGILE)) {
+                weather.setOnMouseClicked(event -> playCard(Card.getCardByImage(image.getImage()), weather, 4));
+            } else if (type.equals(CardType.AGILE)) {
                 player1closeCombat.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
                 player1rangedCombat.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
+                player1rangedCombat.setOnMouseClicked(event -> playCard(Card.getCardByImage(image.getImage()), player1rangedCombat, 2));
+                player1closeCombat.setOnMouseClicked(event -> playCard(Card.getCardByImage(image.getImage()), player1closeCombat, 3));
             }
         } else {
-            if (type.equals(CardType.CLOSE_COMBAT))
+            if (type.equals(CardType.CLOSE_COMBAT)) {
                 player2closeCombat.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
-            else if (type.equals(CardType.RANGED_COMBAT))
+                player2closeCombat.setOnMouseClicked(event -> playCard(Card.getCardByImage(image.getImage()), player2closeCombat, 3));
+            } else if (type.equals(CardType.RANGED_COMBAT)) {
                 player2rangedCombat.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
-            else if (type.equals(CardType.SIEGE))
+                player2rangedCombat.setOnMouseClicked(event -> playCard(Card.getCardByImage(image.getImage()), player2rangedCombat, 2));
+            } else if (type.equals(CardType.SIEGE)) {
                 player2siege.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
-            else if (type.equals(CardType.WEATHER))
+                player2siege.setOnMouseClicked(event -> playCard(Card.getCardByImage(image.getImage()), player2siege, 1));
+            } else if (type.equals(CardType.WEATHER)) {
                 weather.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
-            else if (type.equals(CardType.AGILE)) {
+                weather.setOnMouseClicked(event -> playCard(Card.getCardByImage(image.getImage()), weather, 4));
+
+            } else if (type.equals(CardType.AGILE)) {
                 player2closeCombat.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
                 player2rangedCombat.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
+                player2rangedCombat.setOnMouseClicked(event -> playCard(Card.getCardByImage(image.getImage()), player2rangedCombat, 2));
+                player2closeCombat.setOnMouseClicked(event -> playCard(Card.getCardByImage(image.getImage()), player2closeCombat, 3));
             }
         }
     }
@@ -331,38 +346,58 @@ public class GameMenu {
         image.setScaleY(1);
 
         CardType type = Card.getCardByImage(((ImageView) mouseEvent.getSource()).getImage()).getType();
-
+        // todo commanderHorn
         if (game.getUserTurn().equals(player1)) {
-            if (type.equals(CardType.CLOSE_COMBAT))
+            if (type.equals(CardType.CLOSE_COMBAT)) {
                 player1closeCombat.setBackground(null);
-            else if (type.equals(CardType.RANGED_COMBAT))
+                player1closeCombat.setOnMouseClicked(null);
+            } else if (type.equals(CardType.RANGED_COMBAT)) {
                 player1rangedCombat.setBackground(null);
-            else if (type.equals(CardType.SIEGE))
+                player1rangedCombat.setOnMouseClicked(null);
+            } else if (type.equals(CardType.SIEGE)) {
                 player1siege.setBackground(null);
-            else if (type.equals(CardType.WEATHER))
+                player1siege.setOnMouseClicked(null);
+            } else if (type.equals(CardType.WEATHER)) {
                 weather.setBackground(null);
-            else if (type.equals(CardType.AGILE)) {
+                weather.setOnMouseClicked(null);
+            } else if (type.equals(CardType.AGILE)) {
                 player1closeCombat.setBackground(null);
                 player1rangedCombat.setBackground(null);
+                player1rangedCombat.setOnMouseClicked(null);
+                player1closeCombat.setOnMouseClicked(null);
             }
         } else {
-            if (type.equals(CardType.CLOSE_COMBAT))
+            if (type.equals(CardType.CLOSE_COMBAT)) {
                 player2closeCombat.setBackground(null);
-            else if (type.equals(CardType.RANGED_COMBAT))
+                player2closeCombat.setOnMouseClicked(null);
+            } else if (type.equals(CardType.RANGED_COMBAT)) {
                 player2rangedCombat.setBackground(null);
-            else if (type.equals(CardType.SIEGE))
+                player2rangedCombat.setOnMouseClicked(null);
+            } else if (type.equals(CardType.SIEGE)) {
                 player2siege.setBackground(null);
-            else if (type.equals(CardType.WEATHER))
+                player2siege.setOnMouseClicked(null);
+            } else if (type.equals(CardType.WEATHER)) {
                 weather.setBackground(null);
-            else if (type.equals(CardType.AGILE)) {
+                weather.setOnMouseClicked(null);
+            } else if (type.equals(CardType.AGILE)) {
                 player2closeCombat.setBackground(null);
                 player2rangedCombat.setBackground(null);
+                player2rangedCombat.setOnMouseClicked(null);
+                player2closeCombat.setOnMouseClicked(null);
             }
         }
     }
 
     // play card methods
-    private void playCard(Card card) {
+    private void playCard(Card card, HBox hBox, int row) {
+        // add card to imageview
+        hBox.getChildren().add(new ImageView(card.getImage()));
+        hBox.setBackground(null);
 
+        // call backend
+        game.placeCard(card.getName(), row);
+
+        // update table
+        updateTable();
     }
 }
