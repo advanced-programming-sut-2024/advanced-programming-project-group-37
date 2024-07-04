@@ -1,5 +1,6 @@
 package controller.GameControllers;
 
+import javafx.scene.paint.Paint;
 import model.User;
 import model.enums.card.Ability;
 import model.enums.card.Card;
@@ -277,14 +278,13 @@ public class GameMenuController {
         return new Result(false, "no winner");
     }
 
-    private void makeEmpty(UserInGame player1, UserInGame player2 , UserInGame winner) {
+    private void makeEmpty(UserInGame player1, UserInGame player2, UserInGame winner) {
         maximizeScore(player1);
         maximizeScore(player2);
 
 
         //check Faction Abilities
         factionAbility(player1, player2, winner);
-
 
 
         //make everything empty and round++
@@ -301,7 +301,7 @@ public class GameMenuController {
     private void factionAbility(UserInGame player1, UserInGame player2, UserInGame winner) {
         Factions.realmsNorthernAbility(player1, player2, winner);
         Factions.scoiaTaelAbility(player1, player2, userTurn);
-        Factions.skelligeAbility(player1 , player2);
+        Factions.skelligeAbility(player1, player2);
     }
 
     private void maximizeScore(UserInGame player) {
@@ -313,12 +313,18 @@ public class GameMenuController {
 
     private Result niflgaardianPower(UserInGame player1, UserInGame player2) {
         UserInGame losser = null;
-        if (player1.getGameTable().getLeader().getFaction() == Factions.EMPIRE_NILFGARDEN) losser = player1;
-        else if (player2.getGameTable().getLeader().getFaction() == Factions.EMPIRE_NILFGARDEN) losser = player2;
-        if (losser == null) return new Result(false,"no winner, game draw");
+        if (player1.getGameTable().getLeader().getFaction() == Factions.EMPIRE_NILFGARDEN) losser = player2;
+        else if (player2.getGameTable().getLeader().getFaction() == Factions.EMPIRE_NILFGARDEN) losser = player1;
+        if (losser == null) {
+            roundNumber++;
+            return new Result(false, "no winner, game draw");
+        }
         GameTable gameTable = losser.getGameTable();
         gameTable.setHP(gameTable.getHP() - 1);
-        return new Result(true, "player " + losser.getUser().getUsername() + " lost");
+        UserInGame winner = null;
+        if (losser == player1) winner = player2;
+        else winner = player2;
+        return new Result(true, winner.getUser().getUsername() + " won nilfgaard");
     }
 
     private Result ability(Card card, int rowNumber) {
@@ -480,14 +486,14 @@ public class GameMenuController {
         return changeTurn();
     }
 
-    public boolean isOver() {
-        boolean over = false;
+    public Pair<Boolean, UserInGame> isOver() {
+        Pair<Boolean, UserInGame> over = new Pair<>(false, null);
         if (player1.getGameTable().getHP() == 0) {
             player2.getUser().setWonGames(player2.getUser().getWonGames() + 1);
-            over = true;
+            over = new Pair<>(true, player2);
         } else if (player2.getGameTable().getHP() == 0) {
             player1.getUser().setWonGames(player1.getUser().getWonGames() + 1);
-            over = true;
+            over = new Pair<>(true, player1);
         }
         return over;
     }
