@@ -317,7 +317,7 @@ public class GameMenuController {
         else if (player2.getGameTable().getLeader().getFaction() == Factions.EMPIRE_NILFGARDEN) losser = player1;
         if (losser == null) {
             roundNumber++;
-            return new Result(false, "no winner, game draw");
+            return new Result(true, "draw");
         }
         GameTable gameTable = losser.getGameTable();
         gameTable.setHP(gameTable.getHP() - 1);
