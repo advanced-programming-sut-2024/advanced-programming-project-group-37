@@ -257,7 +257,7 @@ public class GameMenuController {
                 GameTable gameTable = player1.getGameTable();
                 gameTable.setHP(gameTable.getHP() - 1);
                 winner = player1;
-                return new Result(true, player1.getUser().getUsername() + " won round");
+                return new Result(true, player1.getUser().getUsername() + " won");
             }
             if (calculateTotalScore(player2) > calculateTotalScore(player1)) {
 //                player2.getUser().setWonGames(player2.getUser().getWonGames());

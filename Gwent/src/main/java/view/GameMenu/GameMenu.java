@@ -2,6 +2,9 @@ package view.GameMenu;
 
 import controller.GameControllers.GameMenuController;
 import controller.GameControllers.PreGameMenuController;
+import javafx.animation.KeyFrame;
+import javafx.animation.RotateTransition;
+import javafx.animation.Timeline;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -9,6 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.util.Duration;
 import model.User;
 import model.enums.card.Card;
 import model.enums.card.CardType;
@@ -99,6 +103,7 @@ public class GameMenu {
     public ImageView player2shield;
     public ImageView player1shield;
     public AnchorPane selectPane;
+    public AnchorPane turnPane;
 
 
     public GameMenuController game;
@@ -106,7 +111,7 @@ public class GameMenu {
     public UserInGame player2;
     public final int pictureWidth = 90;
 
-// this method call ar first and initialize some of field
+    // this method call ar first and initialize some of field
     public void firstOption() {
         if (game == null){
             GameMenuController game = new GameMenuController();
@@ -181,11 +186,11 @@ public class GameMenu {
         if (numOfVeto == 1) {
             showVetoCards(player);
         } else if (player.equals(player1)) {
-            game.changeTurn(); // todo : a graphic method for change turn
+            changeTurn();
             showVetoCards(player2);
         } else {
             selectPane.setVisible(false);
-            game.changeTurn(); // todo : a graphic method for change turn
+            changeTurn();
             updateTable();
         }
     }
@@ -393,11 +398,35 @@ public class GameMenu {
         // add card to imageview
         hBox.getChildren().add(new ImageView(card.getImage()));
         hBox.setBackground(null);
+        hBox.setOnMouseClicked(null);
 
         // call backend
         game.placeCard(card.getName(), row);
+        changeTurn();
 
         // update table
         updateTable();
+    }
+
+    // change turn
+    private void changeTurn() {
+        game.changeTurn();
+
+        // now show some graphic
+        turnPane.setVisible(true);
+
+        RotateTransition transition = new RotateTransition();
+        transition.setDuration(Duration.seconds(1));
+        transition.setByAngle(180);
+        transition.setNode(turnPane.getChildren().get(0));
+        transition.play();
+        new Timeline(new KeyFrame(Duration.seconds(2), event -> {
+            turnPane.setVisible(false);
+        })).play();
+    }
+
+    // pass turn
+    public void passTurn() {
+
     }
 }
