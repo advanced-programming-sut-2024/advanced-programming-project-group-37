@@ -4,6 +4,7 @@ import model.User;
 import model.enums.card.Ability;
 import model.enums.card.Card;
 import model.enums.card.Leaders;
+import model.enums.gameMenu.Factions;
 import model.gameTable.GameTable;
 import model.gameTable.UserInGame;
 import model.toolClasses.Pair;
@@ -230,16 +231,66 @@ public class GameMenuController {
 
     public Result checkroundWinner() {
         if (player1.isPassed() && player2.isPassed()) {
+            UserInGame winner = null;
             if (calculateTotalScore(player1) > calculateTotalScore(player2)) {
-                player1.getUser().setWonGames(player1.getUser().getWonGames());
-                return new Result(true, player1.getUser().getUsername() + " won");
+//                player1.getUser().setWonGames(player1.getUser().getWonGames());
+                GameTable gameTable = player1.getGameTable();
+                gameTable.setHP(gameTable.getHP() - 1);
+                winner = player1;
+                return new Result(true, player1.getUser().getUsername() + " won round");
             }
             if (calculateTotalScore(player2) > calculateTotalScore(player1)) {
-                player2.getUser().setWonGames(player1.getUser().getWonGames());
+//                player2.getUser().setWonGames(player2.getUser().getWonGames());
+                GameTable gameTable = player2.getGameTable();
+                gameTable.setHP(gameTable.getHP() - 1);
+                winner = player2;
                 return new Result(true, player2.getUser().getUsername() + " won");
             }
+            if (calculateTotalScore(player1) == calculateTotalScore(player2)) {
+                niflgaardianPower(player1, player2);
+            }
+            maximizeScore(player1);
+            maximizeScore(player2);
+
+
+            //check Faction Abilities
+            factionAbility(player1, player2, winner);
+
+
+
+            //make everything empty and round++
+            roundNumber++;
+            spells = new ArrayList<>();
+            Pair<Card, ArrayList<Card>>[] pair = new Pair[3];
+            for (int i = 0; i < 3; i++) {
+                pair[i] = new Pair<>(null, new ArrayList<>());
+            }
+            player1.getGameTable().setCardsOfRow(pair);
+            player2.getGameTable().setCardsOfRow(pair);
         }
         return new Result(false, "no winner");
+    }
+
+    private void factionAbility(UserInGame player1, UserInGame player2, UserInGame winner) {
+        Factions.realmsNorthernAbility(player1, player2, winner);
+        Factions.scoiaTaelAbility(player1, player2, userTurn);
+        Factions.skelligeAbility(player1 , player2);
+    }
+
+    private void maximizeScore(UserInGame player) {
+        User user = player.getUser();
+        int highestScore = user.getHighestScore();
+        if (highestScore < calculateTotalScore(player))
+            user.setHighestScore(highestScore);
+    }
+
+    private void niflgaardianPower(UserInGame player1, UserInGame player2) {
+        UserInGame losser = null;
+        if (player1.getGameTable().getLeader().getFaction() == Factions.EMPIRE_NILFGARDEN) losser = player1;
+        else if (player2.getGameTable().getLeader().getFaction() == Factions.EMPIRE_NILFGARDEN) losser = player2;
+        if (losser == null) return;
+        GameTable gameTable = losser.getGameTable();
+        gameTable.setHP(gameTable.getHP() - 1);
     }
 
     private Result ability(Card card, int rowNumber) {
@@ -261,7 +312,7 @@ public class GameMenuController {
         } else if (card.getAbility() == Ability.MUSTER) {
             result = Card.muster(userTurn, card, rowNumber);
         }
-            return result;
+        return result;
     }
 
     public Result showCommander() {
