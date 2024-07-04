@@ -220,6 +220,11 @@ public class GameMenuController {
             Pair<Card, ArrayList<Card>> row = userTurn.getGameTable().getCardsOfRow()[rowNumber - 1];
             //get cards and add to row
             row.setFirst(card);
+            //remove from hand
+            GameTable gameTable = userTurn.getGameTable();
+            ArrayList<Card> cards = gameTable.getInHandsCards();
+            cards.remove(card);
+            //check ability
             ability(card, rowNumber);
             return new Result(true, "set");
         }
@@ -234,6 +239,11 @@ public class GameMenuController {
         //if card is special and number is 4
         if (rowNumber == 4)
             spells.add(card);
+
+        //remove from hand
+        GameTable gameTable = userTurn.getGameTable();
+        ArrayList<Card> cards = gameTable.getInHandsCards();
+        cards.remove(card);
 
         return ability(card, rowNumber);
 
