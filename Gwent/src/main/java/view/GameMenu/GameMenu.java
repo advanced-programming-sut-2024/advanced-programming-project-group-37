@@ -2,7 +2,6 @@ package view.GameMenu;
 
 import controller.GameControllers.GameMenuController;
 import controller.GameControllers.PreGameMenuController;
-import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -13,18 +12,15 @@ import javafx.scene.paint.Color;
 import model.User;
 import model.enums.card.Card;
 import model.enums.card.CardType;
-import model.enums.gameMenu.Factions;
-import model.enums.gameMenu.GameMenuCommands;
 import model.enums.gameMenu.Shields;
 import model.gameTable.UserInGame;
 import model.toolClasses.Pair;
 import model.toolClasses.Result;
-
 import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.regex.Matcher;
 
 public class GameMenu {
+
+// terminal part
     public static User firstPlayer;
     public static User secondPlayer;
 
@@ -130,12 +126,12 @@ public class GameMenu {
             // other setting
             hand.setSpacing(10);
 
-            showVetoCards();
+            showVetoCards(player1);
         }
     }
 
 // show vetoCards
-    private void showVetoCards() {
+    private void showVetoCards(UserInGame player) {
         selectPane.setVisible(true);
 
         ImageView image1 = (ImageView) selectPane.getChildren().get(0);
@@ -144,7 +140,7 @@ public class GameMenu {
         ImageView image4 = (ImageView) selectPane.getChildren().get(3);
         ImageView image5 = (ImageView) selectPane.getChildren().get(4);
 
-        ArrayList<Card> Hand = player1.getGameTable().getInHandsCards();
+        ArrayList<Card> Hand = player.getGameTable().getInHandsCards();
         image1.setImage(Hand.get(0).getImage());
         image2.setImage(Hand.get(1).getImage());
         image3.setImage(Hand.get(2).getImage());
@@ -156,7 +152,7 @@ public class GameMenu {
         image4.setOnMouseClicked(mouseEvent -> changePlaceOfImage(1, Hand, image1, image2, image3, image4, image5));
         image5.setOnMouseClicked(mouseEvent -> changePlaceOfImage(2, Hand, image1, image2, image3, image4, image5));
 
-        image3.setOnMouseClicked(mouseEvent -> selectVetoCard(mouseEvent, Hand));
+        image3.setOnMouseClicked(mouseEvent -> selectVetoCard(mouseEvent, Hand, player));
 
         updateTable();
     }
@@ -172,7 +168,7 @@ public class GameMenu {
             images[i].setImage(Hand.get(centerIndex + mode + (i - 2)).getImage());
         }
     }
-    private void selectVetoCard(MouseEvent mouseEvent, ArrayList<Card> hand) {
+    private void selectVetoCard(MouseEvent mouseEvent, ArrayList<Card> hand, UserInGame player) {
         Image image = ((ImageView) mouseEvent.getSource()).getImage();
 
         Card card = Card.getCardByImage(image);
@@ -183,20 +179,32 @@ public class GameMenu {
         int numOfVeto = Integer.parseInt(temp[temp.length - 1]);
 
         if (numOfVeto == 1) {
-            showVetoCards();
+            showVetoCards(player);
+        } else if (player.equals(player1)) {
+            game.changeTurn(); // todo : a graphic method for change turn
+            showVetoCards(player2);
         } else {
             selectPane.setVisible(false);
+            game.changeTurn(); // todo : a graphic method for change turn
             updateTable();
         }
     }
 
 // update table
     private void updateTable() {
+        // remove all --> hand, rows, weather
+        removeAllLines();
+
         // update hand
         UserInGame userTurn = game.getUserTurn();
 
         for (Card card : userTurn.getGameTable().getInHandsCards()) {
             locateCard(card, hand);
+        }
+
+        // update spells row
+        for (Card card : game.getSpells()) {
+            locateCard(card, weather);
         }
 
         // update rows
@@ -216,6 +224,17 @@ public class GameMenu {
         // update num of card in deck
         player1deckNum.setText(String.valueOf(player1.getGameTable().getDeckCards().size()));
         player2deckNum.setText(String.valueOf(player2.getGameTable().getDeckCards().size()));
+    }
+    // this method is for remove card from all line
+    private void removeAllLines() {
+        hand.getChildren().clear();
+        player1siege.getChildren().clear();
+        player1closeCombat.getChildren().clear();
+        player1rangedCombat.getChildren().clear();
+        player2siege.getChildren().clear();
+        player2closeCombat.getChildren().clear();
+        player2rangedCombat.getChildren().clear();
+        weather.getChildren().clear();
     }
     // these methods are for set rows
     private void updateRows(Pair<Card, ArrayList<Card>>[] rows, int mode) {
@@ -260,6 +279,11 @@ public class GameMenu {
         setHover(image);
 
         hBox.getChildren().add(image);
+
+        // set on mouth click for each card of hand
+        if (hBox.equals(hand)) {
+            image.setOnMouseClicked(mouseEvent -> playCard(card));
+        }
     }
     // these methods are for effect of card --> x1.5
     private void setHover(ImageView imageView) {
@@ -272,32 +296,32 @@ public class GameMenu {
         image.setScaleY(1.5);
 
         CardType type = Card.getCardByImage(((ImageView) mouseEvent.getSource()).getImage()).getType();
-
+        Color color = Color.web("00F7FF4C");
         if (game.getUserTurn().equals(player1)) {
             if (type.equals(CardType.CLOSE_COMBAT))
-                player1closeCombat.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+                player1closeCombat.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
             else if (type.equals(CardType.RANGED_COMBAT))
-                player1rangedCombat.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+                player1rangedCombat.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
             else if (type.equals(CardType.SIEGE))
-                player1siege.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+                player1siege.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
             else if (type.equals(CardType.WEATHER))
-                weather.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+                weather.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
             else if (type.equals(CardType.AGILE)) {
-                player1closeCombat.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
-                player1rangedCombat.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+                player1closeCombat.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
+                player1rangedCombat.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
             }
         } else {
             if (type.equals(CardType.CLOSE_COMBAT))
-                player2closeCombat.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+                player2closeCombat.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
             else if (type.equals(CardType.RANGED_COMBAT))
-                player2rangedCombat.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+                player2rangedCombat.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
             else if (type.equals(CardType.SIEGE))
-                player2siege.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+                player2siege.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
             else if (type.equals(CardType.WEATHER))
-                weather.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+                weather.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
             else if (type.equals(CardType.AGILE)) {
-                player2closeCombat.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
-                player2rangedCombat.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+                player2closeCombat.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
+                player2rangedCombat.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
             }
         }
     }
@@ -335,5 +359,10 @@ public class GameMenu {
                 player2rangedCombat.setBackground(null);
             }
         }
+    }
+
+    // play card methods
+    private void playCard(Card card) {
+
     }
 }
