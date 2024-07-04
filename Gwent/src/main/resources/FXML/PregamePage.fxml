@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane onKeyPressed="#showTerminal" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #160C06FF;" stylesheets="@../CSS/css1.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.GameMenu.PreGameMenu">
+   <children>
+      <ImageView fitHeight="600.0" fitWidth="1000.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../asset/img/board.jpg" />
+         </image>
+      </ImageView>
+      <AnchorPane layoutX="25.0" layoutY="25.0" prefHeight="550.0" prefWidth="950.0" style="-fx-background-color: #000c;">
+         <children>
+            <Button layoutX="409.0" layoutY="512.0" mnemonicParsing="false" onAction="#startGame" prefHeight="26.0" prefWidth="132.0" style="-fx-background-color: #000a;" text="READY" textFill="WHITE">
+               <font>
+                  <Font name="System Bold Italic" size="12.0" />
+               </font>
+            </Button>
+            <ScrollPane fx:id="CollectionScroll" layoutX="14.0" layoutY="56.0" prefHeight="500.0" prefWidth="300.0" />
+            <ScrollPane fx:id="deckScroll" layoutX="636.0" layoutY="56.0" prefHeight="500.0" prefWidth="300.0" />
+            <Label alignment="CENTER" layoutX="81.0" layoutY="28.0" prefHeight="18.0" prefWidth="165.0" text="Card Collection" textFill="#b3b3b3fc">
+               <font>
+                  <Font name="System Bold Italic" size="15.0" />
+               </font></Label>
+            <Label alignment="CENTER" layoutX="703.0" layoutY="28.0" prefHeight="18.0" prefWidth="166.0" text="Card in Deck" textFill="#b3b3b3">
+               <font>
+                  <Font name="System Bold Italic" size="15.0" />
+               </font></Label>
+            <Label alignment="CENTER" ellipsisString="Create property" layoutX="326.0" layoutY="105.0" onMouseClicked="#uploadDeck" prefHeight="18.0" prefWidth="0.0" styleClass="labelEffect" text="Upload Deck" textFill="WHITE" textOverrun="LEADING_WORD_ELLIPSIS" />
+            <Label alignment="CENTER" ellipsisString="Create property" layoutX="428.0" layoutY="105.0" onMouseClicked="#showFaction" prefHeight="18.0" prefWidth="0.0" styleClass="labelEffect" text="Change Faction" textFill="WHITE" textOverrun="LEADING_WORD_ELLIPSIS" />
+            <Label alignment="CENTER" ellipsisString="Create property" layoutX="540.0" layoutY="105.0" onMouseClicked="#DownloadDeck" prefHeight="18.0" prefWidth="0.0" styleClass="labelEffect" text="Download Deck" textFill="WHITE" textOverrun="LEADING_WORD_ELLIPSIS" />
+            <HBox fx:id="factionShowHBox" alignment="CENTER" layoutX="352.0" layoutY="6.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="100.0" prefWidth="245.0">
+               <children>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../asset/img/icons/deck_shield_realms.png" />
+                     </image>
+                  </ImageView>
+                  <Label alignment="TOP_LEFT" text="Northern Realms" textFill="#b3b3b3" textOverrun="CLIP">
+                     <font>
+                        <Font name="System Bold Italic" size="22.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <Label alignment="CENTER" layoutX="433.0" layoutY="142.0" prefHeight="18.0" prefWidth="82.0" text="Leader" textFill="#c48000" />
+            <ImageView fx:id="leaderImageView" fitHeight="229.0" fitWidth="137.0" layoutX="414.0" layoutY="164.0" onMouseClicked="#showLeaders" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../asset/img/lg/monsters_eredin_gold.jpg" />
+               </image>
+            </ImageView>
+            <GridPane fx:id="labelsGridPane" layoutX="390.0" layoutY="396.0" prefHeight="116.0" prefWidth="200.0">
+              <columnConstraints>
+                <ColumnConstraints halignment="LEFT" hgrow="NEVER" minWidth="10.0" prefWidth="150.0" />
+                <ColumnConstraints halignment="LEFT" hgrow="NEVER" minWidth="20.0" prefWidth="20.0" />
+                  <ColumnConstraints halignment="LEFT" hgrow="NEVER" minWidth="40.0" prefWidth="30.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label contentDisplay="CENTER" ellipsisString="Create property" text="Total Cards in Deck" textFill="#c48000" textOverrun="LEADING_ELLIPSIS">
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label ellipsisString="Create property" text="Number of Unit Cards" textFill="#c48000" textOverrun="LEADING_ELLIPSIS" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label ellipsisString="Create property" text="Special Cards" textFill="#c48000" textOverrun="LEADING_ELLIPSIS" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label ellipsisString="Create property" text="Total Unit Cards Strength" textFill="#c48000" textOverrun="LEADING_ELLIPSIS" GridPane.rowIndex="3">
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label ellipsisString="Create property" text="Hero Cards" textFill="#c48000" textOverrun="LEADING_ELLIPSIS" GridPane.rowIndex="4">
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="15.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
+                     <image>
+                        <Image url="@../asset/img/icons/deck_stats_count.png" />
+                     </image></ImageView>
+                  <ImageView fitHeight="15.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <image>
+                        <Image url="@../asset/img/icons/deck_stats_unit.png" />
+                     </image></ImageView>
+                  <ImageView fitHeight="15.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <image>
+                        <Image url="@../asset/img/icons/deck_stats_special.png" />
+                     </image></ImageView>
+                  <ImageView fitHeight="15.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <image>
+                        <Image url="@../asset/img/icons/deck_stats_strength.png" />
+                     </image></ImageView>
+                  <ImageView fitHeight="15.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                     <image>
+                        <Image url="@../asset/img/icons/deck_stats_hero.png" />
+                     </image></ImageView>
+                  <Label text="0" textFill="#c48000" GridPane.columnIndex="2" />
+                  <Label text="0" textFill="#c48000" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <Label text="0" textFill="#c48000" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <Label text="0" textFill="#c48000" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                  <Label text="0" textFill="#c48000" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="46.0" text="  /22" textFill="#c48000" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+               </children>
+            </GridPane>
+            <HBox fx:id="factionHBox" alignment="CENTER" layoutX="139.0" layoutY="42.0" prefHeight="200.0" prefWidth="659.0" style="-fx-spacing: 20;" visible="false">
+               <children>
+                  <ImageView fitHeight="170.0" fitWidth="100.0" onMouseClicked="#changeFaction" onMouseEntered="#maximize" onMouseExited="#minimize" pickOnBounds="true" preserveRatio="true" x="1.0">
+                     <image>
+                        <Image url="@../asset/img/lg/faction_skellige.jpg" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fitHeight="170.0" fitWidth="100.0" onMouseClicked="#changeFaction" onMouseEntered="#maximize" onMouseExited="#minimize" pickOnBounds="true" preserveRatio="true" x="2.0">
+                     <image>
+                        <Image url="@../asset/img/lg/faction_monsters.jpg" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fitHeight="170.0" fitWidth="100.0" onMouseClicked="#changeFaction" onMouseEntered="#maximize" onMouseExited="#minimize" pickOnBounds="true" preserveRatio="true" x="3.0">
+                     <image>
+                        <Image url="@../asset/img/lg/faction_nilfgaard.jpg" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fitHeight="170.0" fitWidth="100.0" onMouseClicked="#changeFaction" onMouseEntered="#maximize" onMouseExited="#minimize" pickOnBounds="true" preserveRatio="true" x="4.0">
+                     <image>
+                        <Image url="@../asset/img/lg/faction_realms.jpg" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fitHeight="170.0" fitWidth="100.0" onMouseClicked="#changeFaction" onMouseEntered="#maximize" onMouseExited="#minimize" pickOnBounds="true" preserveRatio="true" x="5.0">
+                     <image>
+                        <Image url="@../asset/img/lg/faction_scoiatael.jpg" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+               </children>
+            </HBox>
+            <HBox fx:id="leadersList" alignment="CENTER" layoutX="-1.0" layoutY="163.0" prefHeight="229.0" prefWidth="950.0" visible="false" />
+            <AnchorPane fx:id="selectOpponentPane" layoutX="375.0" layoutY="163.0" prefHeight="171.0" prefWidth="200.0" style="-fx-background-color: #000e;">
+               <children>
+                  <Label layoutX="13.0" layoutY="89.0" prefHeight="18.0" prefWidth="179.0" textFill="RED">
+                     <font>
+                        <Font name="System Italic" size="10.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="26.0" layoutY="23.0" prefHeight="18.0" prefWidth="148.0" text="select your opponent" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold Italic" size="12.0" />
+                     </font>
+                  </Label>
+                  <TextField layoutX="26.0" layoutY="63.0" promptText="username" style="-fx-background-color: #000d;">
+                     <font>
+                        <Font name="System Bold Italic" size="12.0" />
+                     </font>
+                  </TextField>
+                  <Button layoutX="86.0" layoutY="129.0" mnemonicParsing="false" onAction="#setOpponent" style="-fx-background-color: #000d;" text="ok" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold Italic" size="12.0" />
+                     </font>
+                  </Button>
+               </children>
+            </AnchorPane>
+            <Label fx:id="DeckError" layoutX="334.0" layoutY="533.0" prefHeight="18.0" prefWidth="282.0" textFill="RED">
+               <font>
+                  <Font name="System Italic" size="12.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+       <AnchorPane fx:id="terminalPane" layoutX="14.0" layoutY="11.0" prefHeight="428.0" prefWidth="450.0" style="-fx-background-color: #00000055;" visible="false">
+           <children>
+               <TextArea fx:id="terminalTextArea" layoutX="14.0" layoutY="14.0" onKeyPressed="#checkCommand" prefHeight="400.0" prefWidth="420.0" styleClass="terminal" />
+           </children>
+       </AnchorPane>
+      <Label alignment="CENTER" layoutX="439.0" layoutY="5.0" prefHeight="18.0" prefWidth="121.0" text="player 1" textFill="WHITE" />
+   </children>
+</AnchorPane>

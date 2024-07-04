@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="900.0" prefWidth="1500.0" style="-fx-background-color: #160C06FF;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.GameMenu.GameMenu">
+   <children>
+      <ImageView fitHeight="900.0" fitWidth="1500.0" layoutY="29.0" onMouseEntered="#firstOption" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../asset/img/board.jpg" />
+         </image></ImageView>
+      <HBox fx:id="player2siege" alignment="CENTER" layoutX="553.0" layoutY="44.0" maxHeight="90.0" maxWidth="633.0" minHeight="60.0" minWidth="420.0" prefHeight="90.0" prefWidth="633.0" />
+      <HBox fx:id="player2rangedCombat" alignment="CENTER" layoutX="553.0" layoutY="150.0" prefHeight="90.0" prefWidth="633.0" />
+      <HBox fx:id="player2closeCombat" alignment="CENTER" layoutX="553.0" layoutY="256.0" prefHeight="90.0" prefWidth="633.0" />
+      <HBox fx:id="player1siege" alignment="CENTER" layoutX="553.0" layoutY="585.0" prefHeight="90.0" prefWidth="633.0" />
+      <HBox fx:id="player1rangedCombat" alignment="CENTER" layoutX="553.0" layoutY="474.0" prefHeight="90.0" prefWidth="633.0" />
+      <HBox fx:id="player1closeCombat" alignment="CENTER" layoutX="553.0" layoutY="375.0" prefHeight="90.0" prefWidth="633.0" />
+      <HBox fx:id="hand" alignment="CENTER" layoutX="449.0" layoutY="691.0" prefHeight="90.0" prefWidth="732.0" />
+      <HBox fx:id="weather" alignment="CENTER" layoutX="105.0" layoutY="389.0" prefHeight="90.0" prefWidth="225.0" />
+      <ImageView fx:id="player2leader" fitHeight="331.0" fitWidth="166.0" layoutX="30.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../asset/img/lg/monsters_eredin_gold.jpg" />
+         </image></ImageView>
+      <ImageView fx:id="player1leader" fitHeight="314.0" fitWidth="192.0" layoutX="30.0" layoutY="550.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../asset/img/lg/monsters_eredin_gold.jpg" />
+         </image></ImageView>
+      <ImageView fitHeight="135.0" fitWidth="74.0" layoutX="1354.0" layoutY="85.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../asset/img/lg/faction_nilfgaard.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="135.0" fitWidth="74.0" layoutX="1357.0" layoutY="88.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../asset/img/lg/faction_nilfgaard.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="135.0" fitWidth="74.0" layoutX="1360.0" layoutY="91.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../asset/img/lg/faction_nilfgaard.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="135.0" fitWidth="74.0" layoutX="1363.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../asset/img/lg/faction_nilfgaard.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="135.0" fitWidth="74.0" layoutX="1354.0" layoutY="675.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../asset/img/lg/faction_nilfgaard.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="135.0" fitWidth="74.0" layoutX="1357.0" layoutY="678.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../asset/img/lg/faction_nilfgaard.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="135.0" fitWidth="74.0" layoutX="1360.0" layoutY="681.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../asset/img/lg/faction_nilfgaard.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="135.0" fitWidth="74.0" layoutX="1364.0" layoutY="684.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../asset/img/lg/faction_nilfgaard.jpg" />
+         </image>
+      </ImageView>
+      <Label fx:id="player2deckNum" alignment="CENTER" layoutX="1380.0" layoutY="169.0" prefHeight="18.0" prefWidth="40.0" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="19.0" />
+         </font>
+      </Label>
+      <Label fx:id="player1deckNum" layoutX="1381.0" layoutY="758.0" prefHeight="18.0" prefWidth="40.0" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="19.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="player2dead" fitHeight="111.0" fitWidth="84.0" layoutX="1206.0" layoutY="84.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="player1dead" fitHeight="111.0" fitWidth="84.0" layoutX="1206.0" layoutY="675.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="player2siegeSpecial" fitHeight="90.0" fitWidth="90.0" layoutX="449.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="player2rangedSpecial" fitHeight="90.0" fitWidth="90.0" layoutX="449.0" layoutY="147.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="player2closeSpecial" fitHeight="90.0" fitWidth="90.0" layoutX="449.0" layoutY="251.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="player1closeSpecial" fitHeight="90.0" fitWidth="90.0" layoutX="455.0" layoutY="375.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="player1rangedSpecial" fitHeight="90.0" fitWidth="90.0" layoutX="449.0" layoutY="474.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="player1siegeSpecial" fitHeight="90.0" fitWidth="90.0" layoutX="449.0" layoutY="585.0" pickOnBounds="true" preserveRatio="true" />
+      <Label fx:id="player2sumSiege" alignment="CENTER" layoutX="404.0" layoutY="79.0" prefWidth="30.0">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="player2sumRanged" alignment="CENTER" layoutX="404.0" layoutY="183.0" prefWidth="30.0">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="player2sumClose" alignment="CENTER" layoutX="404.0" layoutY="292.0" prefWidth="30.0">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="player1sumClose" alignment="CENTER" layoutX="404.0" layoutY="403.0" prefWidth="30.0">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="player1sumRanged" alignment="CENTER" layoutX="404.0" layoutY="510.0" prefWidth="30.0">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="player1sumSiege" alignment="CENTER" layoutX="404.0" layoutY="612.0" prefWidth="30.0">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="39.0" fitWidth="30.0" layoutX="203.0" layoutY="129.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../asset/img/icons/icon_leader_active.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="39.0" fitWidth="30.0" layoutX="204.0" layoutY="719.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../asset/img/icons/icon_leader_active.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="player2sum" alignment="CENTER" layoutX="341.0" layoutY="283.0" prefWidth="30.0">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="player1sum" alignment="CENTER" layoutX="341.0" layoutY="594.0" prefWidth="30.0">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="player2shield" fitHeight="60.0" fitWidth="60.0" layoutX="134.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="player1shield" fitHeight="60.0" fitWidth="60.0" layoutX="134.0" layoutY="550.0" pickOnBounds="true" preserveRatio="true" />
+      <Button layoutX="247.0" layoutY="127.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="94.0" style="-fx-background-color: #0007; -fx-border-color: c48000;" text="PASS" textFill="#c48000">
+         <font>
+            <Font name="System Bold Italic" size="17.0" />
+         </font></Button>
+      <Button layoutX="247.0" layoutY="714.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="94.0" style="-fx-background-color: #0007; -fx-border-color: c48000;" text="PASS" textFill="#c48000">
+         <font>
+            <Font name="System Bold Italic" size="17.0" />
+         </font></Button>
+      <AnchorPane fx:id="selectPane" layoutX="6.0" layoutY="250.0" prefHeight="400.0" prefWidth="1500.0" visible="false">
+         <children>
+            <ImageView fitHeight="313.5" fitWidth="166.5" layoutX="276.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="342.0" fitWidth="181.5" layoutX="470.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="363.0" fitWidth="192.0" layoutX="671.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="342.0" fitWidth="181.5" layoutX="891.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="313.5" fitWidth="166.5" layoutX="1108.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
