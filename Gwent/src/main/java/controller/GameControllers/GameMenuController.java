@@ -254,7 +254,7 @@ public class GameMenuController {
             UserInGame winner = null;
             if (calculateTotalScore(player1) > calculateTotalScore(player2)) {
                 makeEmpty(player1, player2, player1);
-                GameTable gameTable = player1.getGameTable();
+                GameTable gameTable = player2.getGameTable();
                 gameTable.setHP(gameTable.getHP() - 1);
                 winner = player1;
                 return new Result(true, player1.getUser().getUsername() + " won");
@@ -262,7 +262,7 @@ public class GameMenuController {
             if (calculateTotalScore(player2) > calculateTotalScore(player1)) {
 //                player2.getUser().setWonGames(player2.getUser().getWonGames());
                 makeEmpty(player1, player2, player1);
-                GameTable gameTable = player2.getGameTable();
+                GameTable gameTable = player1.getGameTable();
                 gameTable.setHP(gameTable.getHP() - 1);
                 winner = player2;
                 return new Result(true, player2.getUser().getUsername() + " won");
