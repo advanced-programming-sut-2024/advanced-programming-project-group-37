@@ -214,6 +214,16 @@ public class GameMenuController {
 
         //get card
         Card card = Card.getCardByName(cardName);
+        //check if card is commander horn
+        if (card == Card.CommanderHorn) {
+            //get row
+            Pair<Card, ArrayList<Card>> row = userTurn.getGameTable().getCardsOfRow()[rowNumber - 1];
+            //get cards and add to row
+            row.setFirst(card);
+            ability(card, rowNumber);
+            return new Result(true, "set");
+        }
+
         //if card is not special
         //get row
         Pair<Card, ArrayList<Card>> row = userTurn.getGameTable().getCardsOfRow()[rowNumber - 1];

@@ -1,7 +1,7 @@
 package model.toolClasses;
 
-public class Pair<A,B> {
-    private final A first;
+public class Pair<A, B> {
+    private A first;
     private B second;
 
     public Pair(A first, B second) {
@@ -20,4 +20,9 @@ public class Pair<A,B> {
     public void setSecond(B second) {
         this.second = second;
     }
+
+    public void setFirst(A first) {
+        this.first = first;
+    }
+
 }
