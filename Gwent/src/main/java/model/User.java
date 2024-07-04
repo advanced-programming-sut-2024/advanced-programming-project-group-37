@@ -13,7 +13,7 @@ public class User {
     private String answer;
     private ConfirmQuestions confirmQuestions;
     private static User loggedInUser;
-    private double highestScore;
+    private int highestScore;
     private int wonGames;
     private int lostGames;
     private int drawGames;
@@ -117,11 +117,11 @@ public class User {
         this.confirmQuestions = confirmQuestions;
     }
 
-    public double getHighestScore() {
+    public int getHighestScore() {
         return highestScore;
     }
 
-    public void setHighestScore(double highestScore) {
+    public void setHighestScore(int highestScore) {
         this.highestScore = highestScore;
     }
 
