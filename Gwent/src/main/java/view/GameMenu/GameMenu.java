@@ -438,6 +438,7 @@ public class GameMenu {
             passPane.setVisible(false);
             Result result = game.passRound(game.getUserTurn());
             changeTurn();
+            updateTable();
 
             if (result.isSuccessful()) { // it means that we have a winner or draw in this round
                 String massage = result.getMessage();
@@ -472,7 +473,7 @@ public class GameMenu {
             }
         })).play();
 
-        updateTable();
+
     }
     private void updateEndPage(UserInGame user) {
         winnerPane.setVisible(true);
