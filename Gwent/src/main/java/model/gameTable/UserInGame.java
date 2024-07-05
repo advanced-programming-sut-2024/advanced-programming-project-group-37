@@ -3,6 +3,7 @@ package model.gameTable;
 import model.User;
 
 public class UserInGame {
+    public int totalScore = 0;
     private User user;
     private GameTable gameTable;
     private boolean passed = false;

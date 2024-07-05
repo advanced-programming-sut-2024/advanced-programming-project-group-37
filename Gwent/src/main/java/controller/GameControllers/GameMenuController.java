@@ -1,9 +1,11 @@
 package controller.GameControllers;
 
 import javafx.scene.paint.Paint;
+import model.GameHistory;
 import model.User;
 import model.enums.card.Ability;
 import model.enums.card.Card;
+import model.enums.card.CardType;
 import model.enums.card.Leaders;
 import model.enums.gameMenu.Factions;
 import model.gameTable.GameTable;
@@ -12,7 +14,9 @@ import model.toolClasses.Pair;
 import model.toolClasses.Result;
 
 import java.nio.channels.AlreadyBoundException;
+import java.time.LocalDate;
 import java.util.*;
+import java.util.spi.LocaleServiceProvider;
 
 public class GameMenuController {
     private ArrayList<Card> spells = new ArrayList<>();
@@ -279,6 +283,10 @@ public class GameMenuController {
     }
 
     private void makeEmpty(UserInGame player1, UserInGame player2, UserInGame winner) {
+        //add to total score
+        player1.totalScore += calculateTotalScore(player1);
+        player2.totalScore += calculateTotalScore(player2);
+
         maximizeScore(player1);
         maximizeScore(player2);
 
@@ -473,7 +481,16 @@ public class GameMenuController {
         ArrayList<Card> cardInRow = player1.getGameTable().getCardsOfRow()[i - 1].getSecond();
         int sumPower = 0;
         for (Card card : cardInRow) {
-            sumPower += card.getPower();
+            int power = card.getPower();
+            //check some double things
+            if (card.getType() == CardType.RANGED_COMBAT && player1.isRangedDouble())
+                power *= 2;
+            if (card.getType() == CardType.CLOSE_COMBAT && player1.isCloseCombatDouble())
+                power *= 2;
+            if (card.getType() == CardType.SIEGE && player1.isSiegeDouble())
+                power *= 2;
+
+            sumPower += power;
         }
         return sumPower;
     }
@@ -496,11 +513,27 @@ public class GameMenuController {
         if (player1.getGameTable().getHP() == 0) {
             player2.getUser().setWonGames(player2.getUser().getWonGames() + 1);
             over = new Pair<>(true, player2);
+            createGameHistory(player1, player2);
         } else if (player2.getGameTable().getHP() == 0) {
             player1.getUser().setWonGames(player1.getUser().getWonGames() + 1);
             over = new Pair<>(true, player1);
+            createGameHistory(player2, player1);
         }
         return over;
+    }
+
+    private void createGameHistory(UserInGame losser, UserInGame winner) {
+        LocalDate date = LocalDate.now();
+        //get users
+        User winnerUser = winner.getUser();
+        User losserUser = losser.getUser();
+        GameHistory gameHistory = new GameHistory(winnerUser, losserUser, date, losser.totalScore, winner.totalScore);
+
+        //add game history to users
+        ArrayList<GameHistory> gameHistories = winnerUser.getAllPlayedGamesHistory();
+        gameHistories.add(gameHistory);
+        gameHistories = losserUser.getAllPlayedGamesHistory();
+        gameHistories.add(gameHistory);
     }
 
     public void dealCards() {

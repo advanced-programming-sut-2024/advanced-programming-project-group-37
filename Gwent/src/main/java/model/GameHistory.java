@@ -2,23 +2,21 @@ package model;
 
 import model.toolClasses.Pair;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class GameHistory {
     private User winner;
-    private User opponentPlayer;
-    private Date dateOfGame;
-    private double opponentFinalPoint;
-    private double myFinalPoint;
+    private User losser;
+    private LocalDate dateOfGame;
+    private double losserFinalPoint;
+    private double winnerTotalPoint;
     private ArrayList<Pair<Double, Double>> pointsInRound;
-    public GameHistory(User winner, User opponentPlayer, Date dateOfGame, double opponentFinalPoint, double myFinalPoint,
-                       ArrayList<Pair<Double, Double>> pointsInRound) {
+    public GameHistory(User winner, User opponentPlayer, LocalDate dateOfGame, double opponentFinalPoint, double myFinalPoint) {
         this.winner = winner;
-        this.opponentPlayer = opponentPlayer;
+        this.losser = opponentPlayer;
         this.dateOfGame = dateOfGame;
-        this.opponentFinalPoint = opponentFinalPoint;
-        this.myFinalPoint = myFinalPoint;
-        this.pointsInRound = pointsInRound;
+        this.losserFinalPoint = opponentFinalPoint;
+        this.winnerTotalPoint = myFinalPoint;
     }
 }
