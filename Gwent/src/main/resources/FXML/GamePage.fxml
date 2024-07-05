@@ -206,35 +206,11 @@
       </AnchorPane>
       <AnchorPane fx:id="winnerPane" layoutX="365.0" layoutY="139.0" prefHeight="500.0" prefWidth="900.0" style="-fx-background-color: #000a;" visible="false">
          <children>
-            <Label alignment="CENTER" layoutX="350.0" layoutY="295.0" prefHeight="18.0" prefWidth="200.0" textFill="#c48000">
+            <Label alignment="CENTER" layoutX="247.0" layoutY="176.0" prefHeight="83.0" prefWidth="405.0" textFill="#c48000">
                <font>
-                  <Font name="System Bold Italic" size="20.0" />
+                  <Font name="Freestyle Script" size="60.0" />
                </font>
             </Label>
-            <Label alignment="CENTER" layoutX="373.0" layoutY="216.0" prefWidth="28.0" text="0" textFill="#c48000">
-               <font>
-                  <Font name="System Bold Italic" size="14.0" />
-               </font></Label>
-            <Label alignment="CENTER" layoutX="373.0" layoutY="245.0" prefWidth="28.0" text="0" textFill="#c48000">
-               <font>
-                  <Font name="System Bold Italic" size="14.0" />
-               </font></Label>
-            <Label alignment="CENTER" layoutX="467.0" layoutY="216.0" prefWidth="28.0" text="0" textFill="#c48000">
-               <font>
-                  <Font name="System Bold Italic" size="14.0" />
-               </font></Label>
-            <Label alignment="CENTER" layoutX="467.0" layoutY="245.0" prefWidth="28.0" text="0" textFill="#c48000">
-               <font>
-                  <Font name="System Bold Italic" size="14.0" />
-               </font></Label>
-            <Label alignment="CENTER" layoutX="553.0" layoutY="216.0" prefWidth="28.0" text="0" textFill="#c48000">
-               <font>
-                  <Font name="System Bold Italic" size="14.0" />
-               </font></Label>
-            <Label alignment="CENTER" layoutX="553.0" layoutY="245.0" prefWidth="28.0" text="0" textFill="#c48000">
-               <font>
-                  <Font name="System Bold Italic" size="14.0" />
-               </font></Label>
             <Button layoutX="466.0" layoutY="450.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="96.0" style="-fx-background-color: #000a; -fx-border-color: #c48000;" text="Rematch" textFill="#c48000">
                <font>
                   <Font name="System Bold Italic" size="15.0" />
@@ -245,27 +221,7 @@
                   <Font name="System Bold Italic" size="15.0" />
                </font>
             </Button>
-            <Label layoutX="289.0" layoutY="215.0" prefHeight="18.0" prefWidth="90.0" text="label" textFill="#c48000">
-               <font>
-                  <Font name="System Bold Italic" size="13.0" />
-               </font></Label>
-            <Label layoutX="289.0" layoutY="245.0" prefWidth="90.0" text="Label" textFill="#c48000">
-               <font>
-                  <Font name="System Bold Italic" size="13.0" />
-               </font></Label>
-            <Label layoutX="365.0" layoutY="186.0" text="Round 1" textFill="#c48000">
-               <font>
-                  <Font name="System Bold Italic" size="13.0" />
-               </font></Label>
-            <Label layoutX="459.0" layoutY="186.0" text="Round 2" textFill="#c48000">
-               <font>
-                  <Font name="System Bold Italic" size="13.0" />
-               </font></Label>
-            <Label layoutX="545.0" layoutY="186.0" text="Round 3" textFill="#c48000">
-               <font>
-                  <Font name="System Bold Italic" size="13.0" />
-               </font></Label>
-            <ImageView fitHeight="385.0" fitWidth="640.0" layoutX="198.0" layoutY="57.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="385.0" fitWidth="640.0" layoutX="192.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../asset/img/icons/icon_high_score.png" />
                </image>

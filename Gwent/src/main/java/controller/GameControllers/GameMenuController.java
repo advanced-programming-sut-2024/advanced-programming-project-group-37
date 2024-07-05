@@ -248,7 +248,6 @@ public class GameMenuController {
         cards.remove(card);
 
         return ability(card, rowNumber);
-
     }
 
     public Result checkroundWinner() {
@@ -534,3 +533,5 @@ public class GameMenuController {
         return spells;
     }
 }
+
+//
