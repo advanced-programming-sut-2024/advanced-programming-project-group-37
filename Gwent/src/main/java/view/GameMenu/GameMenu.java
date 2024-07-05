@@ -400,7 +400,6 @@ public class GameMenu {
 // play card method
     private void playCard(Card card, HBox hBox, int row) {
         // add card to imageview
-        hBox.getChildren().add(new ImageView(card.getImage()));
         hBox.setBackground(null);
         hBox.setOnMouseClicked(null);
 
