@@ -235,6 +235,16 @@
                <font>
                   <Font name="System Bold Italic" size="14.0" />
                </font></Label>
+            <Button layoutX="466.0" layoutY="450.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="96.0" style="-fx-background-color: #000a; -fx-border-color: #c48000;" text="Rematch" textFill="#c48000">
+               <font>
+                  <Font name="System Bold Italic" size="15.0" />
+               </font>
+            </Button>
+            <Button layoutX="328.0" layoutY="450.0" mnemonicParsing="false" style="-fx-background-color: #000a; -fx-border-color: #c48000;" text="Customize" textFill="#c48000">
+               <font>
+                  <Font name="System Bold Italic" size="15.0" />
+               </font>
+            </Button>
             <Label layoutX="289.0" layoutY="215.0" prefHeight="18.0" prefWidth="90.0" text="label" textFill="#c48000">
                <font>
                   <Font name="System Bold Italic" size="13.0" />
@@ -255,16 +265,6 @@
                <font>
                   <Font name="System Bold Italic" size="13.0" />
                </font></Label>
-            <Button layoutX="466.0" layoutY="450.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="96.0" style="-fx-background-color: #000a; -fx-border-color: #c48000;" text="Rematch" textFill="#c48000">
-               <font>
-                  <Font name="System Bold Italic" size="15.0" />
-               </font>
-            </Button>
-            <Button layoutX="328.0" layoutY="450.0" mnemonicParsing="false" style="-fx-background-color: #000a; -fx-border-color: #c48000;" text="Customize" textFill="#c48000">
-               <font>
-                  <Font name="System Bold Italic" size="15.0" />
-               </font>
-            </Button>
             <ImageView fitHeight="385.0" fitWidth="640.0" layoutX="198.0" layoutY="57.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../asset/img/icons/icon_high_score.png" />

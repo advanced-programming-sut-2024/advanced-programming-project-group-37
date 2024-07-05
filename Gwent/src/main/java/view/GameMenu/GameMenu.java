@@ -6,6 +6,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.RotateTransition;
 import javafx.animation.Timeline;
 import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -476,9 +477,27 @@ public class GameMenu {
     private void updateEndPage(UserInGame user) {
         winnerPane.setVisible(true);
 
-        // todo : easy set labels
+        Label massage =(Label) winnerPane.getChildren().get(0);
+        Label r1p1 =(Label) winnerPane.getChildren().get(1);
+        Label r1p2 =(Label) winnerPane.getChildren().get(2);
+        Label r2p1 =(Label) winnerPane.getChildren().get(3);
+        Label r2p2 =(Label) winnerPane.getChildren().get(4);
+        Label r3p1 =(Label) winnerPane.getChildren().get(5);
+        Label r3p2 =(Label) winnerPane.getChildren().get(6);
 
-        // todo : easy back to user in game and replay
+
+
+        // know set on action for buttons
+        Button rematch = (Button) winnerPane.getChildren().get(7);
+        Button customize = (Button) winnerPane.getChildren().get(8);
+
+        rematch.setOnAction(event -> {
+
+        });
+
+        customize.setOnAction(event -> {
+
+        });
     }
     private void setShield(String username) {
         User user = User.getUserByUsername(username);
@@ -492,5 +511,7 @@ public class GameMenu {
             player1shield.setImage(Shields.valueOf(factions.name()).getImage2());
         }
     }
+
+// button on end page
 
 }
