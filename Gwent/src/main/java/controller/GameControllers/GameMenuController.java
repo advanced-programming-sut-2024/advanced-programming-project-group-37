@@ -286,6 +286,9 @@ public class GameMenuController {
         //check Faction Abilities
         factionAbility(player1, player2, winner);
 
+        //set passed to false
+        player1.setPassed(false);
+        player2.setPassed(false);
 
         //make everything empty and round++
         roundNumber++;
@@ -323,7 +326,7 @@ public class GameMenuController {
         gameTable.setHP(gameTable.getHP() - 1);
         UserInGame winner = null;
         if (losser == player1) winner = player2;
-        else winner = player2;
+        else winner = player1;
         return new Result(true, winner.getUser().getUsername() + " won nilfgaard");
     }
 
