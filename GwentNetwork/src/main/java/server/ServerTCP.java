@@ -2,8 +2,8 @@ package server;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import message.ClientMessage;
-import message.ServerMessage;
+import message.client.ClientMessage;
+import message.server.ServerMessage;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -132,6 +132,19 @@ public class ServerTCP extends Thread{
             return true;
         } catch (Exception e) {
             return false;
+        }
+    }
+
+    public static void main(String[] args) {
+        try {
+            ServerTCP.setupServer(5000, 10);
+            for (int i = 0; i < WORKERS; i++) {
+                new ServerTCP().start();
+            }
+            new ServerTCP().listen();
+        } catch (Exception e) {
+            System.out.println("Server encountered a problem!");
+            e.printStackTrace();
         }
     }
 }

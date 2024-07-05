@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.media.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane onKeyPressed="#showTerminal" prefHeight="450.0" prefWidth="800.0" style="-fx-background-color: #000000ca;" stylesheets="@../CSS/css1.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.ClientView.HeadViewController">
+   <children>
+      <MediaView fx:id="mediaView" fitHeight="450.0" fitWidth="800.0" />
+      <Button layoutX="725.0" layoutY="11.0" mnemonicParsing="false" onAction="#goToLoginPage" style="-fx-background-color: #0008;" text="sign in" textFill="WHITE">
+         <font>
+            <Font name="System Bold Italic" size="12.0" />
+         </font></Button>
+      <Button layoutX="14.0" layoutY="11.0" mnemonicParsing="false" onAction="#mute" style="-fx-background-color: #0009;" text="MUTE" textFill="WHITE">
+         <font>
+            <Font name="System Bold Italic" size="12.0" />
+         </font></Button>
+      <AnchorPane fx:id="terminalPane" layoutX="14.0" layoutY="11.0" prefHeight="428.0" prefWidth="450.0" style="-fx-background-color: #00000055;" visible="false">
+         <children>
+            <TextArea fx:id="terminalTextArea" layoutX="14.0" layoutY="14.0" onKeyPressed="#checkCommand" prefHeight="400.0" prefWidth="420.0" styleClass="terminal" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

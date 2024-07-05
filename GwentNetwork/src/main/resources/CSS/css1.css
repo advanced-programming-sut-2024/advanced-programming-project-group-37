@@ -1,0 +1,38 @@
+.text-area-loginMenu {
+    -fx-border-color: white;
+    -fx-text-fill: red;
+    -fx-font-size: 10px;
+}
+
+.labelEffect:hover {
+    -fx-underline: true;
+    -fx-text-fill: BLUE;
+}
+
+.terminal {
+    -fx-control-inner-background: #000000;
+    -fx-text-fill: #6faf48;
+    -fx-border-color: #6faf48;
+}
+
+.scroll-pane {
+    -fx-background: transparent;
+    -fx-background-color: transparent;
+}
+.scroll-pane .scroll-bar {
+    -fx-background-color: black;
+}
+.scroll-pane .scroll-bar:vertical .increment-button,
+.scroll-pane .scroll-bar:vertical .decrement-button,
+.scroll-pane .scroll-bar:horizontal .increment-button,
+.scroll-pane .scroll-bar:horizontal .decrement-button {
+    -fx-background: #3b3b3b;
+}
+.scroll-pane .scroll-bar:vertical .thumb,
+.scroll-pane .scroll-bar:horizontal .thumb {
+    -fx-background-color: #3b3b3b;
+}
+
+.image-view {
+    -fx-transition: transform 0.2s ease-in-out;
+}
