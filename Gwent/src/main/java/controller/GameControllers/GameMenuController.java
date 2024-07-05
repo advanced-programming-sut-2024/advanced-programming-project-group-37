@@ -294,10 +294,12 @@ public class GameMenuController {
         roundNumber++;
         spells = new ArrayList<>();
         Pair<Card, ArrayList<Card>>[] pair = new Pair[3];
+        Pair<Card, ArrayList<Card>>[] pair2 = new Pair[3];
         for (int i = 0; i < 3; i++) {
+            pair2[i] = new Pair<>(null, new ArrayList<>());
             pair[i] = new Pair<>(null, new ArrayList<>());
         }
-        player1.getGameTable().setCardsOfRow(pair);
+        player1.getGameTable().setCardsOfRow(pair2);
         player2.getGameTable().setCardsOfRow(pair);
     }
 
