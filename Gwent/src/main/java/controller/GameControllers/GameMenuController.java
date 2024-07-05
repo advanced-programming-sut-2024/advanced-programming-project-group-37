@@ -229,17 +229,18 @@ public class GameMenuController {
             ability(card, rowNumber);
             return new Result(true, "set");
         }
-
-        //if card is not special
-        //get row
-        Pair<Card, ArrayList<Card>> row = userTurn.getGameTable().getCardsOfRow()[rowNumber - 1];
-        //get cards and add to row
-        ArrayList<Card> rowCards = row.getSecond();
-        rowCards.add(card);
-
         //if card is special and number is 4
         if (rowNumber == 4)
             spells.add(card);
+        else {
+            //if card is not special
+            //get row
+            Pair<Card, ArrayList<Card>> row = userTurn.getGameTable().getCardsOfRow()[rowNumber - 1];
+            //get cards and add to row
+            ArrayList<Card> rowCards = row.getSecond();
+            rowCards.add(card);
+        }
+
 
         //remove from hand
         GameTable gameTable = userTurn.getGameTable();
