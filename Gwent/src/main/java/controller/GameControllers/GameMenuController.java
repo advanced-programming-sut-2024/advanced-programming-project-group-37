@@ -4,6 +4,7 @@ import javafx.scene.paint.Paint;
 import model.User;
 import model.enums.card.Ability;
 import model.enums.card.Card;
+import model.enums.card.CardType;
 import model.enums.card.Leaders;
 import model.enums.gameMenu.Factions;
 import model.gameTable.GameTable;
@@ -473,7 +474,16 @@ public class GameMenuController {
         ArrayList<Card> cardInRow = player1.getGameTable().getCardsOfRow()[i - 1].getSecond();
         int sumPower = 0;
         for (Card card : cardInRow) {
-            sumPower += card.getPower();
+            int power = card.getPower();
+            //check some double things
+            if (card.getType() == CardType.RANGED_COMBAT && player1.isRangedDouble())
+                power *= 2;
+            if (card.getType() == CardType.CLOSE_COMBAT && player1.isCloseCombatDouble())
+                power *= 2;
+            if (card.getType() == CardType.SIEGE && player1.isSiegeDouble())
+                power *= 2;
+
+            sumPower += power;
         }
         return sumPower;
     }
