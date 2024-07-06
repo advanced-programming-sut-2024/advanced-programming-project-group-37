@@ -1,5 +1,6 @@
 package message.enums.gameMenu;
 
+import javafx.application.Platform;
 import message.enums.card.Card;
 import server.model.gameTable.GameTable;
 import server.model.gameTable.UserInGame;
@@ -54,11 +55,12 @@ public enum Factions {
     // methods for fill default arraylist
     private static ArrayList<Pair<Card, Integer>> setForMonster() {
         ArrayList<Pair<Card, Integer>> list = new ArrayList<>();
-        for (Card card : Card.values()) {
-            if (card.getFaction().equals(FactionsName.MONSTER) || card.getFaction().equals(FactionsName.NEUTRAL))
-                list.add(new Pair<>(card, card.getNumberOfCardInGame()));
-        }
-
+        Platform.startup(() -> {
+            for (Card card : Card.values()) {
+                if (card.getFaction().equals(FactionsName.MONSTER) || card.getFaction().equals(FactionsName.NEUTRAL))
+                    list.add(new Pair<>(card, card.getNumberOfCardInGame()));
+            }
+        });
         return list;
     }
 
