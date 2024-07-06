@@ -7,5 +7,7 @@ public enum MessageType {
     CHANGE_USERNAME,
     CHANGE_NICKNAME,
     FORGET_PASSWORD,
-    ANSWER_Q
+    ANSWER_Q,
+    SET_NEW_PASSWORD,
+
 }

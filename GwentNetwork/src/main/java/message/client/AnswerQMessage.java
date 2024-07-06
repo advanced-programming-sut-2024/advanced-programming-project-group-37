@@ -7,7 +7,6 @@ import java.util.regex.Matcher;
 
 public class AnswerQMessage extends ClientMessage {
     String username;
-
     private Matcher matcher;
 
     public AnswerQMessage(Matcher matcher, String username) {

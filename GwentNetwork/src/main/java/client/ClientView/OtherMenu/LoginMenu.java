@@ -7,11 +7,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import message.client.ForgetPasswordMessage;
-import message.client.LoginMessage;
-import message.client.PickQuestionMessage;
-import message.client.RegisterMassage;
-import message.client.AnswerQMessage;
+import message.client.*;
 import message.enums.loginMenu.ConfirmQuestions;
 import message.enums.loginMenu.LoginMenuCommands;
 import message.server.ServerMessage;
@@ -20,10 +16,9 @@ import server.model.toolClasses.Result;
 
 import java.util.regex.Matcher;
 
-public class LoginMenu {
-    // network
-    private ClientTPC clientTPC;
+import static client.ClientView.HeadViewController.clientTPC;
 
+public class LoginMenu {
     // terminal part
     public AnchorPane terminalPane;
     public TextArea terminalTextArea;
@@ -71,25 +66,27 @@ public class LoginMenu {
                 terminalTextArea.setText(terminalTextArea.getText() + message.getInfo() + "\n");
             }
             else if ((matcher = LoginMenuCommands.forgetPassword.getMatcher(inputLine)) != null) {
-                if (clientTPC == null) clientTPC = new ClientTPC("localhost", 5000);
-
                 clientTPC.sendMassage(clientTPC.gson.toJson(new ForgetPasswordMessage(matcher)));
                 ServerMessage message = clientTPC.receiveMassage();
+
+                usernameForForget = matcher.group("username");
                 //chop the message returned in terminal
                 terminalTextArea.setText(terminalTextArea.getText() + message.getInfo() + "\n");
             }
             else if ((matcher = LoginMenuCommands.answerQ.getMatcher(inputLine)) != null) {
-                if (clientTPC == null) clientTPC = new ClientTPC("localhost", 5000);
-
-                clientTPC.sendMassage(clientTPC.gson.toJson(new AnswerQMessage(matcher)));
+                clientTPC.sendMassage(clientTPC.gson.toJson(new AnswerQMessage(matcher, usernameForForget)));
 
                 ServerMessage message = clientTPC.receiveMassage();
 
                 terminalTextArea.setText(terminalTextArea.getText() + message.getInfo() + "\n");
-            } else if ((matcher = LoginMenuCommands.setPassword.getMatcher(inputLine)) != null) {
-                Result message = LoginMenuController.setPassword(matcher, usernameForForget);
+            }
+            else if ((matcher = LoginMenuCommands.setPassword.getMatcher(inputLine)) != null) {
+                clientTPC.sendMassage(clientTPC.gson.toJson(new SetNewPasswordMessage(matcher, usernameForForget)));
+
+                ServerMessage message = clientTPC.receiveMassage();
+
                 //chop the message returned
-                terminalTextArea.setText(terminalTextArea.getText() + message + "\n");
+                terminalTextArea.setText(terminalTextArea.getText() + message.getInfo() + "\n");
             } else {
                 terminalTextArea.setText(terminalTextArea.getText() + "Invalid Command" + "\n");
             }
@@ -102,8 +99,6 @@ public class LoginMenu {
     private ServerMessage loginCommand(Matcher matcher) {
         String username = matcher.group("username");
         String password = matcher.group("password");
-
-        if (clientTPC == null) clientTPC = new ClientTPC("localhost", 5000);
 
         clientTPC.sendMassage(clientTPC.gson.toJson(new LoginMessage(username, password)));
 
@@ -139,8 +134,6 @@ public class LoginMenu {
         }
 
         // add new user
-        if (clientTPC == null) clientTPC = new ClientTPC("localhost", 5000);
-
         clientTPC.sendMassage(clientTPC.gson.toJson(new PickQuestionMessage(confirmQuestions, saveRegister, answer)));
 
         return clientTPC.receiveMassage();
@@ -158,8 +151,6 @@ public class LoginMenu {
         RegisterMassage registerMassage = new RegisterMassage(username, password, passwordConfirm, nickname, email);
 
         // call backend and wait for response
-        if (clientTPC == null) clientTPC = new ClientTPC("localhost", 5000);
-
         clientTPC.sendMassage(
                 clientTPC.gson.toJson(registerMassage)
         );

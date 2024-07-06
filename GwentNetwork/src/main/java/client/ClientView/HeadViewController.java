@@ -25,6 +25,9 @@ import java.util.HashMap;
  */
 
 public class HeadViewController extends Application {
+    // network
+    public static ClientTPC clientTPC;
+
     // graphic terminal
     public AnchorPane terminalPane;
     public TextArea terminalTextArea;
@@ -69,7 +72,8 @@ public class HeadViewController extends Application {
     // these methods are for start page
 
     @Override
-    public void start(Stage stage) throws Exception {HeadViewController.stage = stage;
+    public void start(Stage stage) throws Exception {
+        HeadViewController.stage = stage;
 
         stage.setScene(scenes.get("start page"));
 
@@ -88,6 +92,9 @@ public class HeadViewController extends Application {
     }
 
     public static void main(String[] args) {
+        // network
+        clientTPC = new ClientTPC("localhost", 5000);
+
         try {
             addAllScene();
         } catch (Exception e) {
