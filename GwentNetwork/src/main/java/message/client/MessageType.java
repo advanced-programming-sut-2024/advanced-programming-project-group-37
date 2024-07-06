@@ -5,4 +5,7 @@ public enum MessageType {
     PICK_QUESTION,
     LOGIN,
     CHANGE_USERNAME,
+    CHANGE_NICKNAME,
+    FORGET_PASSWORD,
+    ANSWER_Q
 }

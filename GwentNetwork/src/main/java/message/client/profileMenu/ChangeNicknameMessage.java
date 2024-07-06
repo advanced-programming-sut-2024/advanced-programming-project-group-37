@@ -8,7 +8,7 @@ public class ChangeNicknameMessage extends ClientMessage {
 
     public ChangeNicknameMessage(String newNickname, String token) {
         this.token = token;
-        this.type = MessageType.CHANGE_USERNAME;
+        this.type = MessageType.CHANGE_NICKNAME;
         this.newNickname = newNickname;
     }
 

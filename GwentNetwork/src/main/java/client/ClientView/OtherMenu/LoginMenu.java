@@ -7,9 +7,11 @@ import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import message.client.ForgetPasswordMessage;
 import message.client.LoginMessage;
 import message.client.PickQuestionMessage;
 import message.client.RegisterMassage;
+import message.client.profileMenu.AnswerQMessage;
 import message.enums.loginMenu.ConfirmQuestions;
 import message.enums.loginMenu.LoginMenuCommands;
 import message.server.ServerMessage;
@@ -69,12 +71,21 @@ public class LoginMenu {
                 terminalTextArea.setText(terminalTextArea.getText() + message.getInfo() + "\n");
             }
             else if ((matcher = LoginMenuCommands.forgetPassword.getMatcher(inputLine)) != null) {
-                Result message = LoginMenuController.forgetPasswordCommand(matcher);
+                if (clientTPC == null) clientTPC = new ClientTPC("localhost", 5000);
+
+                clientTPC.sendMassage(clientTPC.gson.toJson(new ForgetPasswordMessage(matcher)));
+                ServerMessage message = clientTPC.receiveMassage();
                 //chop the message returned in terminal
-                terminalTextArea.setText(terminalTextArea.getText() + message + "\n");
-            } else if ((matcher = LoginMenuCommands.answerQ.getMatcher(inputLine)) != null) {
-                Result message = LoginMenuController.answerQ(matcher, usernameForForget);
-                terminalTextArea.setText(terminalTextArea.getText() + message + "\n");
+                terminalTextArea.setText(terminalTextArea.getText() + message.getInfo() + "\n");
+            }
+            else if ((matcher = LoginMenuCommands.answerQ.getMatcher(inputLine)) != null) {
+                if (clientTPC == null) clientTPC = new ClientTPC("localhost", 5000);
+
+                clientTPC.sendMassage(clientTPC.gson.toJson(new AnswerQMessage(matcher)));
+
+                ServerMessage message = clientTPC.receiveMassage();
+
+                terminalTextArea.setText(terminalTextArea.getText() + message.getInfo() + "\n");
             } else if ((matcher = LoginMenuCommands.setPassword.getMatcher(inputLine)) != null) {
                 Result message = LoginMenuController.setPassword(matcher, usernameForForget);
                 //chop the message returned
@@ -88,8 +99,6 @@ public class LoginMenu {
             terminalTextArea.positionCaret(terminalTextArea.getText().length());
         }
     }
-
-
     private ServerMessage loginCommand(Matcher matcher) {
         String username = matcher.group("username");
         String password = matcher.group("password");
