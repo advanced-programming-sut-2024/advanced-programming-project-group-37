@@ -5,6 +5,7 @@ import message.enums.loginMenu.ConfirmQuestions;
 import java.util.ArrayList;
 
 public class User {
+    private String token;
     private String username;
     private String password;
     private String nickname;
@@ -81,6 +82,13 @@ public class User {
     public static User getUserByUsername(String username){
         for (int i = 0; i < allUsers.size(); i++) {
             if (allUsers.get(i).getUsername().equals(username))
+                return allUsers.get(i);
+        }
+        return null;
+    }
+    public static User getUserByToken(String token){
+        for (int i = 0; i < allUsers.size(); i++){
+            if (allUsers.get(i).getToken().equals(token))
                 return allUsers.get(i);
         }
         return null;
@@ -174,5 +182,13 @@ public class User {
 
     public void setAllPlayedGamesHistory(ArrayList<GameHistory> allPlayedGamesHistory) {
         this.allPlayedGamesHistory = allPlayedGamesHistory;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

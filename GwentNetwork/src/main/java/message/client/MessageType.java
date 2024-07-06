@@ -4,4 +4,5 @@ public enum MessageType {
     REGISTER,
     PICK_QUESTION,
     LOGIN,
+    CHANGE_USERNAME,
 }

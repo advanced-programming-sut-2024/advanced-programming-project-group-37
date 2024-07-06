@@ -3,17 +3,20 @@ package server;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import message.client.ClientMessage;
-import message.client.LoginMessage;
-import message.client.MessageType;
+import message.client.PickQuestionMessage;
 import message.client.RegisterMassage;
+import message.client.MessageType;
+import message.enums.loginMenu.ConfirmQuestions;
 import message.server.ServerMessage;
+import server.controller.loginController.LoginMenuController;
+import server.model.toolClasses.Result;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class ServerTCP extends Thread{
+public class ServerTCP extends Thread {
     private static ServerSocket server;
     private static Gson gson;
 
@@ -28,10 +31,11 @@ public class ServerTCP extends Thread{
         GsonBuilder builder = new GsonBuilder();
         gson = builder.create();
     }
+
     private static boolean setupServer(int portNumber, int workerNum) {
         try {
             server = new ServerSocket(portNumber);
-            connections = new ArrayList <>();
+            connections = new ArrayList<>();
             WORKERS = workerNum;
             return true;
         } catch (IOException e) {
@@ -39,6 +43,7 @@ public class ServerTCP extends Thread{
             return false;
         }
     }
+
     public void listen() throws IOException {
         Socket socket;
         while (true) {
@@ -85,8 +90,10 @@ public class ServerTCP extends Thread{
             clientRequest = receive.readUTF();
             ClientMessage msg = extractClientMessage(clientRequest);
 
-            if(msg instanceof RegisterMassage){
-
+            if (msg instanceof RegisterMassage) {
+                registerUserCheck((RegisterMassage) msg);
+            } else if (msg instanceof PickQuestionMessage) {
+                pickQregister((PickQuestionMessage) msg);
             }
             /* TODO : اینجا کلاینت مسیج رو داریم. نگا میکنیم ببینیم مربوط به کدوم نوع مسیج هست
              * TODO : با استفاده از instanceOf --> clientMassage instanceOf RegisterMassage
@@ -101,11 +108,33 @@ public class ServerTCP extends Thread{
             e.printStackTrace();
         }
     }
+
+    private void pickQregister(PickQuestionMessage msg) {
+        RegisterMassage registerMassage = msg.getRegisterMassage();
+        String username = registerMassage.getUsername();
+        String password = registerMassage.getPassword();
+        String email = registerMassage.getEmail();
+        String nickname = registerMassage.getNickname();
+        ConfirmQuestions confirmQuestions = msg.getQuestions();
+        String answer = msg.getAnswer();
+        Result result = LoginMenuController.registerNewUser(confirmQuestions, username, password, nickname,email, answer,)
+    }
+
+    private void registerUserCheck(RegisterMassage msg) {
+        String username = msg.getUsername();
+        String password = msg.getPassword();
+        String passwordConfirm = msg.getPasswordConfirm();
+        String email = msg.getEmail();
+        String nickname = msg.getNickname();
+        Result result = LoginMenuController.checkAllErrors(username, password, passwordConfirm, nickname, email);
+        sendMessage(new ServerMessage(result.isSuccessful(), result.getMessage(), result));
+    }
+
     private ClientMessage extractClientMessage(String clientStr) {
         try {
             ClientMessage clientMessage = gson.fromJson(clientStr, ClientMessage.class);
 
-            switch (clientMessage.getType()){
+            switch (clientMessage.getType()) {
                 case MessageType.REGISTER:
                     return gson.fromJson(clientStr, RegisterMassage.class);
             }
@@ -128,15 +157,14 @@ public class ServerTCP extends Thread{
             }
 
              */
-            return  null;
-        }
-        catch (Exception e) {
+            return null;
+        } catch (Exception e) {
             return null;
         }
     }
-    private boolean sendMessage(boolean success, String info) {
-        ServerMessage failureMessage = new ServerMessage(success, info);
-        String failureString = gson.toJson(failureMessage);
+
+    private boolean sendMessage(ServerMessage message) {
+        String failureString = gson.toJson(message);
         try {
             send.writeUTF(failureString);
             return true;

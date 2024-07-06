@@ -7,7 +7,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import message.Result;
 import message.client.LoginMessage;
 import message.client.PickQuestionMessage;
 import message.client.RegisterMassage;
@@ -162,7 +161,7 @@ public class LoginMenu {
         String nickname = matcher.group("nickname");
         String email = matcher.group("email");
 
-        //save data for next command
+        //save data for next command TODO ILIYA: password confirm
         RegisterMassage registerMassage = new RegisterMassage(username, password, nickname, email);
 
         // call backend and wait for response

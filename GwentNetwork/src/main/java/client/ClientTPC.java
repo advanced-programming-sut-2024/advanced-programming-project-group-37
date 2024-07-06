@@ -2,7 +2,6 @@ package client;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import message.Result;
 import message.server.ServerMessage;
 
 import java.io.DataInputStream;
