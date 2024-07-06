@@ -13,6 +13,8 @@ import message.client.RegisterMassage;
 import message.enums.loginMenu.ConfirmQuestions;
 import message.enums.loginMenu.LoginMenuCommands;
 import message.server.ServerMessage;
+import server.controller.loginController.LoginMenuController;
+import server.model.toolClasses.Result;
 
 import java.util.regex.Matcher;
 
@@ -67,14 +69,14 @@ public class LoginMenu {
                 terminalTextArea.setText(terminalTextArea.getText() + message.getInfo() + "\n");
             }
             else if ((matcher = LoginMenuCommands.forgetPassword.getMatcher(inputLine)) != null) {
-                Result message = forgetPasswordCommand(matcher);
+                Result message = LoginMenuController.forgetPasswordCommand(matcher);
                 //chop the message returned in terminal
                 terminalTextArea.setText(terminalTextArea.getText() + message + "\n");
             } else if ((matcher = LoginMenuCommands.answerQ.getMatcher(inputLine)) != null) {
-                Result message = answerQ(matcher);
+                Result message = LoginMenuController.answerQ(matcher, usernameForForget);
                 terminalTextArea.setText(terminalTextArea.getText() + message + "\n");
             } else if ((matcher = LoginMenuCommands.setPassword.getMatcher(inputLine)) != null) {
-                Result message = setPassword(matcher);
+                Result message = LoginMenuController.setPassword(matcher, usernameForForget);
                 //chop the message returned
                 terminalTextArea.setText(terminalTextArea.getText() + message + "\n");
             } else {
@@ -87,28 +89,6 @@ public class LoginMenu {
         }
     }
 
-    private Result setPassword(Matcher matcher) {
-        User user = User.getUserByUsername(usernameForForget);
-        user.setPassword(matcher.group("password"));
-        return new Result(true, "Password changed successfully!");
-    }
-
-    private Result answerQ(Matcher matcher) {
-        String answer = matcher.group("answer");
-        User user = User.getUserByUsername(usernameForForget);
-        if (!user.getAnswer().equals(answer)) {
-            return new Result(false, "Wrong answer!");
-        }
-        return new Result(false, "now change your password!");
-    }
-
-    private Result forgetPasswordCommand(Matcher matcher) {
-        usernameForForget = matcher.group("username");
-        User user;
-        if ((user = User.getUserByUsername(usernameForForget)) == null) return new Result(false, "Username not found!");
-        return new Result(true, "answer your saved question\n" +
-                user.getConfirmQuestions().getQuestion() + "\n");
-    }
 
     private ServerMessage loginCommand(Matcher matcher) {
         String username = matcher.group("username");

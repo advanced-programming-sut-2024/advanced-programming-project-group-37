@@ -15,6 +15,7 @@ import java.lang.reflect.Array;
 import java.security.interfaces.RSAKey;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.regex.Matcher;
 
 public class LoginMenuController{
 
@@ -167,4 +168,30 @@ public class LoginMenuController{
     }
     // check existence of username by <isUsernameAlreadyUsed>
     private static boolean isAnswerCorrect(String username, String answer) {return true;}
+
+
+    public static Result setPassword(Matcher matcher, String usernameForForget) {
+        User user = User.getUserByUsername(usernameForForget);
+        user.setPassword(matcher.group("password"));
+        return new Result(true, "Password changed successfully!");
+    }
+
+    public static Result answerQ(Matcher matcher, String usernameForForget) {
+        String answer = matcher.group("answer");
+        User user = User.getUserByUsername(usernameForForget);
+        if (!user.getAnswer().equals(answer)) {
+            return new Result(false, "Wrong answer!");
+        }
+        return new Result(false, "now change your password!");
+    }
+
+    public static Result forgetPasswordCommand(Matcher matcher) {
+        String usernameForForget = matcher.group("username");
+        User user;
+        if ((user = User.getUserByUsername(usernameForForget)) == null) return new Result(false, "Username not found!");
+        return new Result(true, "answer your saved question\n" +
+                user.getConfirmQuestions().getQuestion() + "\n");
+    }
+
+
 }
