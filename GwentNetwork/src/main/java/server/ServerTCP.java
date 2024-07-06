@@ -130,8 +130,9 @@ public class ServerTCP extends Thread {
 
     private void answerQNetwork(AnswerQMessage msg) {
         Matcher matcher = msg.getMatcher();
-        String token = msg.getToken();
-        Result result = LoginMenuController.answerQ(matcher,)
+        String username = msg.getUsername();
+        Result result = LoginMenuController.answerQ(matcher, username);
+        sendMessage(new ServerMessage(result));
     }
 
     private void changeNicknameNetwork(ChangeNicknameMessage msg) {

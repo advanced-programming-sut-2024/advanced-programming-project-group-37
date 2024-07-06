@@ -16,6 +16,10 @@ public class AnswerQMessage extends ClientMessage {
         this.type = MessageType.ANSWER_Q;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
     public Matcher getMatcher() {
         return matcher;
     }
