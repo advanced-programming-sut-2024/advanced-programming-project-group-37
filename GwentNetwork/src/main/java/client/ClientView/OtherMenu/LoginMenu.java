@@ -148,7 +148,7 @@ public class LoginMenu {
         // add new user
         if (clientTPC == null) clientTPC = new ClientTPC("localhost", 5000);
 
-        clientTPC.sendMassage(clientTPC.gson.toJson(new PickQuestionMessage(confirmQuestions, saveRegister)));
+        clientTPC.sendMassage(clientTPC.gson.toJson(new PickQuestionMessage(confirmQuestions, saveRegister, answer)));
 
         return clientTPC.receiveMassage();
     }
@@ -162,7 +162,7 @@ public class LoginMenu {
         String email = matcher.group("email");
 
         //save data for next command TODO ILIYA: password confirm
-        RegisterMassage registerMassage = new RegisterMassage(username, password, nickname, email);
+        RegisterMassage registerMassage = new RegisterMassage(username, password, passwordConfirm, nickname, email);
 
         // call backend and wait for response
         if (clientTPC == null) clientTPC = new ClientTPC("localhost", 5000);
