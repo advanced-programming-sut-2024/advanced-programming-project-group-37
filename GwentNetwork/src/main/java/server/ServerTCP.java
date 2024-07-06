@@ -126,8 +126,8 @@ public class ServerTCP extends Thread {
         ConfirmQuestions confirmQuestions = msg.getQuestions();
         String answer = msg.getAnswer();
         String token = generateNewToken();
-        Result result = LoginMenuController.registerNewUser(confirmQuestions, username, password, nickname,email, answer, token)
-        sendMessage(new ServerMessage(result, token);
+        Result result = LoginMenuController.registerNewUser(confirmQuestions, username, password, nickname,email, answer, token);
+        sendMessage(new ServerMessage(result, token));
     }
 
     private void registerUserCheck(RegisterMassage msg) {
