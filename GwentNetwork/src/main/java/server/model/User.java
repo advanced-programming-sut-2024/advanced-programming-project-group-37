@@ -32,6 +32,7 @@ public class User {
         nickname = input[2];
         email = input[3];
         answer = input[4];
+        token = input[5];
 
         this.confirmQuestions = confirmQuestions;
         this.highestScore = 0;

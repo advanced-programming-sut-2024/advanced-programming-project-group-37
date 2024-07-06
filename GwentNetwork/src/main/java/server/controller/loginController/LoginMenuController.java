@@ -46,8 +46,8 @@ public class LoginMenuController{
 
         return new Result(true, "No Error found!");
     }
-    public static Result registerNewUser(ConfirmQuestions confirmQuestions, String username, String password, String nickname, String email, String answer) {
-        User user = new User(confirmQuestions, username, password, nickname, email, answer);
+    public static Result registerNewUser(ConfirmQuestions confirmQuestions, String username, String password, String nickname, String email, String answer, String token) {
+        User user = new User(confirmQuestions, username, password, nickname, email, answer, token);
         return new Result(true, "User created successfully");
     }
     protected static boolean isUsernameAlreadyUsed(String username) {

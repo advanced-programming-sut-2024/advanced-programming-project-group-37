@@ -15,6 +15,7 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class ServerTCP extends Thread {
     private static ServerSocket server;
@@ -42,6 +43,13 @@ public class ServerTCP extends Thread {
             e.printStackTrace();
             return false;
         }
+    }
+    private String generateNewToken() {
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 256; i++)
+            sb.append((char) (random.nextInt(128)));
+        return sb.toString();
     }
 
     public void listen() throws IOException {
@@ -117,7 +125,9 @@ public class ServerTCP extends Thread {
         String nickname = registerMassage.getNickname();
         ConfirmQuestions confirmQuestions = msg.getQuestions();
         String answer = msg.getAnswer();
-        Result result = LoginMenuController.registerNewUser(confirmQuestions, username, password, nickname,email, answer,)
+        String token = generateNewToken();
+        Result result = LoginMenuController.registerNewUser(confirmQuestions, username, password, nickname,email, answer, token)
+        sendMessage(new ServerMessage(result, token);
     }
 
     private void registerUserCheck(RegisterMassage msg) {
