@@ -62,6 +62,4 @@ module GwentNetwork {
     exports server.model;
     exports server.model.gameTable;
     exports server.model.toolClasses;
-    exports message.enums.loginMenu to com.google.gson;
-
 }
