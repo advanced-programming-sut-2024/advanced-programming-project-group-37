@@ -4,10 +4,7 @@ package client.ClientView.OtherMenu;
 import client.ClientView.HeadViewController;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -16,13 +13,22 @@ import message.client.LoginMenu.*;
 import message.enums.loginMenu.ConfirmQuestions;
 import message.enums.loginMenu.LoginMenuCommands;
 import message.server.ServerMessage;
-import server.controller.loginController.LoginMenuController;
-import server.model.toolClasses.Result;
 
 import java.util.regex.Matcher;
 
 import static client.ClientView.HeadViewController.clientTPC;
 
+/**
+ * @author iliya
+ *
+ * this class connect to logic in server
+ * <p>
+ *
+ * changes:
+ * remove some methods and change place to loginMenuController
+ *
+ * and change all of calls methods in other classes and replace with clientTCP.send and .receive
+ */
 public class LoginMenu {
     // terminal part
     public AnchorPane terminalPane;
@@ -173,6 +179,7 @@ public class LoginMenu {
     public TextField emailTextField;
     public AnchorPane questionPane;
     public Label errorLabel;
+    public AnchorPane forgetPane;
 
     public void goToRegisterPage() {
         HeadViewController.changeScene("register page");
@@ -190,6 +197,10 @@ public class LoginMenu {
         );
 
         ServerMessage message = clientTPC.receiveMassage();
+
+        // set token
+        clientTPC.token = message.getToken();
+
         // check error
         if (!message.isSuccess()) {
             errorLabel.setText(message.getInfo());
@@ -210,14 +221,55 @@ public class LoginMenu {
     }
 
     public void forgetPassword() {
-        // todo: IF
+        forgetPane.setVisible(true);
+
+        Button button = (Button) forgetPane.getChildren().get(0);
+        TextField textField = (TextField) forgetPane.getChildren().get(1);
+
+        button.setOnAction(event -> {
+            clientTPC.sendMassage(clientTPC.gson.toJson(new ForgetPasswordMessage(
+                    LoginMenuCommands.forgetPassword.getMatcher("forget password -u " + textField.getText()))));
+
+            ServerMessage message = clientTPC.receiveMassage();
+
+            if (message.isSuccess()) {
+                forgetPane.getChildren().get(3).setVisible(true);
+                forgetPane.getChildren().get(4).setVisible(true);
+
+                button.setOnAction(event1 -> {
+                    clientTPC.sendMassage(clientTPC.gson.toJson(new AnswerQMessage(
+                        LoginMenuCommands.answerQ.getMatcher("answer -a " +
+                        ((TextField) forgetPane.getChildren().get(3)).getText()), textField.getText())));
+
+                    ServerMessage message1 = clientTPC.receiveMassage();
+
+                    if (message1.isSuccess()) {
+                        PasswordField passwordField;
+
+                        passwordField = (PasswordField) forgetPane.getChildren().get(5);
+
+                        passwordField.setVisible(true);
+
+                        button.setOnAction(event2 -> {
+                            clientTPC.sendMassage(clientTPC.gson.toJson(new SetNewPasswordMessage(
+                                    LoginMenuCommands.setPassword.getMatcher("set password -p " +
+                                    passwordField.getText()), textField.getText())));
+
+                            ServerMessage message2 = clientTPC.receiveMassage();
+
+                            if (message2.isSuccess()) forgetPane.setVisible(false);
+                        });
+                    }
+                });
+            }
+        });
     }
 
     // register method
     public void register() {
         // declare a var to get access of user some variable in lambda
         var ref = new Object() {
-            Result result;
+            ServerMessage message;
             String password, confirmPassword;
         };
         String username, email, nickname;
@@ -239,13 +291,15 @@ public class LoginMenu {
             ref.password = ((TextField) passwordPane.getChildren().get(0)).getText();
             ref.confirmPassword = ((TextField) passwordPane.getChildren().get(1)).getText();
 
-            ref.result = LoginMenuController.checkAllErrors
-                    (username, ref.password, ref.confirmPassword, nickname, email);
+            RegisterMassage registerMassage;
+            clientTPC.sendMassage(clientTPC.gson.toJson(
+                   registerMassage = new RegisterMassage(username, ref.password, ref.confirmPassword, nickname, email)));
 
+            ref.message = clientTPC.receiveMassage();
 
-            if (!ref.result.isSuccessful()) {
+            if (!ref.message.isSuccess()) {
                 // show error in a label with color RED
-                errorLabel.setText(ref.result.getMessage());
+                errorLabel.setText(ref.message.getInfo());
 
                 // use Timeline to delete massage after 2 seconds
                 Timeline timeline = new Timeline();
@@ -307,8 +361,10 @@ public class LoginMenu {
             }
 
             // now we sure that register can successful, so we call method registerNewUser in LoginMEnuController
-            LoginMenuController.registerNewUser
-                    (ref2.confirmQuestions, username, ref.password, nickname, email, ref2.answer);
+            clientTPC.sendMassage(clientTPC.gson.toJson(new PickQuestionMessage(
+                    ref2.confirmQuestions, registerMassage, ref2.answer)));
+
+            clientTPC.receiveMassage();
         });
     }
 
