@@ -31,9 +31,11 @@ public class ProfileMenuController extends LoginMenuController {
     }
 
     //change nickname
-    public static Result changeNickName(String newNickname) {
-        User user = User.getLoggedInUser();
-
+    public static Result changeNickName(String newNickname, String token) {
+        User user = User.getUserByToken(token);
+        //check if token is invalid
+        if (user == null)
+            return new Result(false, "invalid token");
         //first check if the nickname is as the same as the previous nickname or not
         if (user.getNickname().equals(newNickname))
             return new Result(false, "New nickname is the same as the previous one.");

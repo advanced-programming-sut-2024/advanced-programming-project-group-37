@@ -12,7 +12,7 @@ public class ChangeNicknameMessage extends ClientMessage {
         this.newNickname = newNickname;
     }
 
-    public String getNewUsername() {
+    public String getNewNickname() {
         return newNickname;
     }
 }

@@ -3,6 +3,7 @@ package server;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import message.client.*;
+import message.client.profileMenu.ChangeNicknameMessage;
 import message.client.profileMenu.changeUsernameMessage;
 import message.enums.loginMenu.ConfirmQuestions;
 import message.enums.mainMenu.MainMenuCommands;
@@ -107,6 +108,8 @@ public class ServerTCP extends Thread {
                 loginNetwork((LoginMessage) msg);
             } else if (msg instanceof changeUsernameMessage){
                 changeUsernameNetwork((changeUsernameMessage) msg);
+            } else if (msg instanceof ChangeNicknameMessage){
+                changeNicknameNetwork((ChangeNicknameMessage) msg);
             }
             /* TODO : اینجا کلاینت مسیج رو داریم. نگا میکنیم ببینیم مربوط به کدوم نوع مسیج هست
              * TODO : با استفاده از instanceOf --> clientMassage instanceOf RegisterMassage
@@ -120,6 +123,13 @@ public class ServerTCP extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void changeNicknameNetwork(ChangeNicknameMessage msg) {
+        String newNickname = msg.getNewNickname();
+        String token = msg.getToken();
+        Result result = ProfileMenuController.changeNickName(newNickname, token);
+        sendMessage(new ServerMessage(result));
     }
 
     private void changeUsernameNetwork(changeUsernameMessage msg) {
