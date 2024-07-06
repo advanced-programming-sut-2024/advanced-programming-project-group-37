@@ -7,6 +7,7 @@ import message.client.profileMenu.changeUsernameMessage;
 import message.enums.loginMenu.ConfirmQuestions;
 import message.server.ServerMessage;
 import server.controller.loginController.LoginMenuController;
+import server.model.User;
 import server.model.toolClasses.Result;
 
 import java.io.*;
@@ -100,6 +101,10 @@ public class ServerTCP extends Thread {
                 registerUserCheck((RegisterMassage) msg);
             } else if (msg instanceof PickQuestionMessage) {
                 pickQregister((PickQuestionMessage) msg);
+            } else if (msg instanceof LoginMessage) {
+                loginNetwork((LoginMessage) msg);
+            } else if (msg instanceof changeUsernameMessage){
+                changeUsernameNetwork((changeUsernameMessage) msg);
             }
             /* TODO : اینجا کلاینت مسیج رو داریم. نگا میکنیم ببینیم مربوط به کدوم نوع مسیج هست
              * TODO : با استفاده از instanceOf --> clientMassage instanceOf RegisterMassage
@@ -113,6 +118,16 @@ public class ServerTCP extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void changeUsernameNetwork(changeUsernameMessage msg) {
+    }
+
+    private void loginNetwork(LoginMessage msg) {
+        String username = msg.getUsername();
+        String password = msg.getPassword();
+        Result result = LoginMenuController.login(username, password);
+        sendMessage(new ServerMessage(result, User.getLoggedInUser().getToken())); // returns result which contains message and check if process was successful or not with current user token
     }
 
     private void pickQregister(PickQuestionMessage msg) {
