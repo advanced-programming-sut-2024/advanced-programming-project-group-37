@@ -194,4 +194,15 @@ public class LoginMenuController{
     }
 
 
+    public static Result signOut(String token, String newToken) {
+        User user = User.getUserByToken(token);
+        //see if user is null
+        if (user == null) {
+            return new Result(false, "invalid token!");
+        }
+        //set new token
+        user.setToken(newToken);
+        User.setLoggedInUser(null);
+        return new Result(true, "user logged out!");
+    }
 }

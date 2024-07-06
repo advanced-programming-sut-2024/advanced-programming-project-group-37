@@ -1,6 +1,7 @@
 package message.client.MainMenu;
 
 import message.client.ClientMessage;
+import message.client.MessageType;
 
 /**
  * @author iliya
@@ -12,5 +13,6 @@ import message.client.ClientMessage;
 public class SignOutMessage extends ClientMessage {
     public SignOutMessage(String token) {
         this.token = token;
+        this.type = MessageType.SIGN_OUT;
     }
 }

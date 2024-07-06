@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonToken;
 import message.client.*;
 import message.client.LoginMenu.*;
+import message.client.MainMenu.SignOutMessage;
 import message.client.profileMenu.ChangeEmailMessage;
 import message.client.profileMenu.ChangeNicknameMessage;
 import message.client.profileMenu.ChangePasswordMessage;
@@ -124,6 +125,8 @@ public class ServerTCP extends Thread {
                 changeEmailNetwork((ChangeEmailMessage) msg);
             } else if (msg instanceof ForgetPasswordMessage) {
                 forgetPassNetwork((ForgetPasswordMessage) msg);
+            } else if (msg instanceof SignOutMessage) {
+                singOutNetwork((SignOutMessage) msg);
             }
             /* TODO : اینجا کلاینت مسیج رو داریم. نگا میکنیم ببینیم مربوط به کدوم نوع مسیج هست
              * TODO : با استفاده از instanceOf --> clientMassage instanceOf RegisterMassage
@@ -137,6 +140,13 @@ public class ServerTCP extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void singOutNetwork(SignOutMessage msg) {
+        String token = msg.getToken();
+        Result result = LoginMenuController.signOut(token, generateNewToken());
+
+        sendMessage(new ServerMessage(result));
     }
 
     private void forgetPassNetwork(ForgetPasswordMessage msg) {
@@ -253,6 +263,8 @@ public class ServerTCP extends Thread {
                     return gson.fromJson(clientStr, ChangePasswordMessage.class);
                 case MessageType.FORGET_PASSWORD:
                     return gson.fromJson(clientStr, ForgetPasswordMessage.class);
+                case MessageType.SIGN_OUT:
+                    return gson.fromJson(clientStr, SignOutMessage.class);
             }
             /*
              * TODO : اینجا باید جیسون رو تبدیل کنی به کلاس ها
