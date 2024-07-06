@@ -1,4 +1,4 @@
-package server.model.enums.gameMenu;
+package message.enums.gameMenu;
 
 public enum FactionsName {
     MONSTER("Monster"),

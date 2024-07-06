@@ -1,4 +1,4 @@
-package server.model.enums.card;
+package message.enums.card;
 public enum Ability {
     COMMANDER_HORN,
     DECOY,

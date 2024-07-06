@@ -1,4 +1,4 @@
-package server.model.enums.profileMenu;
+package message.enums.profileMenu;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

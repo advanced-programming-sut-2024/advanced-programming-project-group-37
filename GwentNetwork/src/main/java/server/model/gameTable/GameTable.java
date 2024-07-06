@@ -1,7 +1,7 @@
 package server.model.gameTable;
 
-import server.model.enums.card.Card;
-import server.model.enums.card.Leaders;
+import message.enums.card.Card;
+import message.enums.card.Leaders;
 import server.model.toolClasses.Pair;
 
 import java.util.ArrayList;

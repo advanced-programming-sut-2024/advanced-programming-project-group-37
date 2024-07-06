@@ -1,4 +1,4 @@
-package server.model.enums.loginMenu;
+package message.enums.loginMenu;
 
 public enum RegEx {
     VALID_USERNAME(".*"),

@@ -1,17 +1,13 @@
-package server.model.enums.card;
+package message.enums.card;
 
 //import controller.GameControllers.GameMenuController;
 import javafx.scene.image.Image;
-import server.model.User;
-import server.model.enums.gameMenu.Factions;
+import message.enums.gameMenu.Factions;
 import server.model.gameTable.GameTable;
 import server.model.gameTable.UserInGame;
 import server.model.toolClasses.Result;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
 
 public enum Leaders {
     TheSiegemaster(Factions.REALMS_NORTHERN,

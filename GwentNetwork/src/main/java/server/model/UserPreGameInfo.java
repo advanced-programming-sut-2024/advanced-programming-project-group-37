@@ -1,9 +1,9 @@
 package server.model;
 
-import server.model.enums.card.Card;
-import server.model.enums.card.CardType;
-import server.model.enums.card.Leaders;
-import server.model.enums.gameMenu.Factions;
+import message.enums.card.Card;
+import message.enums.card.CardType;
+import message.enums.card.Leaders;
+import message.enums.gameMenu.Factions;
 import server.model.toolClasses.Pair;
 
 import java.util.ArrayList;

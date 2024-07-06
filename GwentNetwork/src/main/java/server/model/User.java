@@ -1,7 +1,6 @@
 package server.model;
 
-import server.model.enums.gameMenu.Factions;
-import server.model.enums.loginMenu.ConfirmQuestions;
+import message.enums.loginMenu.ConfirmQuestions;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package server.model.enums.mainMenu;
+package message.enums.mainMenu;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

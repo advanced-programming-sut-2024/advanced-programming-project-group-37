@@ -1,13 +1,10 @@
-package server.model.enums.card;
+package message.enums.card;
 
 import javafx.scene.image.Image;
-import server.model.User;
-import server.model.enums.gameMenu.Factions;
-import server.model.enums.gameMenu.FactionsName;
+import message.enums.gameMenu.FactionsName;
 import server.model.gameTable.UserInGame;
 import server.model.toolClasses.Result;
-import server.model.toolClasses.Pair;
-import java.text.DecimalFormat;
+
 import java.util.ArrayList;
 
 public enum Card {

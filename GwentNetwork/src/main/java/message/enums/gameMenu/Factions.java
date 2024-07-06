@@ -1,7 +1,6 @@
-package server.model.enums.gameMenu;
+package message.enums.gameMenu;
 
-import javafx.scene.paint.RadialGradient;
-import server.model.enums.card.Card;
+import message.enums.card.Card;
 import server.model.gameTable.GameTable;
 import server.model.gameTable.UserInGame;
 import server.model.toolClasses.Pair;

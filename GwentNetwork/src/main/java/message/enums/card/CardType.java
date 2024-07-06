@@ -1,4 +1,4 @@
-package server.model.enums.card;
+package message.enums.card;
 
 public enum CardType {
     CLOSE_COMBAT,
