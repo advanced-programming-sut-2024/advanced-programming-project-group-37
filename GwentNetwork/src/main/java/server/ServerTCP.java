@@ -280,12 +280,8 @@ public class ServerTCP extends Thread {
     }
 
     private boolean sendMessage(ServerMessage message) {
-        System.out.println(message);
         String failureString = gson.toJson(message);
         try {
-            if (failureString == null) {
-                System.out.println("null");
-            } else System.out.println("not null");
             send.writeUTF(failureString);
             return true;
         } catch (Exception e) {
