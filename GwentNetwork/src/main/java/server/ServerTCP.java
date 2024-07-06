@@ -5,8 +5,10 @@ import com.google.gson.GsonBuilder;
 import message.client.*;
 import message.client.profileMenu.changeUsernameMessage;
 import message.enums.loginMenu.ConfirmQuestions;
+import message.enums.mainMenu.MainMenuCommands;
 import message.server.ServerMessage;
 import server.controller.loginController.LoginMenuController;
+import server.controller.profileController.ProfileMenuController;
 import server.model.User;
 import server.model.toolClasses.Result;
 
@@ -121,6 +123,10 @@ public class ServerTCP extends Thread {
     }
 
     private void changeUsernameNetwork(changeUsernameMessage msg) {
+        String token = msg.getToken();
+        String newUsername = msg.getNewUsername();
+        Result result = ProfileMenuController.changeUserName(newUsername , token);
+        sendMessage(new ServerMessage(result));
     }
 
     private void loginNetwork(LoginMessage msg) {
