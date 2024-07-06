@@ -1,15 +1,15 @@
 package message.client;
 
-public class LoginMassage extends ClientMessage{
+public class RegisterMassage extends ClientMessage{
     String username, password, nickname, email;
 
-    public LoginMassage(String username, String password, String nickname, String email) {
+    public RegisterMassage(String username, String password, String nickname, String email) {
         this.username = username;
         this.password = password;
         this.nickname =nickname;
         this.email = email;
 
-        this.type = MassageType.LOGIN;
+        this.type = MassageType.REGISTER;
     }
 
     public String getUsername() {

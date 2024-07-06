@@ -10,10 +10,9 @@ import javafx.scene.layout.AnchorPane;
 import message.Commands.LoginMenuCommands;
 import message.Enums.ConfirmQuestions;
 import message.Result;
-import message.client.LoginMassage;
+import message.client.RegisterMassage;
 import message.server.ServerMessage;
 
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 
 public class LoginMenu {
@@ -50,8 +49,9 @@ public class LoginMenu {
                         ConfirmQuestions.q2.getQuestion() + "\n" +
                         ConfirmQuestions.q3.getQuestion() + "\n" +
                         ConfirmQuestions.q4.getQuestion() + "\n" +
-                        ConfirmQuestions.q5.getQuestion() + "\n"); // todo : در صورت درست بودن باید نشون بده
-            } else if ((matcher = LoginMenuCommands.login.getMatcher(inputLine)) != null) {
+                        ConfirmQuestions.q5.getQuestion() + "\n");
+            }
+            else if ((matcher = LoginMenuCommands.login.getMatcher(inputLine)) != null) {
                 Result message = loginCommand(matcher);
                 //chop the message returned in terminal
                 terminalTextArea.setText(terminalTextArea.getText() + message + "\n");
@@ -152,13 +152,13 @@ public class LoginMenu {
         String email = matcher.group("email");
 
         //save data for next command
-        LoginMassage loginMassage = new LoginMassage(username, password, nickname, email);
+        RegisterMassage registerMassage = new RegisterMassage(username, password, nickname, email);
 
         // call backend and wait for response
         if (clientTPC == null) clientTPC = new ClientTPC("localhost", 5000);
 
         clientTPC.sendMassage(
-                clientTPC.gson.toJson(loginMassage)
+                clientTPC.gson.toJson(registerMassage)
         );
 
         return clientTPC.gson.fromJson(
