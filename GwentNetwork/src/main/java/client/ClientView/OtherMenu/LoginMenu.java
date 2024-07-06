@@ -3,17 +3,18 @@ package client.ClientView.OtherMenu;
 
 import client.ClientTPC;
 import client.ClientView.HeadViewController;
-import javafx.scene.control.*;
+import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import message.Commands.LoginMenuCommands;
-import message.Enums.ConfirmQuestions;
 import message.Result;
-import message.client.LoginMassage;
+import message.client.LoginMessage;
+import message.client.PickQuestionMessage;
+import message.client.RegisterMassage;
+import message.enums.loginMenu.ConfirmQuestions;
+import message.enums.loginMenu.LoginMenuCommands;
 import message.server.ServerMessage;
 
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 
 public class LoginMenu {
@@ -25,6 +26,8 @@ public class LoginMenu {
     public TextArea terminalTextArea;
     private boolean isTerminalVisible = false;
     private String usernameForForget;
+
+    private RegisterMassage saveRegister;
 
     public void showTerminal(KeyEvent keyEvent) {
         if (keyEvent.getCode().equals(KeyCode.ESCAPE)) {
@@ -50,13 +53,14 @@ public class LoginMenu {
                         ConfirmQuestions.q2.getQuestion() + "\n" +
                         ConfirmQuestions.q3.getQuestion() + "\n" +
                         ConfirmQuestions.q4.getQuestion() + "\n" +
-                        ConfirmQuestions.q5.getQuestion() + "\n"); // todo : در صورت درست بودن باید نشون بده
-            } else if ((matcher = LoginMenuCommands.login.getMatcher(inputLine)) != null) {
-                Result message = loginCommand(matcher);
+                        ConfirmQuestions.q5.getQuestion() + "\n");
+            }
+            else if ((matcher = LoginMenuCommands.login.getMatcher(inputLine)) != null) {
+                ServerMessage message = loginCommand(matcher);
                 //chop the message returned in terminal
                 terminalTextArea.setText(terminalTextArea.getText() + message + "\n");
             } else if ((matcher = LoginMenuCommands.pickQuestion.getMatcher(inputLine)) != null) {
-                Result message = pickQuestion(matcher);
+                ServerMessage message = pickQuestion(matcher);
                 //chop the message returned in terminal
                 terminalTextArea.setText(terminalTextArea.getText() + message + "\n");
             } else if ((matcher = LoginMenuCommands.forgetPassword.getMatcher(inputLine)) != null) {
@@ -103,14 +107,18 @@ public class LoginMenu {
                 user.getConfirmQuestions().getQuestion() + "\n");
     }
 
-    private Result loginCommand(Matcher matcher) {
+    private ServerMessage loginCommand(Matcher matcher) {
         String username = matcher.group("username");
         String password = matcher.group("password");
 
-        return LoginMenuController.login(username, password);
+        if (clientTPC == null) clientTPC = new ClientTPC("localhost", 5000);
+
+        clientTPC.sendMassage(clientTPC.gson.toJson(new LoginMessage(username, password)));
+
+        return clientTPC.receiveMassage();
     }
 
-    private Result pickQuestion(Matcher matcher) {
+    private ServerMessage pickQuestion(Matcher matcher) {
         String questionNum = matcher.group("questionnum");
         String answer = matcher.group("answer");
         String answerConfirm = matcher.group("answerconfirm");
@@ -135,12 +143,15 @@ public class LoginMenu {
                 break;
         }
         if (!answerConfirm.equals(answer)) {
-            return new Result(false, "confirm questions Doesn't match.");
+            return new ServerMessage(false, "confirm questions Doesn't match.");
         }
+
         // add new user
-        Result result = LoginMenuController.registerNewUser(confirmQuestions, savedData.get(0), savedData.get(1),
-                savedData.get(2), savedData.get(3), answer);
-        return result;
+        if (clientTPC == null) clientTPC = new ClientTPC("localhost", 5000);
+
+        clientTPC.sendMassage(clientTPC.gson.toJson(new PickQuestionMessage(confirmQuestions, saveRegister)));
+
+        return clientTPC.receiveMassage();
     }
 
     private ServerMessage registerCommand(Matcher matcher) {
@@ -152,18 +163,16 @@ public class LoginMenu {
         String email = matcher.group("email");
 
         //save data for next command
-        LoginMassage loginMassage = new LoginMassage(username, password, nickname, email);
+        RegisterMassage registerMassage = new RegisterMassage(username, password, nickname, email);
 
         // call backend and wait for response
         if (clientTPC == null) clientTPC = new ClientTPC("localhost", 5000);
 
         clientTPC.sendMassage(
-                clientTPC.gson.toJson(loginMassage)
+                clientTPC.gson.toJson(registerMassage)
         );
 
-        return clientTPC.gson.fromJson(
-                clientTPC.receiveMassage(), ServerMessage.class
-        );
+        return clientTPC.receiveMassage();
     }
 
 

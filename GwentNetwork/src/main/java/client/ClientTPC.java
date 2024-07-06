@@ -69,9 +69,10 @@ public class ClientTPC {
             return new Result(false, null);
         }
     }
-    public String receiveMassage() {
+    public ServerMessage receiveMassage() {
         try {
-            return receive.readUTF();
+            ServerMessage serverMessage = gson.fromJson(receive.readUTF(), ServerMessage.class);
+            return serverMessage;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
