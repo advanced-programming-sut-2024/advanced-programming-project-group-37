@@ -2,14 +2,13 @@ package server;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.stream.JsonToken;
 import message.client.*;
 import message.client.LoginMenu.*;
 import message.client.MainMenu.SignOutMessage;
 import message.client.profileMenu.ChangeEmailMessage;
 import message.client.profileMenu.ChangeNicknameMessage;
 import message.client.profileMenu.ChangePasswordMessage;
-import message.client.profileMenu.changeUsernameMessage;
+import message.client.profileMenu.ChangeUsernameMessage;
 import message.enums.loginMenu.ConfirmQuestions;
 import message.server.ServerMessage;
 import server.controller.loginController.LoginMenuController;
@@ -111,8 +110,8 @@ public class ServerTCP extends Thread {
                 pickQregister((PickQuestionMessage) msg);
             } else if (msg instanceof LoginMessage) {
                 loginNetwork((LoginMessage) msg);
-            } else if (msg instanceof changeUsernameMessage){
-                changeUsernameNetwork((changeUsernameMessage) msg);
+            } else if (msg instanceof ChangeUsernameMessage){
+                changeUsernameNetwork((ChangeUsernameMessage) msg);
             } else if (msg instanceof ChangeNicknameMessage){
                 changeNicknameNetwork((ChangeNicknameMessage) msg);
             } else if (msg instanceof AnswerQMessage) {
@@ -192,7 +191,7 @@ public class ServerTCP extends Thread {
         sendMessage(new ServerMessage(result));
     }
 
-    private void changeUsernameNetwork(changeUsernameMessage msg) {
+    private void changeUsernameNetwork(ChangeUsernameMessage msg) {
         String token = msg.getToken();
         String newUsername = msg.getNewUsername();
         Result result = ProfileMenuController.changeUserName(newUsername , token);
@@ -250,7 +249,7 @@ public class ServerTCP extends Thread {
                 case MessageType.PICK_QUESTION:
                     return gson.fromJson(clientStr, PickQuestionMessage.class);
                 case MessageType.CHANGE_USERNAME:
-                    return gson.fromJson(clientStr, changeUsernameMessage.class);
+                    return gson.fromJson(clientStr, ChangeUsernameMessage.class);
                 case MessageType.ANSWER_Q:
                     return gson.fromJson(clientStr, AnswerQMessage.class);
                 case MessageType.SET_NEW_PASSWORD:

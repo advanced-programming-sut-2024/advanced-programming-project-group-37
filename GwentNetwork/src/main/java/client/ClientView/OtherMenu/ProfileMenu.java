@@ -1,5 +1,6 @@
 package client.ClientView.OtherMenu;
 
+import client.ClientView.HeadViewController;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.control.Button;
@@ -10,9 +11,16 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
+import message.client.profileMenu.ChangeEmailMessage;
+import message.client.profileMenu.ChangeNicknameMessage;
+import message.client.profileMenu.ChangePasswordMessage;
+import message.client.profileMenu.ChangeUsernameMessage;
 import message.enums.profileMenu.ProfileMenuCommands;
+import message.server.ServerMessage;
 
 import java.util.regex.Matcher;
+
+import static client.ClientView.HeadViewController.clientTPC;
 
 public class ProfileMenu {
 
@@ -38,31 +46,41 @@ public class ProfileMenu {
             if ((matcher = ProfileMenuCommands.changeUsername.getMatcher(inputLine)).find()) {
                 String newUsername = matcher.group("username");
 
-                Result result = ProfileMenuController.changeUserName(newUsername);
+                clientTPC.sendMassage(clientTPC.gson.toJson(new ChangeUsernameMessage(newUsername, clientTPC.token)));
 
-                terminalTextArea.setText(terminalTextArea.getText() + result.getMessage() + "\n");
+                ServerMessage message = clientTPC.receiveMassage();
+
+                terminalTextArea.setText(terminalTextArea.getText() + message.getInfo() + "\n");
             }
             else if ((matcher = ProfileMenuCommands.changeNickname.getMatcher(inputLine)).find()) {
                 String newNickname = matcher.group("nickname");
 
-                Result result = ProfileMenuController.changeUserName(newNickname);
+                clientTPC.sendMassage(clientTPC.gson.toJson(new ChangeNicknameMessage(newNickname, clientTPC.token)));
 
-                terminalTextArea.setText(terminalTextArea.getText() + result.getMessage() + "\n");
+                ServerMessage message = clientTPC.receiveMassage();
+
+                terminalTextArea.setText(terminalTextArea.getText() + message.getInfo() + "\n");
             }
             else if ((matcher = ProfileMenuCommands.changeEmail.getMatcher(inputLine)).find()) {
                 String newEmail = matcher.group("email");
 
-                Result result = ProfileMenuController.changeUserName(newEmail);
+                clientTPC.sendMassage(clientTPC.gson.toJson(new ChangeEmailMessage(newEmail, clientTPC.token)));
 
-                terminalTextArea.setText(terminalTextArea.getText() + result.getMessage() + "\n");
+                ServerMessage message = clientTPC.receiveMassage();
+
+                terminalTextArea.setText(terminalTextArea.getText() + message.getInfo() + "\n");
             }
             else if ((matcher = ProfileMenuCommands.changePassword.getMatcher(inputLine)).find()) {
                 String newPassword = matcher.group("newPassword");
                 String oldPassword = matcher.group("oldPassword");
 
-                Result result = ProfileMenuController.changePassword(newPassword, oldPassword);
+                clientTPC.sendMassage(
+                        clientTPC.gson.toJson(new ChangePasswordMessage(newPassword, oldPassword, clientTPC.token))
+                );
 
-                terminalTextArea.setText(terminalTextArea.getText() + result.getMessage() + "\n");
+                ServerMessage message = clientTPC.receiveMassage();
+
+                terminalTextArea.setText(terminalTextArea.getText() + message.getInfo() + "\n");
             }
             else if ((matcher = ProfileMenuCommands.enterOtherMenu.getMatcher(inputLine)).find()) {
                 if (matcher.group().equals("user info")) {
@@ -126,14 +144,18 @@ public class ProfileMenu {
                 String newPassWord = newPassword.getText();
                 String confirmPassWord = confirmPassword.getText();
 
-                Result result = ProfileMenuController.changePassword(newPassWord, confirmPassWord);
+                clientTPC.sendMassage(
+                        clientTPC.gson.toJson(new ChangePasswordMessage(newPassWord, confirmPassWord, clientTPC.token))
+                );
 
-                if (result.isSuccessful()) {
+                ServerMessage message = clientTPC.receiveMassage();
+
+                if (message.isSuccess()) {
                     newPassword.setText("");
                     confirmPassword.setText("");
                     pane.setVisible(false);
                 } else {
-                    errorLabel.setText(result.getMessage());
+                    errorLabel.setText(message.getInfo());
 
                     Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(2), event1 -> errorLabel.setText("")));
                     timeline.setCycleCount(1);
@@ -162,17 +184,29 @@ public class ProfileMenu {
             String str = textField.getText();
 
             // find result
-            Result result;
+            ServerMessage message;
 
-            if (labelTXT.equals("CHANGE USERNAME"))  result = ProfileMenuController.changeUserName(str);
-            if (labelTXT.equals("CHANGE NICKNAME")) result = ProfileMenuController.changeNickName(str);
-            else result = ProfileMenuController.changeEmail(str);
+            if (labelTXT.equals("CHANGE USERNAME"))  {
+                clientTPC.sendMassage(clientTPC.gson.toJson(new ChangeUsernameMessage(str, clientTPC.token)));
 
-            if (result.isSuccessful()) {
+                message = clientTPC.receiveMassage();
+            }
+            if (labelTXT.equals("CHANGE NICKNAME")) {
+                clientTPC.sendMassage(clientTPC.gson.toJson(new ChangeNicknameMessage(str, clientTPC.token)));
+
+                message = clientTPC.receiveMassage();
+            }
+            else {
+                clientTPC.sendMassage(clientTPC.gson.toJson(new ChangeEmailMessage(str, clientTPC.token)));
+
+                message = clientTPC.receiveMassage();
+            }
+
+            if (message.isSuccess()) {
                 textField.setText("");
                 pane.setVisible(false);
             } else {
-                errorLabel.setText(result.getMessage());
+                errorLabel.setText(message.getInfo());
 
                 Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(2), event1 -> errorLabel.setText("")));
                 timeline.setCycleCount(1);
