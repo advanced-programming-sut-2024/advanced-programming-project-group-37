@@ -150,7 +150,7 @@ public class ServerTCP extends Thread {
         String email = msg.getEmail();
         String nickname = msg.getNickname();
         Result result = LoginMenuController.checkAllErrors(username, password, passwordConfirm, nickname, email);
-        sendMessage(new ServerMessage(result.isSuccessful(), result.getMessage(), result));
+        sendMessage(new ServerMessage(result));
     }
 
     private ClientMessage extractClientMessage(String clientStr) {

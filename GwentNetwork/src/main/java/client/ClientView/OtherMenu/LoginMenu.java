@@ -56,6 +56,8 @@ public class LoginMenu {
             }
             else if ((matcher = LoginMenuCommands.login.getMatcher(inputLine)) != null) {
                 ServerMessage message = loginCommand(matcher);
+
+                clientTPC.token = message.getToken();
                 //chop the message returned in terminal
                 terminalTextArea.setText(terminalTextArea.getText() + message + "\n");
             }
