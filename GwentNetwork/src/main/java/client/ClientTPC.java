@@ -64,6 +64,7 @@ public class ClientTPC {
     }
     public Result sendMassage(String massage) {
         try {
+            establishConnection();
             send.writeUTF(massage);
             return new Result(true, null);
         } catch (Exception e) {
@@ -74,18 +75,11 @@ public class ClientTPC {
     public ServerMessage receiveMassage() {
         try {
             ServerMessage serverMessage = gson.fromJson(receive.readUTF(), ServerMessage.class);
+            endConnection();
             return serverMessage;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
-    }
-
-    // getter
-    public String getServetIP() {
-        return servetIP;
-    }
-    public int getServerPort() {
-        return serverPort;
     }
 }
