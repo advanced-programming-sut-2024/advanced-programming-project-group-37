@@ -63,7 +63,8 @@ public class LoginMenu {
                 ServerMessage message = pickQuestion(matcher);
                 //chop the message returned in terminal
                 terminalTextArea.setText(terminalTextArea.getText() + message.getInfo() + "\n");
-            } else if ((matcher = LoginMenuCommands.forgetPassword.getMatcher(inputLine)) != null) {
+            }
+            else if ((matcher = LoginMenuCommands.forgetPassword.getMatcher(inputLine)) != null) {
                 Result message = forgetPasswordCommand(matcher);
                 //chop the message returned in terminal
                 terminalTextArea.setText(terminalTextArea.getText() + message + "\n");

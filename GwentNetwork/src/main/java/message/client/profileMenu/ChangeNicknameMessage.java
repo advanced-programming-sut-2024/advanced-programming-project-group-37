@@ -3,16 +3,16 @@ package message.client.profileMenu;
 import message.client.ClientMessage;
 import message.client.MessageType;
 
-public class changeUsernameMessage extends ClientMessage {
-    String newUsername;
+public class ChangeNicknameMessage extends ClientMessage {
+    String newNickname;
 
-    public changeUsernameMessage(String newUsername, String token) {
+    public ChangeNicknameMessage(String newNickname, String token) {
         this.token = token;
         this.type = MessageType.CHANGE_USERNAME;
-        this.newUsername = newUsername;
+        this.newNickname = newNickname;
     }
 
     public String getNewUsername() {
-        return newUsername;
+        return newNickname;
     }
 }

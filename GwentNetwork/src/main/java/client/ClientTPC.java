@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.net.Socket;
 
 public class ClientTPC {
+    public String token;
+
     private Socket socket;
     private DataInputStream receive;
     private DataOutputStream send;
