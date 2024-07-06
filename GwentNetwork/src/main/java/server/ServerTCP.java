@@ -2,10 +2,8 @@ package server;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import message.client.ClientMessage;
-import message.client.PickQuestionMessage;
-import message.client.RegisterMassage;
-import message.client.MessageType;
+import message.client.*;
+import message.client.profileMenu.changeUsernameMessage;
 import message.enums.loginMenu.ConfirmQuestions;
 import message.server.ServerMessage;
 import server.controller.loginController.LoginMenuController;
@@ -147,6 +145,12 @@ public class ServerTCP extends Thread {
             switch (clientMessage.getType()) {
                 case MessageType.REGISTER:
                     return gson.fromJson(clientStr, RegisterMassage.class);
+                case MessageType.LOGIN:
+                    return gson.fromJson(clientStr, LoginMessage.class);
+                case MessageType.PICK_QUESTION:
+                    return gson.fromJson(clientStr, PickQuestionMessage.class);
+                case MessageType.CHANGE_USERNAME:
+                    return gson.fromJson(clientStr, changeUsernameMessage.class);
             }
             /*
              * TODO : اینجا باید جیسون رو تبدیل کنی به کلاس ها
