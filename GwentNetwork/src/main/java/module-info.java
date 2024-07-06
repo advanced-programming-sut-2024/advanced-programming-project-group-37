@@ -10,6 +10,9 @@ module GwentNetwork {
     opens client.ClientView to javafx.fxml;
 
     exports message.client.LoginMenu;
+
+    opens  message.client to com.google.gson;
     opens message.client.LoginMenu to com.google.gson;
-    opens message.client to com.google.gson;
+    opens message.client.profileMenu to com.google.gson;
+    opens message.server to com.google.gson;
 }

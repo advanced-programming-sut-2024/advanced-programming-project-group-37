@@ -280,7 +280,7 @@ public class ServerTCP extends Thread {
     }
 
     private boolean sendMessage(ServerMessage message) {
-        System.out.println("hiii");
+        System.out.println(message);
         String failureString = gson.toJson(message);
         try {
             if (failureString == null) {
