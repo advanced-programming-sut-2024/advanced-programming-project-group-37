@@ -1,6 +1,9 @@
-package message.client;
+package message.client.LoginMenu;
 
-public class LoginMessage extends ClientMessage{
+import message.client.ClientMessage;
+import message.client.MessageType;
+
+public class LoginMessage extends ClientMessage {
     String username, password;
 
     public LoginMessage(String username, String password) {

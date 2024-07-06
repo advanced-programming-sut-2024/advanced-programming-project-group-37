@@ -1,4 +1,7 @@
-package message.client;
+package message.client.LoginMenu;
+
+import message.client.ClientMessage;
+import message.client.MessageType;
 
 import java.util.regex.Matcher;
 

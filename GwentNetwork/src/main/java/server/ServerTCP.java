@@ -3,7 +3,7 @@ package server;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import message.client.*;
-import message.client.AnswerQMessage;
+import message.client.LoginMenu.*;
 import message.client.profileMenu.ChangeEmailMessage;
 import message.client.profileMenu.ChangeNicknameMessage;
 import message.client.profileMenu.ChangePasswordMessage;

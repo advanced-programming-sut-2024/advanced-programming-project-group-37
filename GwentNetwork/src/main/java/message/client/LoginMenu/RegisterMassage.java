@@ -1,4 +1,7 @@
-package message.client;
+package message.client.LoginMenu;
+
+import message.client.ClientMessage;
+import message.client.MessageType;
 
 public class RegisterMassage extends ClientMessage {
     String username, password, nickname, email, passwordConfirm;

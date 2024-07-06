@@ -1,9 +1,11 @@
-package message.client;
+package message.client.LoginMenu;
 
 
+import message.client.ClientMessage;
+import message.client.MessageType;
 import message.enums.loginMenu.ConfirmQuestions;
 
-public class PickQuestionMessage extends ClientMessage{
+public class PickQuestionMessage extends ClientMessage {
     RegisterMassage registerMassage;
     String answer;
     ConfirmQuestions confirmQuestions;
