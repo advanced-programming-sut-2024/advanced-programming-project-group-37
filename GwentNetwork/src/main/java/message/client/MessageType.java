@@ -1,5 +1,5 @@
 package message.client;
 
-public enum MassageType {
+public enum MessageType {
     REGISTER,
 }

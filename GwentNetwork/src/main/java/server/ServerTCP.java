@@ -3,6 +3,9 @@ package server;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import message.client.ClientMessage;
+import message.client.LoginMessage;
+import message.client.MessageType;
+import message.client.RegisterMassage;
 import message.server.ServerMessage;
 
 import java.io.*;
@@ -82,6 +85,9 @@ public class ServerTCP extends Thread{
             clientRequest = receive.readUTF();
             ClientMessage msg = extractClientMessage(clientRequest);
 
+            if(msg instanceof RegisterMassage){
+
+            }
             /* TODO : اینجا کلاینت مسیج رو داریم. نگا میکنیم ببینیم مربوط به کدوم نوع مسیج هست
              * TODO : با استفاده از instanceOf --> clientMassage instanceOf RegisterMassage
              * TODO : بعد مسیج رو بهش پاس میدی
@@ -99,6 +105,10 @@ public class ServerTCP extends Thread{
         try {
             ClientMessage clientMessage = gson.fromJson(clientStr, ClientMessage.class);
 
+            switch (clientMessage.getType()){
+                case MessageType.REGISTER:
+                    return gson.fromJson(clientStr, RegisterMassage.class);
+            }
             /*
              * TODO : اینجا باید جیسون رو تبدیل کنی به کلاس ها
              * TODO : مثال پایین رو نگاه کن میفهمی یعنی چی باید مطایق مسیج های خودمون کار کنی

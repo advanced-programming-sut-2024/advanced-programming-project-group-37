@@ -2,7 +2,7 @@ package message.client;
 
 public class ClientMessage {
     protected String token;
-    protected MassageType type;
+    protected MessageType type;
 
     public String getToken() {
         return token;
@@ -11,7 +11,7 @@ public class ClientMessage {
         this.token = token;
     }
 
-    public MassageType getType() {
+    public MessageType getType() {
         return type;
     }
 }
