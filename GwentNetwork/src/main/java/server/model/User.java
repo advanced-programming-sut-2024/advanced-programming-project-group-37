@@ -23,8 +23,8 @@ public class User {
     private ArrayList<GameHistory> allPlayedGamesHistory; // for command "GameHistory history -n <n>"
 
     static {
-        User user1 = new User(ConfirmQuestions.q1, "1", "" , "", "" , "", "");
-        User user2 = new User(ConfirmQuestions.q1, "2", "" , "", "" , "", "");
+//        User user1 = new User(ConfirmQuestions.q1, "1", "" , "", "" , "", "");
+//        User user2 = new User(ConfirmQuestions.q1, "2", "" , "", "" , "", "");
     }
     public User(ConfirmQuestions confirmQuestions, String... input) {
         username = input[0];

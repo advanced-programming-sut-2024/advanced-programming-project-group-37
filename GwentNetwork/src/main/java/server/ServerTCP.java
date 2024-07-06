@@ -2,6 +2,7 @@ package server;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.stream.JsonToken;
 import message.client.*;
 import message.client.LoginMenu.*;
 import message.client.profileMenu.ChangeEmailMessage;
@@ -192,7 +193,16 @@ public class ServerTCP extends Thread {
         String username = msg.getUsername();
         String password = msg.getPassword();
         Result result = LoginMenuController.login(username, password);
-        sendMessage(new ServerMessage(result, User.getLoggedInUser().getToken())); // returns result which contains message and check if process was successful or not with current user token
+        User user;
+        String token = new String();
+        if (!result.isSuccessful()){
+            user = null;
+            token = null;
+        } else {
+            user = User.getLoggedInUser();
+            token = user.getToken();
+        }
+        sendMessage(new ServerMessage(result, token)); // returns result which contains message and check if process was successful or not with current user token
     }
 
     private void pickQregister(PickQuestionMessage msg) {
@@ -270,8 +280,12 @@ public class ServerTCP extends Thread {
     }
 
     private boolean sendMessage(ServerMessage message) {
+        System.out.println("hiii");
         String failureString = gson.toJson(message);
         try {
+            if (failureString == null) {
+                System.out.println("null");
+            } else System.out.println("not null");
             send.writeUTF(failureString);
             return true;
         } catch (Exception e) {
