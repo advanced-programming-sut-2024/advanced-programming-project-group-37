@@ -137,9 +137,18 @@ public class ServerTCP extends Thread {
     }
 
     private void changeEmailNetwork(ChangeEmailMessage msg) {
+        String newEmail = msg.getNewEmail();
+        String token = msg.getToken();
+        Result result = ProfileMenuController.changeEmail(newEmail , token);
+        sendMessage(new ServerMessage(result));
     }
 
     private void changePassNetwork(ChangePasswordMessage msg) {
+        String newPass = msg.getNewPassword();
+        String oldPass = msg.getOldPassword();
+        String token = msg.getToken();
+        Result result = ProfileMenuController.changePassword(newPass, oldPass, token);
+        sendMessage(new ServerMessage(result));
     }
 
     private void setNewPassNetwork(SetNewPasswordMessage msg) {

@@ -46,9 +46,12 @@ public class ProfileMenuController extends LoginMenuController {
     }
 
     //change email
-    public static Result changeEmail(String newEmail) {
-        User user = User.getLoggedInUser();
-
+    public static Result changeEmail(String newEmail, String token) {
+        User user = User.getUserByToken(token);
+        //check if token was invalid
+        if (user == null) {
+            return new Result(false, "Invalid token!");
+        }
         //first check if the Email is as the same as the previous Email or not
         if (user.getEmail().equals(newEmail))
             return new Result(false, "New Email is as the same as the previous one.");
@@ -64,8 +67,12 @@ public class ProfileMenuController extends LoginMenuController {
     }
 
     //change Password
-    public static Result changePassword(String newPassword, String oldPassword) {
-        User user = User.getLoggedInUser();
+    public static Result changePassword(String newPassword, String oldPassword, String token) {
+        User user = User.getUserByToken(token);
+        //check if token is valid
+        if (user == null) {
+            return new Result(false, "invalid token!");
+        }
 
         //check if new password and the old one is the same or not
         if (newPassword.equals(oldPassword))
