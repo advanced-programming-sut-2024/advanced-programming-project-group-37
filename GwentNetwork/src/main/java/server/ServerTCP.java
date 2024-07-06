@@ -3,10 +3,10 @@ package server;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import message.client.*;
+import message.client.AnswerQMessage;
 import message.client.profileMenu.ChangeNicknameMessage;
 import message.client.profileMenu.changeUsernameMessage;
 import message.enums.loginMenu.ConfirmQuestions;
-import message.enums.mainMenu.MainMenuCommands;
 import message.server.ServerMessage;
 import server.controller.loginController.LoginMenuController;
 import server.controller.profileController.ProfileMenuController;
@@ -18,6 +18,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.regex.Matcher;
 
 public class ServerTCP extends Thread {
     private static ServerSocket server;
@@ -110,6 +111,8 @@ public class ServerTCP extends Thread {
                 changeUsernameNetwork((changeUsernameMessage) msg);
             } else if (msg instanceof ChangeNicknameMessage){
                 changeNicknameNetwork((ChangeNicknameMessage) msg);
+            } else if (msg instanceof AnswerQMessage) {
+                answerQNetwork((AnswerQMessage) msg);
             }
             /* TODO : اینجا کلاینت مسیج رو داریم. نگا میکنیم ببینیم مربوط به کدوم نوع مسیج هست
              * TODO : با استفاده از instanceOf --> clientMassage instanceOf RegisterMassage
@@ -123,6 +126,12 @@ public class ServerTCP extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void answerQNetwork(AnswerQMessage msg) {
+        Matcher matcher = msg.getMatcher();
+        String token = msg.getToken();
+        Result result = LoginMenuController.answerQ(matcher,)
     }
 
     private void changeNicknameNetwork(ChangeNicknameMessage msg) {

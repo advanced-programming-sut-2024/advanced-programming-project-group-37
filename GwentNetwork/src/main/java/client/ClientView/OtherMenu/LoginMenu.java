@@ -11,7 +11,7 @@ import message.client.ForgetPasswordMessage;
 import message.client.LoginMessage;
 import message.client.PickQuestionMessage;
 import message.client.RegisterMassage;
-import message.client.profileMenu.AnswerQMessage;
+import message.client.AnswerQMessage;
 import message.enums.loginMenu.ConfirmQuestions;
 import message.enums.loginMenu.LoginMenuCommands;
 import message.server.ServerMessage;
