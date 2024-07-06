@@ -121,6 +121,8 @@ public class ServerTCP extends Thread {
                 changePassNetwork((ChangePasswordMessage) msg);
             } else if (msg instanceof ChangeEmailMessage) {
                 changeEmailNetwork((ChangeEmailMessage) msg);
+            } else if (msg instanceof ForgetPasswordMessage) {
+                forgetPassNetwork((ForgetPasswordMessage) msg);
             }
             /* TODO : اینجا کلاینت مسیج رو داریم. نگا میکنیم ببینیم مربوط به کدوم نوع مسیج هست
              * TODO : با استفاده از instanceOf --> clientMassage instanceOf RegisterMassage
@@ -134,6 +136,13 @@ public class ServerTCP extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void forgetPassNetwork(ForgetPasswordMessage msg) {
+        Matcher matcher = msg.getMatcher();
+
+        Result result = LoginMenuController.forgetPasswordCommand(matcher);
+        sendMessage(new ServerMessage(result));
     }
 
     private void changeEmailNetwork(ChangeEmailMessage msg) {
@@ -222,6 +231,18 @@ public class ServerTCP extends Thread {
                     return gson.fromJson(clientStr, PickQuestionMessage.class);
                 case MessageType.CHANGE_USERNAME:
                     return gson.fromJson(clientStr, changeUsernameMessage.class);
+                case MessageType.ANSWER_Q:
+                    return gson.fromJson(clientStr, AnswerQMessage.class);
+                case MessageType.SET_NEW_PASSWORD:
+                    return gson.fromJson(clientStr, SetNewPasswordMessage.class);
+                case MessageType.CHANGE_EMAIL:
+                    return gson.fromJson(clientStr, ChangeEmailMessage.class);
+                case MessageType.CHANGE_NICKNAME:
+                    return gson.fromJson(clientStr, ChangeNicknameMessage.class);
+                case MessageType.CHANGE_PASSWORD:
+                    return gson.fromJson(clientStr, ChangePasswordMessage.class);
+                case MessageType.FORGET_PASSWORD:
+                    return gson.fromJson(clientStr, ForgetPasswordMessage.class);
             }
             /*
              * TODO : اینجا باید جیسون رو تبدیل کنی به کلاس ها
