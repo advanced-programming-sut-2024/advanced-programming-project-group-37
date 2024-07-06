@@ -5,7 +5,7 @@
 <?import javafx.scene.media.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane onKeyPressed="#showTerminal" prefHeight="450.0" prefWidth="800.0" style="-fx-background-color: #000000ca;" stylesheets="@../CSS/css1.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.OtherMenu.MainMenu">
+<AnchorPane onKeyPressed="#showTerminal" prefHeight="450.0" prefWidth="800.0" style="-fx-background-color: #000000ca;" stylesheets="@../CSS/css1.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.ClientView.OtherMenu.MainMenu">
    <children>
       <MediaView fitHeight="450.0" fitWidth="800.0" layoutX="-1.0" />
       <Button layoutX="445.0" layoutY="342.0" mnemonicParsing="false" onAction="#goToProfileMenu" prefHeight="26.0" prefWidth="295.0" style="-fx-background-color: rgba(150,150,150,0.09);" text="PROFILE MENU" textFill="WHITE" />

@@ -113,13 +113,13 @@ public class HeadViewController extends Application {
 
         // add register Page
         addAScene("register page", HeadViewController.class.getResource("/FXML/RegisterPage.fxml"));
-//
-//        // add main page
-//        addAScene("main page", HeadViewController.class.getResource("/FXML/MainPage.fxml"));
-//
-//        // add profile page
-//        addAScene("profile page", HeadViewController.class.getResource("/FXML/ProfilePage.fxml"));
-//
+
+        // add main page
+        addAScene("main page", HeadViewController.class.getResource("/FXML/MainPage.fxml"));
+
+        // add profile page
+        addAScene("profile page", HeadViewController.class.getResource("/FXML/ProfilePage.fxml"));
+
 //        // add pregame page
 //        addAScene("pregame page", HeadViewController.class.getResource("/FXML/PregamePage.fxml"));
 //
