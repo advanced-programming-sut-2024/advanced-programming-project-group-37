@@ -2,7 +2,7 @@ package message.client;
 
 import java.util.regex.Matcher;
 
-public class SetNewPasswordMessage extends ClientMessage{
+public class SetNewPasswordMessage extends ClientMessage {
     Matcher matcher;
     String username;
 

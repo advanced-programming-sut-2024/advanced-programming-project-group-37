@@ -113,6 +113,8 @@ public class ServerTCP extends Thread {
                 changeNicknameNetwork((ChangeNicknameMessage) msg);
             } else if (msg instanceof AnswerQMessage) {
                 answerQNetwork((AnswerQMessage) msg);
+            } else if (msg instanceof SetNewPasswordMessage){
+                setNewPassNetwork((SetNewPasswordMessage) msg);
             }
             /* TODO : اینجا کلاینت مسیج رو داریم. نگا میکنیم ببینیم مربوط به کدوم نوع مسیج هست
              * TODO : با استفاده از instanceOf --> clientMassage instanceOf RegisterMassage
@@ -126,6 +128,13 @@ public class ServerTCP extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void setNewPassNetwork(SetNewPasswordMessage msg) {
+        Matcher matcher = msg.getMatcher();
+        String username = msg.getUsername();
+        Result result = LoginMenuController.setPassword(matcher, username);
+        sendMessage(new ServerMessage(result));
     }
 
     private void answerQNetwork(AnswerQMessage msg) {
