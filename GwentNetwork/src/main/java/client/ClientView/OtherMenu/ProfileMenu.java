@@ -5,17 +5,21 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.util.Duration;
-import message.client.profileMenu.ChangeEmailMessage;
-import message.client.profileMenu.ChangeNicknameMessage;
-import message.client.profileMenu.ChangePasswordMessage;
-import message.client.profileMenu.ChangeUsernameMessage;
+import message.client.profileMenu.*;
 import message.enums.profileMenu.ProfileMenuCommands;
 import message.server.ServerMessage;
+import message.server.UpdateFriendRequestMessage;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 
 import static client.ClientView.HeadViewController.clientTPC;
@@ -236,9 +240,35 @@ public class ProfileMenu {
     }
 
     private void updateFriend() {
+        clientTPC.sendMassage(clientTPC.gson.toJson(new GiveFriendMessage(clientTPC.token)));
 
+        UpdateFriendRequestMessage message = (UpdateFriendRequestMessage) clientTPC.receiveMassage();
+
+        ArrayList<String> friends = message.getFriends();
+        ArrayList<String> requests = message.getFriendRequests();
+
+        updateScroll(friends, friendScrollPane);
+        updateScroll(requests, friendRequests);
     }
 
+    private void updateScroll(ArrayList<String> list, ScrollPane pane) {
+        GridPane gridPane = new GridPane();
+
+        pane.setContent(gridPane);
+
+        for (int i = 0; i < list.size(); i++) {
+            Circle node = new Circle();
+            node.setFill(new ImagePattern(
+                    new Image(getClass().getResource("/asset/img/icons/profile.png").toExternalForm())));
+
+            gridPane.add(node, 0, i);
+            gridPane.add(new Label(list.get(i)), 1, i);
+
+            Button button = new Button("Accept");
+
+            gridPane.add(button, 2, i);
+        }
+    }
     public void backFromFriendPage() {
         friendPane.setVisible(false);
     }
