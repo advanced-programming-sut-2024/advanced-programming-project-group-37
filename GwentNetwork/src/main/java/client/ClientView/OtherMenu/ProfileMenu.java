@@ -241,7 +241,7 @@ public class ProfileMenu {
 
     private void updateFriend() {
         clientTPC.sendMassage(clientTPC.gson.toJson(new GiveFriendMessage(clientTPC.token)));
-
+        System.out.println(clientTPC.receiveMassage().getClass());
         UpdateFriendRequestMessage message = (UpdateFriendRequestMessage) clientTPC.receiveMassage();
 
         ArrayList<String> friends = message.getFriends();
