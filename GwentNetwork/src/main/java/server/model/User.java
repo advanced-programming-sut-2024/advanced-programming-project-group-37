@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 public class User {
     private String token;
+    private boolean isOnline = false;
     private String username;
     private String password;
     private String nickname;
@@ -209,5 +210,13 @@ public class User {
 
     public void setFriendRequests(ArrayList<FriendRequest> friendRequests) {
         this.friendRequests = friendRequests;
+    }
+
+    public boolean isOnline() {
+        return isOnline;
+    }
+
+    public void setOnline(boolean online) {
+        isOnline = online;
     }
 }

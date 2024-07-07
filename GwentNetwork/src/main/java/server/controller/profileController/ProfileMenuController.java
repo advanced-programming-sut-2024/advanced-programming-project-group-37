@@ -6,7 +6,6 @@ import server.model.User;
 import server.model.toolClasses.Result;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 //extending from LoginMenuController because of some methods
 public class ProfileMenuController extends LoginMenuController {
@@ -103,13 +102,13 @@ public class ProfileMenuController extends LoginMenuController {
             return null;
         }
         ArrayList<String> friendsName = new ArrayList<>();
-        for (User friend: user.getFriends()){
+        for (User friend : user.getFriends()) {
             friendsName.add(friend.getUsername());
         }
         return friendsName;
     }
 
-    public static ArrayList<ArrayList<String>> frienRequestNames(String token) {
+    public static ArrayList<ArrayList<String>> friendRequestNames(String token) {
         User user = User.getUserByToken(token);
         if (user == null) {
             return null;
@@ -119,10 +118,13 @@ public class ProfileMenuController extends LoginMenuController {
         ArrayList<String> state = new ArrayList<>();
 
         ArrayList<ArrayList<String>> totalInfo = new ArrayList<>();
-        for (FriendRequest friendRequest: user.getFriendRequests()){
+        for (FriendRequest friendRequest : user.getFriendRequests()) {
+            User fromUser = friendRequest.getFromUser();
             fromWho.add(friendRequest.getFromUser().getUsername());
             date.add(friendRequest.getDate().toString());
-            state.add(friendRequest.getState());
+            if (fromUser.isOnline())
+                state.add("online");
+            else state.add("offline");
         }
         totalInfo.add(fromWho);
         totalInfo.add(date);
