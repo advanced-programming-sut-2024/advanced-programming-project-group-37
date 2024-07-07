@@ -143,7 +143,7 @@ public class ServerTCP extends Thread {
     private void giveFriendNetwork(GiveFriendMessage msg) {
         String token = msg.getToken();
         ArrayList<String> FriendsName = ProfileMenuController.FriendsName(token);
-        ArrayList<ArrayList<String>> friendRequests = ProfileMenuController.frienRequestNames(token);
+        ArrayList<ArrayList<String>> friendRequests = ProfileMenuController.friendRequestNames(token);
 
         ArrayList<String> fromWho = friendRequests.get(0);
         ArrayList<String> date = friendRequests.get(1);

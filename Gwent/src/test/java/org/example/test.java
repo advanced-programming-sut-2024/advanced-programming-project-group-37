@@ -1,5 +1,6 @@
 package org.example;
 
+import controller.GameControllers.GameMenuController;
 import controller.GameControllers.PreGameMenuController;
 import controller.loginController.LoginMenuController;
 import controller.profileController.ProfileMenuController;
@@ -7,12 +8,14 @@ import javafx.application.Platform;
 import model.User;
 import model.UserPreGameInfo;
 import model.enums.card.Card;
+import model.enums.card.Leaders;
 import model.enums.gameMenu.Factions;
 import model.enums.loginMenu.ConfirmQuestions;
 import model.toolClasses.Pair;
 import model.toolClasses.Result;
 import org.junit.Before;
 import org.junit.Test;
+import view.GameMenu.PreGameMenu;
 
 import java.util.ArrayList;
 
@@ -27,10 +30,8 @@ public class test {
             user2 = new User(ConfirmQuestions.q1, "test2", "test2", "test2", "test2", "test2");
             User.setLoggedInUser(user1);
             PreGameMenuController.createGame(user2.getUsername());
-            user1.setUserPreGameInfo(new UserPreGameInfo());
-            UserPreGameInfo userPreGameInfo = user1.getUserPreGameInfo();
-            ArrayList<Pair<Card, Integer>> cards = new ArrayList<>();
-            userPreGameInfo.setCardsInDeck(cards);
+            PreGameMenuController.startGame();
+            GameMenuController game
         });
     }
 
@@ -104,7 +105,20 @@ public class test {
     }
 
     @Test
-    public void selectFaction(){
-        PreGameMenuController.selectFaction(Factions.SCOIATEAL.getName(), "1")
+    public void selectFaction() {
+        Result result = PreGameMenuController.selectFaction(Factions.SCOIATEAL.getName(), "2");
+        assert user2.getUserPreGameInfo().getFaction().equals(Factions.SCOIATEAL) ;
     }
+    @Test
+    public void selectLeader() {
+        Result result = PreGameMenuController.selectLeader(Leaders.EmperorOfNilfgaard.name(), "2");
+        System.out.println(result.getMessage());
+        assert user2.getUserPreGameInfo().getLeader().equals(Leaders.EmperorOfNilfgaard) : result.getMessage();
+
+    }
+    public void checkDeckIsOk(){
+        assert PreGameMenuController.checkDeckIsOk(user1);
+    }
+
+    public
 }
