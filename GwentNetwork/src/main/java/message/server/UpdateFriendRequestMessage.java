@@ -33,4 +33,5 @@ public class UpdateFriendRequestMessage extends ServerMessage {
     public ArrayList<String> getState() {
         return state;
     }
+    //HEYYYY
 }
