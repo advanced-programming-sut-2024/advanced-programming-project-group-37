@@ -90,12 +90,12 @@ public class ServerTCP extends Thread {
 
     private void handleConnection(Socket socket) {
         try {
-                receive = new DataInputStream(
-                        new BufferedInputStream(socket.getInputStream())
-                );
-                send = new DataOutputStream(
-                        new BufferedOutputStream(socket.getOutputStream())
-                );
+            receive = new DataInputStream(
+                    new BufferedInputStream(socket.getInputStream())
+            );
+            send = new DataOutputStream(
+                    new BufferedOutputStream(socket.getOutputStream())
+            );
 
             String clientRequest;
             clientRequest = receive.readUTF();
@@ -107,13 +107,13 @@ public class ServerTCP extends Thread {
                 pickQregister((PickQuestionMessage) msg);
             } else if (msg instanceof LoginMessage) {
                 loginNetwork((LoginMessage) msg);
-            } else if (msg instanceof ChangeUsernameMessage){
+            } else if (msg instanceof ChangeUsernameMessage) {
                 changeUsernameNetwork((ChangeUsernameMessage) msg);
-            } else if (msg instanceof ChangeNicknameMessage){
+            } else if (msg instanceof ChangeNicknameMessage) {
                 changeNicknameNetwork((ChangeNicknameMessage) msg);
             } else if (msg instanceof AnswerQMessage) {
                 answerQNetwork((AnswerQMessage) msg);
-            } else if (msg instanceof SetNewPasswordMessage){
+            } else if (msg instanceof SetNewPasswordMessage) {
                 setNewPassNetwork((SetNewPasswordMessage) msg);
             } else if (msg instanceof ChangePasswordMessage) {
                 changePassNetwork((ChangePasswordMessage) msg);
@@ -123,14 +123,12 @@ public class ServerTCP extends Thread {
                 forgetPassNetwork((ForgetPasswordMessage) msg);
             } else if (msg instanceof SignOutMessage) {
                 singOutNetwork((SignOutMessage) msg);
-            } else if (msg instanceof GiveFriendMessage){
-                giveFriendNetwork((GiveFriendMessage)msg);
+            } else if (msg instanceof GiveFriendMessage) {
+                giveFriendNetwork((GiveFriendMessage) msg);
+            } else if (msg instanceof AcceptRequest) {
+                acceptRequestNetwork((AcceptRequest) msg);
             }
-            /* TODO : اینجا کلاینت مسیج رو داریم. نگا میکنیم ببینیم مربوط به کدوم نوع مسیج هست
-             * TODO : با استفاده از instanceOf --> clientMassage instanceOf RegisterMassage
-             * TODO : بعد مسیج رو بهش پاس میدی
-             * TODO : متد هات رو هم ورودیش رو با انواع مسیج ست کن هر مسیج یک کلاسه که داخلش میتونه هر چیزی داشته باشه که تبدیل به جیسون میشه و بر عکس
-             * */
+
 
             send.close();
             receive.close();
@@ -140,6 +138,16 @@ public class ServerTCP extends Thread {
         }
     }
 
+    private void acceptRequestNetwork(AcceptRequest msg) {
+        String token = msg.getToken();
+        String username = msg.getUsername();
+
+        Result result = ProfileMenuController.acceptFriendRequest(token , username);
+        //just send a null message
+        sendMessage(new ServerMessage());
+
+    }
+
     private void giveFriendNetwork(GiveFriendMessage msg) {
         String token = msg.getToken();
         ArrayList<String> FriendsName = ProfileMenuController.FriendsName(token);
@@ -147,7 +155,7 @@ public class ServerTCP extends Thread {
 
         ArrayList<String> fromWho = friendRequests.get(0);
         ArrayList<String> date = friendRequests.get(1);
-        ArrayList<String> state =  friendRequests.get(2);
+        ArrayList<String> state = friendRequests.get(2);
 
         sendMessage(new ServerMessage(FriendsName, fromWho, date, state));
     }
@@ -169,7 +177,7 @@ public class ServerTCP extends Thread {
     private void changeEmailNetwork(ChangeEmailMessage msg) {
         String newEmail = msg.getNewEmail();
         String token = msg.getToken();
-        Result result = ProfileMenuController.changeEmail(newEmail , token);
+        Result result = ProfileMenuController.changeEmail(newEmail, token);
         sendMessage(new ServerMessage(result));
     }
 
@@ -205,7 +213,7 @@ public class ServerTCP extends Thread {
     private void changeUsernameNetwork(ChangeUsernameMessage msg) {
         String token = msg.getToken();
         String newUsername = msg.getNewUsername();
-        Result result = ProfileMenuController.changeUserName(newUsername , token);
+        Result result = ProfileMenuController.changeUserName(newUsername, token);
         sendMessage(new ServerMessage(result));
     }
 
@@ -215,7 +223,7 @@ public class ServerTCP extends Thread {
         Result result = LoginMenuController.login(username, password);
         User user;
         String token = new String();
-        if (!result.isSuccessful()){
+        if (!result.isSuccessful()) {
             user = null;
             token = null;
         } else {
@@ -234,7 +242,7 @@ public class ServerTCP extends Thread {
         ConfirmQuestions confirmQuestions = msg.getQuestions();
         String answer = msg.getAnswer();
         String token = generateNewToken();
-        Result result = LoginMenuController.registerNewUser(confirmQuestions, username, password, nickname,email, answer, token);
+        Result result = LoginMenuController.registerNewUser(confirmQuestions, username, password, nickname, email, answer, token);
         sendMessage(new ServerMessage(result, token));
     }
 
@@ -277,6 +285,8 @@ public class ServerTCP extends Thread {
                     return gson.fromJson(clientStr, SignOutMessage.class);
                 case MessageType.GIVE_FRIEND:
                     return gson.fromJson(clientStr, GiveFriendMessage.class);
+                case MessageType.ACCEPT_REQUEST:
+                    return gson.fromJson(clientStr, AcceptRequest.class);
             }
             /*
              * TODO : اینجا باید جیسون رو تبدیل کنی به کلاس ها
@@ -312,6 +322,7 @@ public class ServerTCP extends Thread {
             return false;
         }
     }
+
     private boolean sendMessage(String message) {
         try {
             send.writeUTF(message);

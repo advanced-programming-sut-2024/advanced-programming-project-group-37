@@ -150,6 +150,7 @@ public class LoginMenuController{
             return new Result(false, "Password doesn't match!");
         //login successful
         User.setLoggedInUser(user);
+        user.setOnline(true);
         return new Result(true, "Login successfully.");
     }
     // use the  <isUsernameAlreadyUsed> for check existence of username
@@ -202,6 +203,7 @@ public class LoginMenuController{
         }
         //set new token
         user.setToken(newToken);
+        user.setOnline(false);
         User.setLoggedInUser(null);
         return new Result(true, "user logged out!");
     }

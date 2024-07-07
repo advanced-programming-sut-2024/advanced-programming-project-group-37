@@ -5,6 +5,7 @@ import server.model.FriendRequest;
 import server.model.User;
 import server.model.toolClasses.Result;
 
+import java.nio.file.attribute.UserPrincipalLookupService;
 import java.util.ArrayList;
 
 //extending from LoginMenuController because of some methods
@@ -131,6 +132,18 @@ public class ProfileMenuController extends LoginMenuController {
         totalInfo.add(date);
         totalInfo.add(state);
         return totalInfo;
+    }
+
+
+    public static Result acceptFriendRequest(String token, String username) {
+        User firstUser = User.getUserByToken(token);
+        User secondUser = User.getUserByUsername(username);
+        //add second user to first user friends
+        ArrayList<User> firstUserFriends = firstUser.getFriends();
+        firstUserFriends.add(secondUser);
+        //add first user to second user friends
+        ArrayList<User> secondUserFriends = secondUser.getFriends();
+        secondUserFriends.add(firstUser);
     }
 
     //check if 2 strings are the same
