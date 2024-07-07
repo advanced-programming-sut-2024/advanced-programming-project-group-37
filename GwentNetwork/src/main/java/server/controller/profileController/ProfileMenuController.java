@@ -127,6 +127,7 @@ public class ProfileMenuController extends LoginMenuController {
         totalInfo.add(fromWho);
         totalInfo.add(date);
         totalInfo.add(state);
+        return totalInfo;
     }
 
     //check if 2 strings are the same
