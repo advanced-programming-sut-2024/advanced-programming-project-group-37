@@ -151,7 +151,7 @@ public class ServerTCP extends Thread {
         ArrayList<String> date = friendRequests.get(1);
         ArrayList<String> state =  friendRequests.get(2);
 
-        sendMessage(new UpdateFriendRequestMessage(fromWho, fromWho, date, state));
+        sendMessage((ServerMessage) (new UpdateFriendRequestMessage(FriendsName, fromWho, date, state)));
     }
 
     private void singOutNetwork(SignOutMessage msg) {
