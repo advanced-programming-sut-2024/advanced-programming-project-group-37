@@ -245,7 +245,7 @@ public class ProfileMenu {
         UpdateFriendRequestMessage message = (UpdateFriendRequestMessage) clientTPC.receiveMassage();
 
         ArrayList<String> friends = message.getFriends();
-        ArrayList<String> requests = message.getFriendRequests();
+        ArrayList<String> requests = message.getFromWho();
 
         updateScroll(friends, friendScrollPane);
         updateScroll(requests, friendRequests);
