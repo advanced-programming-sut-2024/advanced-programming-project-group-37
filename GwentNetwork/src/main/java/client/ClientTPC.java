@@ -31,7 +31,7 @@ public class ClientTPC {
         GsonBuilder builder = new GsonBuilder();
         this.gson = builder.create();
     }
-    public Result establishConnection() {
+    public void establishConnection() {
         try {
             socket = new Socket(servetIP, serverPort);
 
@@ -43,33 +43,27 @@ public class ClientTPC {
                     socket.getInputStream()
             );
 
-            return new Result(true, null);
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(false, null);
         }
     }
-    public Result endConnection() {
-        if (socket == null) return new Result(true, null);
+    public void endConnection() {
+        if (socket == null)
+            return;
         try {
             socket.close();
             receive.close();
             send.close();
-
-            return new Result(true, null);
         } catch (IOException e) {
             e.printStackTrace();
-            return new Result(false, null);
         }
     }
-    public Result sendMassage(String massage) {
+    public void sendMassage(String massage) {
         try {
             establishConnection();
             send.writeUTF(massage);
-            return new Result(true, null);
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(false, null);
         }
     }
     public ServerMessage receiveMassage() {

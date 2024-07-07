@@ -93,12 +93,12 @@ public class ServerTCP extends Thread {
 
     private void handleConnection(Socket socket) {
         try {
-            receive = new DataInputStream(
-                    new BufferedInputStream(socket.getInputStream())
-            );
-            send = new DataOutputStream(
-                    new BufferedOutputStream(socket.getOutputStream())
-            );
+                receive = new DataInputStream(
+                        new BufferedInputStream(socket.getInputStream())
+                );
+                send = new DataOutputStream(
+                        new BufferedOutputStream(socket.getOutputStream())
+                );
 
             String clientRequest;
             clientRequest = receive.readUTF();
