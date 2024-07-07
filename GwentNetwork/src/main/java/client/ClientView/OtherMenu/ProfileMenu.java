@@ -3,13 +3,15 @@ package client.ClientView.OtherMenu;
 import client.ClientView.HeadViewController;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 import message.client.profileMenu.*;
@@ -245,27 +247,33 @@ public class ProfileMenu {
         ArrayList<String> friends = message.getFriends();
         ArrayList<String> requests = message.getFromWho();
 
-        updateScrollForFriend(friends, friendScrollPane);
+        updateScrollForFriend(friends, message.getState(), friendScrollPane);
         updateScrollForRequests(requests, message.getDate(), friendRequests);
     }
-    private void updateScrollForFriend(ArrayList<String> users, ScrollPane pane) {
+    private void updateScrollForFriend(ArrayList<String> users, ArrayList<String> state, ScrollPane pane) {
         GridPane gridPane = new GridPane();
 
         pane.setContent(gridPane);
-        gridPane.setHgap(90);
+        gridPane.setHgap(120);
         gridPane.setVgap(20);
 
         pane.setFitToWidth(true);
         pane.setFitToHeight(true);
 
         for (int i = 0; i < users.size(); i++) {
-            gridPane.add(new Label(users.get(i)), 2, i);
+            Button button = new Button(state.get(i));
+            if (state.get(i).equals("online")) button.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
+            else button.setBackground(new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY)));
+
+            gridPane.add(button, 0, i);
+
+            gridPane.add(new Label(users.get(i)), 1, i);
 
             Circle node = new Circle(15);
             node.setFill(new ImagePattern(
                     new Image(getClass().getResource("/asset/img/icons/profile.png").toExternalForm())));
 
-            gridPane.add(node, 3, i);
+            gridPane.add(node, 2, i);
         }
     }
     private void updateScrollForRequests(ArrayList<String> users, ArrayList<String> dates, ScrollPane pane) {
