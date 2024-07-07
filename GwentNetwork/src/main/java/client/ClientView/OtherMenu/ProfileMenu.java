@@ -3,10 +3,8 @@ package client.ClientView.OtherMenu;
 import client.ClientView.HeadViewController;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.event.ActionEvent;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -102,6 +100,9 @@ public class ProfileMenu {
     // graphic part
     public AnchorPane buttonPane;
     public AnchorPane editPane;
+    public AnchorPane friendPane;
+    public ScrollPane friendScrollPane;
+    public ScrollPane friendRequests;
     public void editProfile() {
         // set editPane visible and set button pane invisible
         editPane.setVisible(true);
@@ -222,8 +223,23 @@ public class ProfileMenu {
     public void mute() {
         HeadViewController.player.setMute(HeadViewController.isMute = !HeadViewController.isMute);
     }
+
     public void back() {
         // back to main page
         HeadViewController.changeScene("main page");
+    }
+
+    public void showFriendRequest() {
+        friendPane.setVisible(true);
+
+        updateFriend();
+    }
+
+    private void updateFriend() {
+
+    }
+
+    public void backFromFriendPage() {
+        friendPane.setVisible(false);
     }
 }
