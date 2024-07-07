@@ -15,6 +15,7 @@ public enum MessageType {
     GIVE_FRIEND,
     ACCEPT_REQUEST,
     SEARCH,
+    CHECK_SERVER,
 
 
 }

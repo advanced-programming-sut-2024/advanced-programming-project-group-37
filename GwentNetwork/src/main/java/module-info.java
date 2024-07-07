@@ -27,6 +27,7 @@ module GwentNetwork {
     opens client to javafx.fxml, javafx.graphics, com.google.gson;
     opens client.ClientView to javafx.fxml, javafx.graphics, com.google.gson;
     opens client.ClientView.OtherMenu to javafx.fxml, javafx.graphics, com.google.gson;
+    opens client.ClientView.GameMenu to javafx.fxml, javafx.graphics, com.google.gson;
 
     opens message.client to javafx.fxml, javafx.graphics, com.google.gson;
     opens message.client.LoginMenu to javafx.fxml, javafx.graphics, com.google.gson;
@@ -65,5 +66,6 @@ module GwentNetwork {
     exports server.model.gameTable;
     exports server.model.toolClasses;
     exports message.enums.loginMenu to com.google.gson;
+    exports client.ClientView.GameMenu;
 
 }
