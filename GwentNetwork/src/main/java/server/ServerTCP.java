@@ -277,6 +277,8 @@ public class ServerTCP extends Thread {
                     return gson.fromJson(clientStr, ForgetPasswordMessage.class);
                 case MessageType.SIGN_OUT:
                     return gson.fromJson(clientStr, SignOutMessage.class);
+                case MessageType.GIVE_FRIEND:
+                    return gson.fromJson(clientStr, GiveFriendMessage.class);
             }
             /*
              * TODO : اینجا باید جیسون رو تبدیل کنی به کلاس ها
