@@ -22,6 +22,9 @@ public class ServerMessage {
         this.info = result.getMessage();
         this.token = token;
     }
+    public ServerMessage(){
+        //an empty constructor
+    }
 
     public boolean isSuccess() {
         return success;

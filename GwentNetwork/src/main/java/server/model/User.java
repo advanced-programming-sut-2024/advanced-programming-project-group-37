@@ -22,6 +22,8 @@ public class User {
     private static ArrayList<User> allUsers = new ArrayList<>();
     private ArrayList<GameHistory> allPlayedGamesHistory; // for command "GameHistory history -n <n>"
 
+    private ArrayList<User> Friends = new ArrayList<>();
+    private ArrayList<FriendRequest> friendRequests = new ArrayList<>();
     static {
 //        User user1 = new User(ConfirmQuestions.q1, "1", "" , "", "" , "", "");
 //        User user2 = new User(ConfirmQuestions.q1, "2", "" , "", "" , "", "");
@@ -191,5 +193,21 @@ public class User {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public ArrayList<User> getFriends() {
+        return Friends;
+    }
+
+    public void setFriends(ArrayList<User> friends) {
+        Friends = friends;
+    }
+
+    public ArrayList<FriendRequest> getFriendRequests() {
+        return friendRequests;
+    }
+
+    public void setFriendRequests(ArrayList<FriendRequest> friendRequests) {
+        this.friendRequests = friendRequests;
     }
 }
