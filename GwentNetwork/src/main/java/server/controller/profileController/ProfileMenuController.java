@@ -119,6 +119,7 @@ public class ProfileMenuController extends LoginMenuController {
 
         ArrayList<ArrayList<String>> totalInfo = new ArrayList<>();
         for (FriendRequest friendRequest : user.getFriendRequests()) {
+            if (!friendRequest.getState().equals("waiting")) continue;
             User fromUser = friendRequest.getFromUser();
             fromWho.add(friendRequest.getFromUser().getUsername());
             date.add(friendRequest.getDate().toString());
