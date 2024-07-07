@@ -5,10 +5,10 @@ import server.model.toolClasses.Result;
 import java.util.ArrayList;
 
 public class UpdateFriendRequestMessage extends ServerMessage {
-    private ArrayList<String> friends;
-    private ArrayList<String> fromWho;
-    private ArrayList<String> date;
-    private ArrayList<String> state;
+    private ArrayList<String> friends = new ArrayList<>();
+    private ArrayList<String> fromWho = new ArrayList<>();
+    private ArrayList<String> date = new ArrayList<>();
+    private ArrayList<String> state = new ArrayList<>();
 
     public UpdateFriendRequestMessage(ArrayList<String> friends, ArrayList<String> fromWho, ArrayList<String> date, ArrayList<String> state) {
         this.friends = friends;
