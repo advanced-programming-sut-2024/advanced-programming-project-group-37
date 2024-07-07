@@ -151,7 +151,7 @@ public class ServerTCP extends Thread {
         ArrayList<String> date = friendRequests.get(1);
         ArrayList<String> state =  friendRequests.get(2);
 
-        sendMessage((ServerMessage) (new UpdateFriendRequestMessage(FriendsName, fromWho, date, state)));
+        sendMessage(gson.toJson(new UpdateFriendRequestMessage(FriendsName, fromWho, date, state)));
     }
 
     private void singOutNetwork(SignOutMessage msg) {
@@ -309,6 +309,14 @@ public class ServerTCP extends Thread {
         String failureString = gson.toJson(message);
         try {
             send.writeUTF(failureString);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    private boolean sendMessage(String message) {
+        try {
+            send.writeUTF(message);
             return true;
         } catch (Exception e) {
             return false;

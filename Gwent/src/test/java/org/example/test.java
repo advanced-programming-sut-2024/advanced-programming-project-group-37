@@ -74,6 +74,19 @@ public class test {
         Result result = ProfileMenuController.changeNickName("newNickname");
         assert user.getNickname().equals("newNickname") :result.getMessage();
     }
+    @Test
+    public void addToDeck(){
+        UserPreGameInfo userPreGameInfo = user.getUserPreGameInfo();
+        ArrayList<Pair<Card,Integer>> cards = new ArrayList<>();
+        userPreGameInfo.setCardsInDeck(cards);
+        cards.add(new Pair<>(Card.CiaranAep , 2));
+        assert !user.getUserPreGameInfo().getCardsInDeck().isEmpty();
+    }
+    @Test
+    public void removeFromDeck(){
+        UserPreGameInfo userPreGameInfo = user.getUserPreGameInfo();
+        ArrayList<Pair<Card,Integer>> cards = new ArrayList<>();
+        userPreGameInfo.setCardsInDeck(cards);
 
-
+    }
 }
