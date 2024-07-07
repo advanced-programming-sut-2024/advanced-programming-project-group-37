@@ -34,30 +34,6 @@ public class ServerMessage {
         this.fromWho = fromWho;
         this.date = date;
         this.state = state;
-
-        friends.add("kir");
-        friends.add("kir");
-        friends.add("kir");
-        friends.add("kir");
-        friends.add("kir");
-        friends.add("kir");
-        friends.add("kir");
-
-        fromWho.add("kos");
-        fromWho.add("kos");
-        fromWho.add("kos");
-        fromWho.add("kos");
-        fromWho.add("kos");
-        fromWho.add("kos");
-        fromWho.add("kos");
-
-        date.add("2/2/1402");
-        date.add("2/2/1402");
-        date.add("2/2/1402");
-        date.add("2/2/1402");
-        date.add("2/2/1402");
-        date.add("2/2/1402");
-        date.add("2/2/1402");
     }
     public ServerMessage(){
         //an empty constructor

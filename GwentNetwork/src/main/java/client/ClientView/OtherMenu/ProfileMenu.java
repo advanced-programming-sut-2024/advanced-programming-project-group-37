@@ -3,6 +3,7 @@ package client.ClientView.OtherMenu;
 import client.ClientView.HeadViewController;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -107,6 +108,7 @@ public class ProfileMenu {
     public AnchorPane friendPane;
     public ScrollPane friendScrollPane;
     public ScrollPane friendRequests;
+    public AnchorPane requestPane;
     public void editProfile() {
         // set editPane visible and set button pane invisible
         editPane.setVisible(true);
@@ -254,7 +256,7 @@ public class ProfileMenu {
         GridPane gridPane = new GridPane();
 
         pane.setContent(gridPane);
-        gridPane.setHgap(120);
+        gridPane.setHgap(170);
         gridPane.setVgap(20);
 
         pane.setFitToWidth(true);
@@ -262,8 +264,8 @@ public class ProfileMenu {
 
         for (int i = 0; i < users.size(); i++) {
             Button button = new Button(state.get(i));
-            if (state.get(i).equals("online")) button.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
-            else button.setBackground(new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY)));
+            if (state.get(i).equals("online")) button.setStyle("-fx-background-color: #4fb90e");
+            else button.setStyle("-fx-background-color: gray");
 
             gridPane.add(button, 0, i);
 
@@ -280,7 +282,7 @@ public class ProfileMenu {
         GridPane gridPane = new GridPane();
 
         pane.setContent(gridPane);
-        gridPane.setHgap(90);
+        gridPane.setHgap(70);
         gridPane.setVgap(20);
 
         pane.setFitToWidth(true);
@@ -291,6 +293,9 @@ public class ProfileMenu {
             Button button = new Button("Accept");
 
             gridPane.add(button, 0, i);
+
+            int finalI = i;
+            button.setOnAction(event -> acceptRequest(users.get(finalI)));
 
             gridPane.add(new Label(dates.get(i)), 1, i);
 
@@ -303,7 +308,16 @@ public class ProfileMenu {
             gridPane.add(node, 3, i);
         }
     }
+    private void acceptRequest(String username) {
+        clientTPC.sendMassage(clientTPC.gson.toJson(new AcceptRequest(clientTPC.token, username)));
+
+        clientTPC.receiveMassage();
+    }
     public void backFromFriendPage() {
         friendPane.setVisible(false);
+    }
+
+    public void showRequest() {
+        requestPane.setVisible(true);
     }
 }
