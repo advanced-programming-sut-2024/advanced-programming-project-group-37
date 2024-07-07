@@ -144,6 +144,8 @@ public class ProfileMenuController extends LoginMenuController {
         //add first user to second user friends
         ArrayList<User> secondUserFriends = secondUser.getFriends();
         secondUserFriends.add(firstUser);
+
+        return null; // todo
     }
 
     //check if 2 strings are the same
