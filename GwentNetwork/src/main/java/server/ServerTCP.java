@@ -8,14 +8,12 @@ import message.client.MainMenu.SignOutMessage;
 import message.client.profileMenu.*;
 import message.enums.loginMenu.ConfirmQuestions;
 import message.server.ServerMessage;
-import message.server.UpdateFriendRequestMessage;
 import server.controller.loginController.LoginMenuController;
 import server.controller.profileController.ProfileMenuController;
 import server.model.User;
 import server.model.toolClasses.Result;
 
 import java.io.*;
-import java.net.ProtocolFamily;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -151,7 +149,7 @@ public class ServerTCP extends Thread {
         ArrayList<String> date = friendRequests.get(1);
         ArrayList<String> state =  friendRequests.get(2);
 
-        sendMessage(ServerTCP.gson.toJson(new UpdateFriendRequestMessage(FriendsName, fromWho, date, state)));
+        sendMessage(new ServerMessage(FriendsName, fromWho, date, state));
     }
 
     private void singOutNetwork(SignOutMessage msg) {
