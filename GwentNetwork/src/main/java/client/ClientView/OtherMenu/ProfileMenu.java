@@ -3,16 +3,12 @@ package client.ClientView.OtherMenu;
 import client.ClientView.HeadViewController;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
-import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 import message.client.profileMenu.*;
@@ -20,15 +16,14 @@ import message.enums.profileMenu.ProfileMenuCommands;
 import message.server.ServerMessage;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.regex.Matcher;
 
 import static client.ClientView.HeadViewController.clientTPC;
 
 public class ProfileMenu {
 
-    public AnchorPane terminalPane;
     public TextArea terminalTextArea;
+    public AnchorPane terminalPane;
     private boolean isTerminalVisible = false;
     public void showTerminal(KeyEvent keyEvent) {
         if (keyEvent.getCode().equals(KeyCode.ESCAPE)) {
@@ -109,6 +104,10 @@ public class ProfileMenu {
     public ScrollPane friendScrollPane;
     public ScrollPane friendRequests;
     public AnchorPane requestPane;
+    public ScrollPane searchScrollPane;
+    public TextField searchTextField;
+    public AnchorPane searchWindow;
+    public AnchorPane searchPane;
     public void editProfile() {
         // set editPane visible and set button pane invisible
         editPane.setVisible(true);
@@ -308,6 +307,36 @@ public class ProfileMenu {
             gridPane.add(node, 3, i);
         }
     }
+    private void updateScrollPaneForSearch(ArrayList<String> users, ScrollPane pane) {
+        GridPane gridPane = new GridPane();
+
+        pane.setContent(gridPane);
+        gridPane.setHgap(20);
+        gridPane.setVgap(20);
+
+        pane.setFitToWidth(true);
+        pane.setFitToHeight(true);
+
+        for (int i = 0; i < users.size() / 2; i++) {
+            gridPane.add(new Label(users.get(i)), 0, i);
+
+            Circle node = new Circle(15);
+            node.setFill(new ImagePattern(
+                    new Image(getClass().getResource("/asset/img/icons/profile.png").toExternalForm())));
+
+            gridPane.add(node, 1, i);
+        }
+        for (int i = users.size()/2 + 1; i < users.size(); i++) {
+            gridPane.add(new Label(users.get(i)), 3, i - users.size()/2 - 1);
+
+            Circle node = new Circle(15);
+            node.setFill(new ImagePattern(
+                    new Image(getClass().getResource("/asset/img/icons/profile.png").toExternalForm())));
+
+            gridPane.add(node, 4, i);
+        }
+
+    }
     private void acceptRequest(String username) {
         clientTPC.sendMassage(clientTPC.gson.toJson(new AcceptRequest(clientTPC.token, username)));
 
@@ -319,5 +348,21 @@ public class ProfileMenu {
 
     public void showRequest() {
         requestPane.setVisible(true);
+    }
+
+    public void showSearch() {
+        searchPane.setVisible(true);
+    }
+
+    public void search() {
+        String username = searchTextField.getText();
+
+        clientTPC.sendMassage(clientTPC.gson.toJson(new SearchMessage(username)));
+
+        ServerMessage message = clientTPC.receiveMassage();
+
+        ArrayList<String> users = message.getFriends();
+
+        updateScrollPaneForSearch(users, searchScrollPane);
     }
 }

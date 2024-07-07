@@ -14,5 +14,7 @@ public enum MessageType {
     SIGN_OUT,
     GIVE_FRIEND,
     ACCEPT_REQUEST,
+    SEARCH,
+
 
 }

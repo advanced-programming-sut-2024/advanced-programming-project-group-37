@@ -37,7 +37,7 @@
                <children>
                   <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../asset/img/icons/deck_shield_realms.png" />
+                        <Image url="@../asset/img/icons/realms1.png" />
                      </image>
                   </ImageView>
                   <Label alignment="TOP_LEFT" text="Northern Realms" textFill="#b3b3b3" textOverrun="CLIP">
@@ -201,6 +201,5 @@
                <TextArea fx:id="terminalTextArea" layoutX="14.0" layoutY="14.0" onKeyPressed="#checkCommand" prefHeight="400.0" prefWidth="420.0" styleClass="terminal" />
            </children>
        </AnchorPane>
-      <Label alignment="CENTER" layoutX="439.0" layoutY="5.0" prefHeight="18.0" prefWidth="121.0" text="player 1" textFill="WHITE" />
    </children>
 </AnchorPane>
