@@ -5,18 +5,17 @@ import com.google.gson.GsonBuilder;
 import message.client.*;
 import message.client.LoginMenu.*;
 import message.client.MainMenu.SignOutMessage;
-import message.client.profileMenu.ChangeEmailMessage;
-import message.client.profileMenu.ChangeNicknameMessage;
-import message.client.profileMenu.ChangePasswordMessage;
-import message.client.profileMenu.ChangeUsernameMessage;
+import message.client.profileMenu.*;
 import message.enums.loginMenu.ConfirmQuestions;
 import message.server.ServerMessage;
+import message.server.UpdateFriendRequestMessage;
 import server.controller.loginController.LoginMenuController;
 import server.controller.profileController.ProfileMenuController;
 import server.model.User;
 import server.model.toolClasses.Result;
 
 import java.io.*;
+import java.net.ProtocolFamily;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -126,6 +125,8 @@ public class ServerTCP extends Thread {
                 forgetPassNetwork((ForgetPasswordMessage) msg);
             } else if (msg instanceof SignOutMessage) {
                 singOutNetwork((SignOutMessage) msg);
+            } else if (msg instanceof GiveFriendMessage){
+                giveFriendNetwork((GiveFriendMessage)msg);
             }
             /* TODO : اینجا کلاینت مسیج رو داریم. نگا میکنیم ببینیم مربوط به کدوم نوع مسیج هست
              * TODO : با استفاده از instanceOf --> clientMassage instanceOf RegisterMassage
@@ -139,6 +140,18 @@ public class ServerTCP extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void giveFriendNetwork(GiveFriendMessage msg) {
+        String token = msg.getToken();
+        ArrayList<String> FriendsName = ProfileMenuController.FriendsName(token);
+        ArrayList<ArrayList<String>> friendRequests = ProfileMenuController.frienRequestNames(token);
+
+        ArrayList<String> fromWho = friendRequests.get(0);
+        ArrayList<String> date = friendRequests.get(1);
+        ArrayList<String> state =  friendRequests.get(2);
+
+        sendMessage(new UpdateFriendRequestMessage(fromWho, fromWho, date, state));
     }
 
     private void singOutNetwork(SignOutMessage msg) {

@@ -1,6 +1,7 @@
 package server.controller.profileController;
 
 import server.controller.loginController.LoginMenuController;
+import server.model.FriendRequest;
 import server.model.User;
 import server.model.toolClasses.Result;
 
@@ -94,6 +95,38 @@ public class ProfileMenuController extends LoginMenuController {
         user.setPassword(newPassword);
         User.setLoggedInUser(user);
         return new Result(true, "Password changed successfully!");
+    }
+
+    public static ArrayList<String> FriendsName(String token) {
+        User user = User.getUserByToken(token);
+        if (user == null) {
+            return null;
+        }
+        ArrayList<String> friendsName = new ArrayList<>();
+        for (User friend: user.getFriends()){
+            friendsName.add(friend.getUsername());
+        }
+        return friendsName;
+    }
+
+    public static ArrayList<ArrayList<String>> frienRequestNames(String token) {
+        User user = User.getUserByToken(token);
+        if (user == null) {
+            return null;
+        }
+        ArrayList<String> fromWho = new ArrayList<>();
+        ArrayList<String> date = new ArrayList<>();
+        ArrayList<String> state = new ArrayList<>();
+
+        ArrayList<ArrayList<String>> totalInfo = new ArrayList<>();
+        for (FriendRequest friendRequest: user.getFriendRequests()){
+            fromWho.add(friendRequest.getFromUser().getUsername());
+            date.add(friendRequest.getDate().toString());
+            state.add(friendRequest.getState());
+        }
+        totalInfo.add(fromWho);
+        totalInfo.add(date);
+        totalInfo.add(state);
     }
 
     //check if 2 strings are the same

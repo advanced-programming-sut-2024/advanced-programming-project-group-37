@@ -3,31 +3,34 @@ package message.server;
 import server.model.toolClasses.Result;
 
 import java.util.ArrayList;
-import java.util.ResourceBundle;
 
-public class UpdateFriendRequestMessage extends ServerMessage{
+public class UpdateFriendRequestMessage extends ServerMessage {
     private ArrayList<String> friends;
-    private ArrayList<String> friendRequests;
+    private ArrayList<String> fromWho;
+    private ArrayList<String> date;
+    private ArrayList<String> state;
 
-    public UpdateFriendRequestMessage(ArrayList<String> friends, ArrayList<String> friendRequests, Result result) {
-        super(result);
+    public UpdateFriendRequestMessage(ArrayList<String> friends, ArrayList<String> fromWho, ArrayList<String> date, ArrayList<String> state) {
         this.friends = friends;
-        this.friendRequests = friendRequests;
+        this.fromWho = fromWho;
+        this.date = date;
+        this.state = state;
     }
 
     public ArrayList<String> getFriends() {
         return friends;
     }
 
-    public void setFriends(ArrayList<String> friends) {
-        this.friends = friends;
+
+    public ArrayList<String> getFromWho() {
+        return fromWho;
     }
 
-    public ArrayList<String> getFriendRequests() {
-        return friendRequests;
+    public ArrayList<String> getDate() {
+        return date;
     }
 
-    public void setFriendRequests(ArrayList<String> friendRequests) {
-        this.friendRequests = friendRequests;
+    public ArrayList<String> getState() {
+        return state;
     }
 }

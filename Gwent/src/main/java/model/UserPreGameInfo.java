@@ -14,7 +14,7 @@ public class UserPreGameInfo {
     private ArrayList<Pair<Card, Integer>> cardCollection;
     private ArrayList<Pair<Card, Integer>> cardsInDeck;
 
-    UserPreGameInfo() {
+    public UserPreGameInfo() {
         // set default faction <REALMS_NORTHERN>
         this.faction = Factions.REALMS_NORTHERN;
 

@@ -13,4 +13,20 @@ public class FriendRequest {
         this.toUser = toUser;
         this.state = "waiting";
     }
+
+    public User getFromUser() {
+        return fromUser;
+    }
+
+    public User getToUser() {
+        return toUser;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
 }
