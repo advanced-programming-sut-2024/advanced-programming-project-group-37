@@ -17,6 +17,7 @@ import message.enums.profileMenu.ProfileMenuCommands;
 import message.server.ServerMessage;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.regex.Matcher;
 
 import static client.ClientView.HeadViewController.clientTPC;
@@ -238,32 +239,60 @@ public class ProfileMenu {
 
     private void updateFriend() {
         clientTPC.sendMassage(clientTPC.gson.toJson(new GiveFriendMessage(clientTPC.token)));
-        System.out.println(clientTPC.receiveMassage().getClass());
-        UpdateFriendRequestMessage message = (UpdateFriendRequestMessage) clientTPC.receiveMassage();
+
+        ServerMessage message = clientTPC.receiveMassage();
 
         ArrayList<String> friends = message.getFriends();
         ArrayList<String> requests = message.getFromWho();
 
-        updateScroll(friends, friendScrollPane);
-        updateScroll(requests, friendRequests);
+        updateScrollForFriend(friends, friendScrollPane);
+        updateScrollForRequests(requests, message.getDate(), friendRequests);
     }
-
-    private void updateScroll(ArrayList<String> list, ScrollPane pane) {
+    private void updateScrollForFriend(ArrayList<String> users, ScrollPane pane) {
         GridPane gridPane = new GridPane();
 
         pane.setContent(gridPane);
+        gridPane.setHgap(90);
+        gridPane.setVgap(20);
 
-        for (int i = 0; i < list.size(); i++) {
-            Circle node = new Circle();
+        pane.setFitToWidth(true);
+        pane.setFitToHeight(true);
+
+        for (int i = 0; i < users.size(); i++) {
+            gridPane.add(new Label(users.get(i)), 2, i);
+
+            Circle node = new Circle(15);
             node.setFill(new ImagePattern(
                     new Image(getClass().getResource("/asset/img/icons/profile.png").toExternalForm())));
 
-            gridPane.add(node, 0, i);
-            gridPane.add(new Label(list.get(i)), 1, i);
+            gridPane.add(node, 3, i);
+        }
+    }
+    private void updateScrollForRequests(ArrayList<String> users, ArrayList<String> dates, ScrollPane pane) {
+        GridPane gridPane = new GridPane();
+
+        pane.setContent(gridPane);
+        gridPane.setHgap(90);
+        gridPane.setVgap(20);
+
+        pane.setFitToWidth(true);
+        pane.setFitToHeight(true);
+
+        for (int i = 0; i < users.size(); i++) {
 
             Button button = new Button("Accept");
 
-            gridPane.add(button, 2, i);
+            gridPane.add(button, 0, i);
+
+            gridPane.add(new Label(dates.get(i)), 1, i);
+
+            gridPane.add(new Label(users.get(i)), 2, i);
+
+            Circle node = new Circle(15);
+            node.setFill(new ImagePattern(
+                    new Image(getClass().getResource("/asset/img/icons/profile.png").toExternalForm())));
+
+            gridPane.add(node, 3, i);
         }
     }
     public void backFromFriendPage() {
