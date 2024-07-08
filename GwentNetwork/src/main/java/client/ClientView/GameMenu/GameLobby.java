@@ -17,9 +17,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.util.Duration;
 import message.client.gameLobby.*;
 import message.server.ServerMessage;
+import message.server.ServerType;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -82,7 +86,19 @@ public class GameLobby {
 
                 ServerMessage message = clientTPC.receiveMassage();
 
-                // todo
+                if (message.getType() == ServerType.POP_UP_MATCH_REQ_GAME_LOBBY) {
+                    popUpPane.setVisible(true);
+
+                    username.setText(message.getOpponent());
+
+                    Media media = new Media(getClass().getResource("/VIDEOS/hand.mp4").toExternalForm());
+                    MediaPlayer player = new MediaPlayer(media);
+                    player.setCycleCount(1);
+                    mediaView.setMediaPlayer(player);
+                    player.play();
+                } else if (message.getType() == ServerType.POP_UP_MATCH_REQ_GAME_LOBBY) { // todo : تغیر تایپ
+                    counterButton.setVisible(false);
+                }
             });
 
             timeline.getKeyFrames().add(keyFrame);
@@ -99,6 +115,9 @@ public class GameLobby {
     public Button counterButton;
     public ImageView typePicture;
     public HBox typeHBox;
+    public AnchorPane popUpPane;
+    public MediaView mediaView;
+    public Label username;
 
     public void showOnlineFriend() {
         openFriendButton.setVisible(false);
@@ -169,12 +188,10 @@ public class GameLobby {
             clientTPC.sendMassage(clientTPC.gson.toJson(new FriendGameRequest(clientTPC.token, username)));
         }
     }
-
     private boolean showPupUp(String username) {
         clientTPC.sendMassage(clientTPC.gson.toJson(new ShowPupUpMessage(clientTPC.token, username)));
         return clientTPC.receiveMassage().isSuccess();
     }
-
     public void closeOnlineFriend() {
         openFriendButton.setVisible(true);
 
@@ -235,15 +252,23 @@ public class GameLobby {
             counterButton.setVisible(false);
         });
 
-        if (startGame()) {
-            timeline.setOnFinished(null);
-            counterButton.setVisible(false);
-            timeline.stop();
-        }
+        startGame();
     }
-    private boolean startGame() {
+    private void startGame() {
         clientTPC.sendMassage(clientTPC.gson.toJson(new RandomGameRequest(clientTPC.token)));
 
-        return clientTPC.receiveMassage().isSuccess();
+        clientTPC.receiveMassage().isSuccess();
+    }
+
+    // these methods are for pop up
+    public void accept() {
+        clientTPC.sendMassage(clientTPC.gson.toJson(new AcceptFriendRequest(clientTPC.token, username.getText())));
+
+        clientTPC.receiveMassage();
+    }
+    public void reject() {
+        clientTPC.sendMassage(clientTPC.gson.toJson(new RejectFriendRequest(clientTPC.token, username.getText())));
+
+        clientTPC.receiveMassage();
     }
 }
