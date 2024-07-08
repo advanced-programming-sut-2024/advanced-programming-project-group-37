@@ -3,6 +3,7 @@ package client.ClientView.OtherMenu;
 import client.ClientView.HeadViewController;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 
 import static client.ClientView.HeadViewController.clientTPC;
+import static client.ClientView.HeadViewController.isMute;
 
 public class ProfileMenu {
 
@@ -225,8 +227,13 @@ public class ProfileMenu {
         // todo: IF
     }
 
-    public void mute() {
+    public void mute(ActionEvent actionEvent) {
         HeadViewController.player.setMute(HeadViewController.isMute = !HeadViewController.isMute);
+
+        Button button = (Button) actionEvent.getSource();
+
+        if (isMute) button.setText("UNMUTE");
+        else button.setText("MUTE");
     }
 
     public void back() {
@@ -347,11 +354,13 @@ public class ProfileMenu {
         clientTPC.sendMassage(clientTPC.gson.toJson(new AcceptRequest(clientTPC.token, username)));
 
         clientTPC.receiveMassage();
+        updateFriend();
     }
     private void acceptRequest(String username) {
         clientTPC.sendMassage(clientTPC.gson.toJson(new AcceptRequest(clientTPC.token, username)));
 
         clientTPC.receiveMassage();
+        updateFriend();
     }
     public void backFromFriendPage() {
         friendPane.setVisible(false);

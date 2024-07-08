@@ -2,9 +2,11 @@ package client.ClientView;
 
 import client.ClientTPC;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -139,8 +141,13 @@ public class HeadViewController extends Application {
         changeScene("login page");
     }
 
-    public void mute() {
+    public void mute(ActionEvent actionEvent) {
         player.setMute(isMute = !isMute);
+
+        Button button = (Button) actionEvent.getSource();
+
+        if (isMute) button.setText("UNMUTE");
+        else button.setText("MUTE");
     }
 
     // this method change scene and set special media for each of them

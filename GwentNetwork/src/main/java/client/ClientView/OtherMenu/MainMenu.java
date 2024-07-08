@@ -1,6 +1,8 @@
 package client.ClientView.OtherMenu;
 
 import client.ClientView.HeadViewController;
+import javafx.event.ActionEvent;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -10,6 +12,7 @@ import message.enums.mainMenu.MainMenuCommands;
 
 import java.util.regex.Matcher;
 import static client.ClientView.HeadViewController.clientTPC;
+import static client.ClientView.HeadViewController.isMute;
 
 public class MainMenu {
     public AnchorPane terminalPane;
@@ -71,7 +74,12 @@ public class MainMenu {
         HeadViewController.changeScene("login page");
     }
 
-    public void mute() {
+    public void mute(ActionEvent actionEvent) {
         HeadViewController.player.setMute(HeadViewController.isMute = !HeadViewController.isMute);
+
+        Button button = (Button) actionEvent.getSource();
+
+        if (isMute) button.setText("UNMUTE");
+        else button.setText("MUTE");
     }
 }

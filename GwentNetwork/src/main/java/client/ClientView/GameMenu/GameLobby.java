@@ -23,6 +23,7 @@ import message.server.ServerMessage;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import static client.ClientView.HeadViewController.clientTPC;
+import static client.ClientView.HeadViewController.isMute;
 
 public class GameLobby {
 
@@ -53,8 +54,13 @@ public class GameLobby {
             terminalTextArea.positionCaret(terminalTextArea.getText().length());
         }
     }
-    public void mute() {
+    public void mute(ActionEvent actionEvent) {
         HeadViewController.player.setMute(HeadViewController.isMute = !HeadViewController.isMute);
+
+        Button button = (Button) actionEvent.getSource();
+
+        if (isMute) button.setText("UNMUTE");
+        else button.setText("MUTE");
     }
 
     // check server
@@ -87,11 +93,14 @@ public class GameLobby {
     public AnchorPane onlineFriendPane;
     public Button openFriendButton;
     public ScrollPane onlineFriendScroll;
+    public Button counterButton;
 
     public void showOnlineFriend() {
         openFriendButton.setVisible(false);
 
         onlineFriendPane.setVisible(true);
+
+        closeFriendButton.setVisible(true);
 
         clientTPC.sendMassage(clientTPC.gson.toJson(new GiveMeOnlineFriend(clientTPC.token)));
 
@@ -118,11 +127,38 @@ public class GameLobby {
         }
     }
     private void inviteFriend(String username) {
-        if (!showPupUp(username)) {
-            return;
+        Timeline timeline = new Timeline();
+
+        for (int i = 1; i <= 7; i++) {
+            int ii = i;
+            KeyFrame keyFrame = new KeyFrame(Duration.seconds(ii), event -> {
+                counterButton.setVisible(true);
+                counterButton.setText(ii + "s passed since invite");
+            });
+            timeline.getKeyFrames().add(keyFrame);
         }
 
+        timeline.play();
 
+        if (!showPupUp(username)) {
+            openFriendButton.setVisible(true);
+
+            onlineFriendPane.setVisible(false);
+
+            closeFriendButton.setVisible(false);
+            timeline.stop();
+        }
+        else {
+            openFriendButton.setVisible(false);
+
+            onlineFriendPane.setVisible(true);
+
+            closeFriendButton.setVisible(true);
+
+            timeline.stop();
+
+            // todo : meeeet
+        }
     }
     private boolean showPupUp(String username) {
         clientTPC.sendMassage(clientTPC.gson.toJson(new ShowPupUpMessage(clientTPC.token, username)));
@@ -130,5 +166,14 @@ public class GameLobby {
     }
 
     public void closeOnlineFriend() {
+        openFriendButton.setVisible(true);
+
+        onlineFriendPane.setVisible(false);
+
+        closeFriendButton.setVisible(false);
+    }
+
+    public void back() {
+        HeadViewController.changeScene("main page");
     }
 }

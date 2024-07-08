@@ -4,6 +4,7 @@ package client.ClientView.OtherMenu;
 import client.ClientView.HeadViewController;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -17,6 +18,7 @@ import message.server.ServerMessage;
 import java.util.regex.Matcher;
 
 import static client.ClientView.HeadViewController.clientTPC;
+import static client.ClientView.HeadViewController.isMute;
 
 /**
  * @author iliya
@@ -368,8 +370,13 @@ public class LoginMenu {
         });
     }
 
-    public void mute() {
+    public void mute(ActionEvent actionEvent) {
         HeadViewController.player.setMute(HeadViewController.isMute = !HeadViewController.isMute);
+
+        Button button = (Button) actionEvent.getSource();
+
+        if (isMute) button.setText("UNMUTE");
+        else button.setText("MUTE");
     }
 
 }

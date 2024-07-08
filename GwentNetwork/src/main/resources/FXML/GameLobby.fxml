@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.media.*?>
 <?import javafx.scene.text.*?>
@@ -10,7 +11,7 @@
       <MediaView fitHeight="450.0" fitWidth="800.0" onMouseEntered="#checkServer" />
 
 
-      <Button layoutX="14.0" layoutY="11.0" mnemonicParsing="false" onAction="#mute" style="-fx-background-color: #0009;" text="MUTE" textFill="WHITE">
+      <Button layoutX="14.0" layoutY="11.0" mnemonicParsing="false" onAction="#mute" prefHeight="26.0" prefWidth="67.0" style="-fx-background-color: #0009;" text="MUTE" textFill="WHITE">
          <font>
             <Font name="System Bold Italic" size="12.0" />
          </font></Button>
@@ -20,10 +21,40 @@
          </children>
       </AnchorPane>
       <Button fx:id="openFriendButton" layoutX="-33.0" layoutY="212.0" mnemonicParsing="false" onAction="#showOnlineFriend" prefWidth="120.0" rotate="-90.0" style="-fx-background-color: #000c;" text="v" textFill="WHITE" />
-      <AnchorPane fx:id="onlineFriendPane" layoutX="14.0" layoutY="85.0" prefHeight="280.0" prefWidth="200.0" style="-fx-background-color: #000c;">
+      <AnchorPane fx:id="onlineFriendPane" layoutX="14.0" layoutY="85.0" prefHeight="280.0" prefWidth="200.0" style="-fx-background-color: #000c;" visible="false">
          <children>
-            <ScrollPane fx:id="onlineFriendScroll" prefHeight="280.0" prefWidth="200.0" />
+            <ScrollPane fx:id="onlineFriendScroll" prefHeight="280.0" prefWidth="200.0" visible="false" />
          </children></AnchorPane>
-      <Button fx:id="closeFriendButton" layoutX="167.0" layoutY="212.0" mnemonicParsing="false" onAction="#closeOnlineFriend" prefWidth="120.0" rotate="90.0" style="-fx-background-color: #000c;" text="v" textFill="WHITE" />
+      <Button fx:id="closeFriendButton" layoutX="167.0" layoutY="212.0" mnemonicParsing="false" onAction="#closeOnlineFriend" prefWidth="120.0" rotate="90.0" style="-fx-background-color: #000c;" text="v" textFill="WHITE" visible="false" />
+      <Button fx:id="counterButton" layoutX="264.0" layoutY="212.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="270.0" style="-fx-background-color: #000c;" textFill="WHITE" visible="false" />
+      <Button layoutX="89.0" layoutY="10.0" mnemonicParsing="false" onAction="#back" prefHeight="26.0" prefWidth="67.0" style="-fx-background-color: #0009;" text="back" textFill="WHITE">
+         <font>
+            <Font name="System Bold Italic" size="12.0" />
+         </font>
+      </Button>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="673.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../asset/img/icons/L2.jpg" />
+         </image>
+      </ImageView>
+      <Label layoutX="673.0" layoutY="165.0" prefHeight="20.0" prefWidth="90.0" text="Game type" textFill="WHITE">
+         <font>
+            <Font name="System Bold Italic" size="14.0" />
+         </font>
+      </Label>
+      <HBox layoutX="300.0" layoutY="175.0" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../asset/img/icons/L1.jpeg" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="150.0" fitWidth="165.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../asset/img/icons/L2.jpg" />
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
    </children>
 </AnchorPane>
