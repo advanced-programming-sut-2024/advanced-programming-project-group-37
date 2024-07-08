@@ -12,4 +12,8 @@ public class RejectRequest extends ClientMessage {
         this.username = username;
         this.type = MessageType.REJECT_REQUEST;
     }
+
+    public String getUsername() {
+        return username;
+    }
 }

@@ -3,6 +3,7 @@ package server;
 import client.ClientView.GameMenu.GameLobby;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import javafx.stage.Popup;
 import message.client.*;
 import message.client.LoginMenu.*;
 import message.client.MainMenu.SignOutMessage;
@@ -141,6 +142,8 @@ public class ServerTCP extends Thread {
                 showPopUpNetwork((ShowPupUpMessage) msg);
             } else if (msg instanceof CheckServerMessage) {
                 checkServerForMatchReq((CheckServerMessage) msg);
+            } else if (msg instanceof RejectRequest) {
+                rejectReqNetwork((RejectRequest) msg);
             }
 
 
@@ -152,6 +155,24 @@ public class ServerTCP extends Thread {
         }
     }
 
+    private void rejectReqNetwork(RejectRequest msg) {
+        String token = msg.getToken();
+        String username = msg.getUsername();
+
+        Result result = ProfileMenuController.rejectFriendRequest(token, username);
+        //just send a null message
+        sendMessage(new ServerMessage());
+    }
+
+    private void acceptRequestNetwork(AcceptRequest msg) {
+        String token = msg.getToken();
+        String username = msg.getUsername();
+
+        Result result = ProfileMenuController.acceptFriendRequest(token , username);
+        //just send a null message
+        sendMessage(new ServerMessage());
+
+    }
     private void checkServerForMatchReq(CheckServerMessage msg) {
         String token = msg.getToken();
         Result result = GameLobbyController.checkMatchReq(token);
@@ -187,15 +208,6 @@ public class ServerTCP extends Thread {
         sendMessage(new ServerMessage(foundUsers));
     }
 
-    private void acceptRequestNetwork(AcceptRequest msg) {
-        String token = msg.getToken();
-        String username = msg.getUsername();
-
-        Result result = ProfileMenuController.acceptFriendRequest(token , username);
-        //just send a null message
-        sendMessage(new ServerMessage());
-
-    }
 
     private void giveFriendNetwork(GiveFriendMessage msg) {
         String token = msg.getToken();
@@ -342,6 +354,10 @@ public class ServerTCP extends Thread {
                     return gson.fromJson(clientStr, GiveMeOnlineFriend.class);
                 case MessageType.SEARCH:
                     return gson.fromJson(clientStr, SearchMessage.class);
+                case MessageType.PUP_UP:
+                    return gson.fromJson(clientStr, ShowPupUpMessage.class);
+                case MessageType.REJECT_REQUEST:
+                    return gson.fromJson(clientStr, RejectRequest.class);
             }
             return null;
         } catch (Exception e) {

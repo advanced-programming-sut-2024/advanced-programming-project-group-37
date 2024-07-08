@@ -138,6 +138,8 @@ public class ProfileMenuController extends LoginMenuController {
     public static Result acceptFriendRequest(String token, String username) {
         User firstUser = User.getUserByToken(token);
         User secondUser = User.getUserByUsername(username);
+        //remove from friend requests
+        removeFromFriendReq(firstUser, secondUser);
         //add second user to first user friends
         ArrayList<User> firstUserFriends = firstUser.getFriends();
         firstUserFriends.add(secondUser);
@@ -145,7 +147,26 @@ public class ProfileMenuController extends LoginMenuController {
         ArrayList<User> secondUserFriends = secondUser.getFriends();
         secondUserFriends.add(firstUser);
 
-        return null; // todo
+        return new Result(true, "accepted friend request");
+    }
+
+    private static void removeFromFriendReq(User toWho, User fromWho) {
+        ArrayList<FriendRequest> toWhoFriendsReq = toWho.getFriendRequests();
+        for (FriendRequest friendRequest : toWhoFriendsReq) {
+            if (friendRequest.getFromUser() == fromWho) {
+                toWhoFriendsReq.remove(friendRequest);
+                break;
+            }
+        }
+    }
+
+    public static Result rejectFriendRequest(String token, String username) {
+        User firstUser = User.getUserByToken(token);
+        User secondUser = User.getUserByUsername(username);
+
+        //remove from friend requests
+        removeFromFriendReq(firstUser, secondUser);
+        return new Result(true, "removed successfully");
     }
 
     //check if 2 strings are the same
