@@ -1,5 +1,6 @@
 package server.model;
 
+import message.enums.State;
 import message.enums.loginMenu.ConfirmQuestions;
 
 import java.util.ArrayList;
@@ -8,7 +9,7 @@ public class User {
     private boolean haveRequestForGame = false;
     private User opponetRequest;
     private String token;
-    private boolean isOnline = false;
+    private State state;
     private String username;
     private String password;
     private String nickname;
@@ -214,13 +215,7 @@ public class User {
         this.friendRequests = friendRequests;
     }
 
-    public boolean isOnline() {
-        return isOnline;
-    }
 
-    public void setOnline(boolean online) {
-        isOnline = online;
-    }
 
     public boolean isHaveRequestForGame() {
         return haveRequestForGame;
@@ -236,5 +231,13 @@ public class User {
 
     public void setOpponetRequest(User opponetRequest) {
         this.opponetRequest = opponetRequest;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
     }
 }
