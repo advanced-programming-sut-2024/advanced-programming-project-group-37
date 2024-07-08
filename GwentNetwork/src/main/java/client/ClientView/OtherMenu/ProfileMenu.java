@@ -331,9 +331,13 @@ public class ProfileMenu {
         pane.setFitToHeight(true);
 
         for (int i = 0; i < users.size() / 2; i++) {
-            gridPane.add(new Label(users.get(i)), 0, i);
+            Label label = new Label(users.get(i));
+            gridPane.add(label, 0, i);
+            label.setOnMouseClicked(mouseEvent -> {
 
-            Circle node = new Circle(15);
+            });
+
+            Circle node = new Circle(10);
             node.setFill(new ImagePattern(
                     new Image(getClass().getResource("/asset/img/icons/profile.png").toExternalForm())));
 
@@ -342,7 +346,7 @@ public class ProfileMenu {
         for (int i = users.size()/2 + 1; i < users.size(); i++) {
             gridPane.add(new Label(users.get(i)), 3, i - users.size()/2 - 1);
 
-            Circle node = new Circle(15);
+            Circle node = new Circle(10);
             node.setFill(new ImagePattern(
                     new Image(getClass().getResource("/asset/img/icons/profile.png").toExternalForm())));
 
@@ -375,6 +379,8 @@ public class ProfileMenu {
     }
 
     public void search() {
+        searchPane.setVisible(false);
+
         String username = searchTextField.getText();
 
         clientTPC.sendMassage(clientTPC.gson.toJson(new SearchMessage(username)));
