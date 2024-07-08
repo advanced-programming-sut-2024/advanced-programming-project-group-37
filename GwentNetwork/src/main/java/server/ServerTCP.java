@@ -151,6 +151,8 @@ public class ServerTCP extends Thread {
                 backToMainMenu((BackToMainMenu) msg);
             } else if (msg instanceof RandomGameRequest) {
                 randomGameReqNetwork((RandomGameRequest) msg);
+            } else if (msg instanceof FriendGameRequest) {
+                friendGameReqNetwork((FriendGameRequest) msg);
             }
 
 
@@ -160,6 +162,25 @@ public class ServerTCP extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void friendGameReqNetwork(FriendGameRequest msg) {
+        String sender = msg.getToken();
+        String reciver = msg.getUsername();
+
+        GameLobbyController.sendGameReq(sender, reciver);
+
+        sendMessage(new ServerMessage());
+    }
+
+    private void showPopUpNetwork(ShowPupUpMessage msg) {
+        String sender = msg.getToken();
+        String reciver = msg.getUsername();
+
+        GameLobbyController.sendGameReq(sender , reciver);
+
+        sendMessage(new ServerMessage());//send a null message
+
     }
 
     private void randomGameReqNetwork(RandomGameRequest msg) {
@@ -228,16 +249,6 @@ public class ServerTCP extends Thread {
         }
 
         sendMessage(new ServerMessage());
-    }
-
-    private void showPopUpNetwork(ShowPupUpMessage msg) {
-        String sender = msg.getToken();
-        String reciver = msg.getUsername();
-
-        GameLobbyController.sendGameReq(sender , reciver);
-
-        sendMessage(new ServerMessage());//send a null message
-
     }
 
     private void giveMeOnlineNetwork(GiveMeOnlineFriend msg) {
