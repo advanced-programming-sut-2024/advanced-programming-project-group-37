@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ServerMessage {
+    ServerType type;
     boolean success;
     String info;
     String token;
@@ -84,5 +85,16 @@ public class ServerMessage {
 
     public ArrayList<String> getFriendWithStr() {
         return friendWithStr;
+    }
+
+    /**
+     * @author Foad
+     * server message for
+     * sending that the user has a new game request
+     */
+    String opponent;
+    public ServerMessage(ServerType type, String username) {
+        this.type = type;
+        this.opponent = username;
     }
 }

@@ -12,6 +12,7 @@ import message.client.gameLobby.ShowPupUpMessage;
 import message.client.profileMenu.*;
 import message.enums.loginMenu.ConfirmQuestions;
 import message.server.ServerMessage;
+import message.server.ServerType;
 import server.controller.Game.GameLobbyController;
 import server.controller.loginController.LoginMenuController;
 import server.controller.profileController.ProfileMenuController;
@@ -152,7 +153,15 @@ public class ServerTCP extends Thread {
     }
 
     private void checkServerForMatchReq(CheckServerMessage msg) {
+        String token = msg.getToken();
+        Result result = GameLobbyController.checkMatchReq(token);
 
+        if (result.isSuccessful()){
+            sendMessage(new ServerMessage(ServerType.POP_UP_MATCH_REQ_GAME_LOBBY, result.getMessage()));
+        } else {
+            //send message with type NO_POP_UP.... and null string as opponent
+            sendMessage(new ServerMessage(ServerType.NO_POP_UP_MATCH_REQ_GAME_LOBBY, ""));
+        }
     }
 
     private void showPopUpNetwork(ShowPupUpMessage msg) {

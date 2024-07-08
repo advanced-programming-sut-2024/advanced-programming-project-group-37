@@ -1,6 +1,7 @@
 package server.controller.Game;
 
 import server.model.User;
+import server.model.toolClasses.Result;
 
 import java.util.ArrayList;
 
@@ -44,5 +45,16 @@ public class GameLobbyController {
         }
         user.setHaveRequestForGame(true);
         user.setOpponetRequest(sender);
+    }
+
+    public static Result checkMatchReq(String token) {
+        User user = User.getUserByToken(token);
+        //check if user is null
+        if (user == null) {
+            return new Result(false,"invalid token!");
+        }
+        if (user.isHaveRequestForGame()){
+            return new Result(true, user.getOpponetRequest().getUsername());
+        } else return new Result(false, "NO!");
     }
 }
