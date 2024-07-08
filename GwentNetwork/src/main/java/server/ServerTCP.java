@@ -11,7 +11,7 @@ import message.enums.PlayerState;
 import message.enums.loginMenu.ConfirmQuestions;
 import message.server.ServerMessage;
 import message.server.ServerType;
-import server.controller.Game.GameLobbyController;
+import server.controller.GameController.GameLobbyController;
 import server.controller.loginController.LoginMenuController;
 import server.controller.profileController.ProfileMenuController;
 import server.model.User;
@@ -149,6 +149,8 @@ public class ServerTCP extends Thread {
                 changeGameModeNet((ChangeGameMode) msg);
             } else if (msg instanceof BackToMainMenu) {
                 backToMainMenu((BackToMainMenu) msg);
+            } else if (msg instanceof RandomGameRequest) {
+                randomGameReqNetwork((RandomGameRequest) msg);
             }
 
 
@@ -159,6 +161,15 @@ public class ServerTCP extends Thread {
             e.printStackTrace();
         }
     }
+
+    private void randomGameReqNetwork(RandomGameRequest msg) {
+        String token = msg.getToken();
+
+        GameLobbyController.addToRandReq(token);
+
+        sendMessage(new ServerMessage());
+    }
+
 
     private void backToMainMenu(BackToMainMenu msg) {
         String token = msg.getToken();
@@ -207,10 +218,16 @@ public class ServerTCP extends Thread {
 
         if (result.isSuccessful()){
             sendMessage(new ServerMessage(ServerType.POP_UP_MATCH_REQ_GAME_LOBBY, result.getMessage()));
-        } else {
-            //send message with type NO_POP_UP.... and null string as opponent
-            sendMessage(new ServerMessage(ServerType.NO_POP_UP_MATCH_REQ_GAME_LOBBY, ""));
+            return;
         }
+
+        result = GameLobbyController.checkRandMatch(token);
+        if (result.isSuccessful()) {
+            sendMessage(new ServerMessage(ServerType.START_RAND_GAME, result.getMessage()));
+            return;
+        }
+
+        sendMessage(new ServerMessage());
     }
 
     private void showPopUpNetwork(ShowPupUpMessage msg) {
@@ -394,6 +411,10 @@ public class ServerTCP extends Thread {
                     return gson.fromJson(clientStr, ChangeGameMode.class);
                 case MessageType.BACK_OFFLINE:
                     return gson.fromJson(clientStr, BackToMainMenu.class);
+                case MessageType.RANDOM_GAME_REQUEST:
+                    return gson.fromJson(clientStr, RandomGameRequest.class);
+                case MessageType.FREAND_GAME_RQUEST:
+                    return gson.fromJson(clientStr, RandomGameRequest.class);
             }
             return null;
         } catch (Exception e) {

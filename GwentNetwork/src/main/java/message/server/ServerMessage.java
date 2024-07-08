@@ -91,6 +91,7 @@ public class ServerMessage {
      * @author Foad
      * server message for
      * sending that the user has a new game request
+     * sending that if the rand game created or not
      */
     String opponent;
     public ServerMessage(ServerType type, String username) {
