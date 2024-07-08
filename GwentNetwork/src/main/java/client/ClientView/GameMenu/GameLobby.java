@@ -5,6 +5,8 @@ import client.ClientView.HeadViewController;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -49,18 +51,39 @@ public class GameLobby {
         HeadViewController.player.setMute(HeadViewController.isMute = !HeadViewController.isMute);
     }
 
-
-    // this method check if Server have massage
+    // check server
     private static boolean isCalled = false;
-    private void checkServer() {
-        Timeline timeline = new Timeline();
+    public void checkServer() {
+        // this method check if Server have massage
+        if (!isCalled){
+            isCalled = true;
 
-        timeline.setCycleCount(Animation.INDEFINITE);
+            Timeline timeline = new Timeline();
 
-        KeyFrame keyFrame = new KeyFrame(Duration.seconds(1), event -> {
-            clientTPC.sendMassage(clientTPC.gson.toJson(new CheckServerMessage(clientTPC.token)));
+            timeline.setCycleCount(Animation.INDEFINITE);
 
-            ServerMessage message = clientTPC.receiveMassage();
-        });
+            KeyFrame keyFrame = new KeyFrame(Duration.seconds(1), event -> {
+                clientTPC.sendMassage(clientTPC.gson.toJson(new CheckServerMessage(clientTPC.token)));
+
+                ServerMessage message = clientTPC.receiveMassage();
+
+                // todo
+            });
+
+            timeline.getKeyFrames().add(keyFrame);
+
+            timeline.play();
+        }
+    }
+
+    // graphic part
+    public Button closeFriendButton;
+    public AnchorPane onlineFriendPane;
+    public Button openFriendButton;
+
+    public void showOnlineFriend() {
+    }
+
+    public void closeOnlineFriend() {
     }
 }

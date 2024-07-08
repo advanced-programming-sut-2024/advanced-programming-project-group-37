@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.media.*?>
+<?import javafx.scene.text.*?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.control.TextArea?>
-<AnchorPane onKeyPressed="#showTerminal" prefHeight="450.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.ClientView.GameMenu.GameLobby">
+<AnchorPane onKeyPressed="#showTerminal" prefHeight="450.0" prefWidth="800.0" stylesheets="@../CSS/css1.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.ClientView.GameMenu.GameLobby">
    <children>
-      <MediaView fitHeight="450.0" fitWidth="800.0" />
+      <MediaView fitHeight="450.0" fitWidth="800.0" onMouseEntered="#checkServer" />
 
 
       <Button layoutX="14.0" layoutY="11.0" mnemonicParsing="false" onAction="#mute" style="-fx-background-color: #0009;" text="MUTE" textFill="WHITE">
@@ -20,5 +19,8 @@
             <TextArea fx:id="terminalTextArea" layoutX="14.0" layoutY="14.0" onKeyPressed="#checkCommand" prefHeight="400.0" prefWidth="420.0" styleClass="terminal" />
          </children>
       </AnchorPane>
+      <Button fx:id="openFriendButton" layoutX="-33.0" layoutY="212.0" mnemonicParsing="false" onAction="#showOnlineFriend" prefWidth="120.0" rotate="-90.0" style="-fx-background-color: #000c;" text="v" textFill="WHITE" />
+      <AnchorPane fx:id="onlineFriendPane" layoutX="14.0" layoutY="85.0" prefHeight="280.0" prefWidth="200.0" style="-fx-background-color: #000c;" />
+      <Button fx:id="closeFriendButton" layoutX="167.0" layoutY="212.0" mnemonicParsing="false" onAction="#closeOnlineFriend" prefWidth="120.0" rotate="90.0" style="-fx-background-color: #000c;" text="v" textFill="WHITE" />
    </children>
 </AnchorPane>

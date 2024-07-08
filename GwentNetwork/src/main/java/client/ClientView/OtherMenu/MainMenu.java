@@ -58,7 +58,7 @@ public class MainMenu {
     }
 
     public void goToPreGameMenu() {
-        HeadViewController.changeScene("pregame page");
+        HeadViewController.changeScene("game lobby");
     }
 
     public void signOut() {
