@@ -68,4 +68,21 @@ public class ServerMessage {
     public ArrayList<String> getState() {
         return state;
     }
+
+
+    /**
+     * @author FOAD
+     * server message for
+     *  SarchMessage request return a list of string of people with substring
+     * and GiveMeOnlineFriend message returns a list of String of friends that are online
+     */
+    private ArrayList<String> friendWithStr;
+
+    public ServerMessage(ArrayList<String> friendWithStr) {
+        this.friendWithStr = friendWithStr;
+    }
+
+    public ArrayList<String> getFriendWithStr() {
+        return friendWithStr;
+    }
 }

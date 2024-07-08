@@ -1,13 +1,18 @@
 package server;
 
+import client.ClientView.GameMenu.GameLobby;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import message.client.*;
 import message.client.LoginMenu.*;
 import message.client.MainMenu.SignOutMessage;
+import message.client.gameLobby.CheckServerMessage;
+import message.client.gameLobby.GiveMeOnlineFriend;
+import message.client.gameLobby.ShowPupUpMessage;
 import message.client.profileMenu.*;
 import message.enums.loginMenu.ConfirmQuestions;
 import message.server.ServerMessage;
+import server.controller.Game.GameLobbyController;
 import server.controller.loginController.LoginMenuController;
 import server.controller.profileController.ProfileMenuController;
 import server.model.User;
@@ -127,6 +132,14 @@ public class ServerTCP extends Thread {
                 giveFriendNetwork((GiveFriendMessage) msg);
             } else if (msg instanceof AcceptRequest) {
                 acceptRequestNetwork((AcceptRequest) msg);
+            } else if (msg instanceof SearchMessage) {
+                searchMessageNetwork((SearchMessage) msg);
+            } else if (msg instanceof GiveMeOnlineFriend) {
+                giveMeOnlineNetwork((GiveMeOnlineFriend) msg);
+            } else if (msg instanceof ShowPupUpMessage){
+                showPopUpNetwork((ShowPupUpMessage) msg);
+            } else if (msg instanceof CheckServerMessage) {
+                checkServerForMatchReq((CheckServerMessage) msg);
             }
 
 
@@ -136,6 +149,33 @@ public class ServerTCP extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void checkServerForMatchReq(CheckServerMessage msg) {
+
+    }
+
+    private void showPopUpNetwork(ShowPupUpMessage msg) {
+        String sender = msg.getToken();
+        String reciver = msg.getUsername();
+
+        GameLobbyController.sendGameReq(sender , reciver);
+
+        sendMessage(new ServerMessage());//send a null message
+
+    }
+
+    private void giveMeOnlineNetwork(GiveMeOnlineFriend msg) {
+        String token = msg.getToken();
+        ArrayList<String> onlineFriends = GameLobbyController.getOnlineFriends(token);
+        //send array list of online friends
+        sendMessage(new ServerMessage(onlineFriends));
+    }
+
+    private void searchMessageNetwork(SearchMessage msg) {
+        String partOfUsername = msg.getStr();
+        ArrayList<String> foundUsers = GameLobbyController.findUsersContainsStr(partOfUsername);
+        sendMessage(new ServerMessage(foundUsers));
     }
 
     private void acceptRequestNetwork(AcceptRequest msg) {
@@ -287,26 +327,13 @@ public class ServerTCP extends Thread {
                     return gson.fromJson(clientStr, GiveFriendMessage.class);
                 case MessageType.ACCEPT_REQUEST:
                     return gson.fromJson(clientStr, AcceptRequest.class);
+                case MessageType.CHECK_SERVER://TODO
+                    return gson.fromJson(clientStr, CheckServerMessage.class);
+                case MessageType.GEVE_ONLINE_FRIEND:
+                    return gson.fromJson(clientStr, GiveMeOnlineFriend.class);
+                case MessageType.SEARCH:
+                    return gson.fromJson(clientStr, SearchMessage.class);
             }
-            /*
-             * TODO : اینجا باید جیسون رو تبدیل کنی به کلاس ها
-             * TODO : مثال پایین رو نگاه کن میفهمی یعنی چی باید مطایق مسیج های خودمون کار کنی
-             * TODO :  این polymorphism هست سید:))
-             * TODO :
-             * TODO : switch (clientMessage.getType()) {
-             * TODO :     case signupLogin:
-             * TODO :         return gsonAgent.fromJson(clientStr, SignupLoginMessage.class);
-             * TODO :     case setbio:
-             * TODO :         return gsonAgent.fromJson(clientStr, SetBioMessage.class);
-             * TODO :     case getbio:
-             * TODO :         return gsonAgent.fromJson(clientStr, GetBioMessage.class);
-             * TODO :     case logout:
-             * TODO :         return gsonAgent.fromJson(clientStr, LogoutMessage.class);
-             * TODO :     default:
-             * TODO :         return null;
-            }
-
-             */
             return null;
         } catch (Exception e) {
             return null;

@@ -5,6 +5,8 @@ import message.enums.loginMenu.ConfirmQuestions;
 import java.util.ArrayList;
 
 public class User {
+    private boolean haveRequestForGame = false;
+    private User opponetRequest;
     private String token;
     private boolean isOnline = false;
     private String username;
@@ -218,5 +220,21 @@ public class User {
 
     public void setOnline(boolean online) {
         isOnline = online;
+    }
+
+    public boolean isHaveRequestForGame() {
+        return haveRequestForGame;
+    }
+
+    public User getOpponetRequest() {
+        return opponetRequest;
+    }
+
+    public void setHaveRequestForGame(boolean haveRequestForGame) {
+        this.haveRequestForGame = haveRequestForGame;
+    }
+
+    public void setOpponetRequest(User opponetRequest) {
+        this.opponetRequest = opponetRequest;
     }
 }
