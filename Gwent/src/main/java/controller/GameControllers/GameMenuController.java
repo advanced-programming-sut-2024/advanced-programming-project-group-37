@@ -560,6 +560,46 @@ public class GameMenuController {
     public ArrayList<Card> getSpells() {
         return spells;
     }
+
+    //TODO ILIYA
+    //CHEAT CODES
+
+    //add hp
+    public void addHp(){
+        GameTable gameTable = userTurn.getGameTable();
+        gameTable.setHP(gameTable.getHP() + 1);
+    }
+    //Add card to hand from deck
+    public void addCardFromDeck(){
+        GameTable gameTable = userTurn.getGameTable();
+
+        ArrayList<Card> deck = gameTable.getDeckCards();
+        ArrayList<Card> inHand = gameTable.getInHandsCards();
+
+        inHand.add(deck.getFirst());
+        deck.removeFirst();
+    }
+    //double siege
+    public void doubleSiege(){
+        GameTable gameTable = userTurn.getGameTable();
+
+        userTurn.setSiegeDouble(true);
+    }
+
+    //double close
+    public void doubleClose(){
+        GameTable gameTable = userTurn.getGameTable();
+
+        userTurn.setCloseCombatDouble(true);
+    }
+    //set ranged double
+    public void doubleRanged(){
+        GameTable gameTable = userTurn.getGameTable();
+
+        userTurn.setRangedDouble(true);
+    }
+
+
 }
 
 //
