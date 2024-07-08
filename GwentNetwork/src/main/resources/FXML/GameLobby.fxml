@@ -56,7 +56,7 @@
             </ImageView>
          </children>
       </HBox>
-      <Button layoutX="673.0" layoutY="408.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="113.0" style="-fx-background-color: #e1b900;" text="START">
+      <Button layoutX="673.0" layoutY="408.0" mnemonicParsing="false" onAction="#startRandomGame" prefHeight="26.0" prefWidth="113.0" style="-fx-background-color: #e1b900;" text="START">
          <font>
             <Font name="System Bold Italic" size="14.0" />
          </font>

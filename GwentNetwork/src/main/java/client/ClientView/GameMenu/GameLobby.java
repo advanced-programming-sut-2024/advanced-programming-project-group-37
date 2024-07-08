@@ -135,6 +135,8 @@ public class GameLobby {
         }
     }
     private void inviteFriend(String username) {
+        counterButton.setVisible(true);
+
         Timeline timeline = new Timeline();
 
         for (int i = 1; i <= 7; i++) {
@@ -155,6 +157,7 @@ public class GameLobby {
 
             closeFriendButton.setVisible(false);
             timeline.stop();
+            counterButton.setVisible(false);
         }
         else {
             openFriendButton.setVisible(false);
@@ -164,6 +167,7 @@ public class GameLobby {
             closeFriendButton.setVisible(true);
 
             timeline.stop();
+            counterButton.setVisible(false);
 
             // todo : meeeet
         }
@@ -204,10 +208,39 @@ public class GameLobby {
         image.setScaleX(1.5);
         image.setScaleY(1.5);
     }
-
     public void minimize(MouseEvent mouseEvent) {
         ImageView image = (ImageView) mouseEvent.getSource();
         image.setScaleX(1);
         image.setScaleY(1);
+    }
+
+    public void startRandomGame() {
+        counterButton.setVisible(true);
+        Timeline timeline = new Timeline();
+
+        int i = 1;
+        while (true) {
+            int ii = i++;
+            KeyFrame keyFrame = new KeyFrame(Duration.seconds(ii), event -> {
+                counterButton.setVisible(true);
+                if (ii%3 == 0) counterButton.setText(ii + "s passed. please wait o..");
+                if (ii%3 == 1) counterButton.setText(ii + "s passed. please wait ..o");
+                if (ii%3 == 2) counterButton.setText(ii + "s passed. please wait .o.");
+            });
+            timeline.getKeyFrames().add(keyFrame);
+
+            if (ii == 60) break;
+        }
+
+        timeline.play();
+
+        timeline.setOnFinished(actionEvent -> {
+            counterButton.setVisible(false);
+        });
+
+        boolean isGameStarted = startGame();
+    }
+    private boolean startGame() {
+
     }
 }
