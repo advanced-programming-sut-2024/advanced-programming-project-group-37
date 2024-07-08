@@ -1,5 +1,6 @@
 package server.controller.profileController;
 
+import message.enums.PlayerState;
 import server.controller.loginController.LoginMenuController;
 import server.model.FriendRequest;
 import server.model.User;
@@ -124,7 +125,7 @@ public class ProfileMenuController extends LoginMenuController {
             User fromUser = friendRequest.getFromUser();
             fromWho.add(friendRequest.getFromUser().getUsername());
             date.add(friendRequest.getDate().toString());
-            if (fromUser.isOnline())
+            if (fromUser.getState() == PlayerState.ONLINE)
                 state.add("online");
             else state.add("offline");
         }
