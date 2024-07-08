@@ -18,10 +18,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Duration;
-import message.client.gameLobby.ChangeGameMode;
-import message.client.gameLobby.CheckServerMessage;
-import message.client.gameLobby.GiveMeOnlineFriend;
-import message.client.gameLobby.ShowPupUpMessage;
+import message.client.gameLobby.*;
 import message.server.ServerMessage;
 
 import java.util.ArrayList;
@@ -169,7 +166,7 @@ public class GameLobby {
             timeline.stop();
             counterButton.setVisible(false);
 
-            // todo : meeeet
+            clientTPC.sendMassage(clientTPC.gson.toJson(new FriendGameRequest(clientTPC.token, username)));
         }
     }
 
@@ -238,9 +235,15 @@ public class GameLobby {
             counterButton.setVisible(false);
         });
 
-        boolean isGameStarted = startGame();
+        if (startGame()) {
+            timeline.setOnFinished(null);
+            counterButton.setVisible(false);
+            timeline.stop();
+        }
     }
     private boolean startGame() {
+        clientTPC.sendMassage(clientTPC.gson.toJson(new RandomGameRequest(clientTPC.token)));
 
+        return clientTPC.receiveMassage().isSuccess();
     }
 }
