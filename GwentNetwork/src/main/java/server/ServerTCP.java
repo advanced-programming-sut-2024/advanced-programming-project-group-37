@@ -147,6 +147,8 @@ public class ServerTCP extends Thread {
                 enterGame((EnterGame) msg);
             } else if (msg instanceof ChangeGameMode) {
                 changeGameModeNet((ChangeGameMode) msg);
+            } else if (msg instanceof BackToMainMenu) {
+                backToMainMenu((BackToMainMenu) msg);
             }
 
 
@@ -156,6 +158,12 @@ public class ServerTCP extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void backToMainMenu(BackToMainMenu msg) {
+        String token = msg.getToken();
+        GameLobbyController.setState(token, PlayerState.OFFLINE);
+        sendMessage(new ServerMessage());
     }
 
     private void changeGameModeNet(ChangeGameMode msg) {
@@ -384,6 +392,8 @@ public class ServerTCP extends Thread {
                     return gson.fromJson(clientStr, EnterGame.class);
                 case MessageType.CHANGE_GAME_MODE:
                     return gson.fromJson(clientStr, ChangeGameMode.class);
+                case MessageType.BACK_OFFLINE:
+                    return gson.fromJson(clientStr, BackToMainMenu.class);
             }
             return null;
         } catch (Exception e) {
