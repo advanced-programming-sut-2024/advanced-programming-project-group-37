@@ -1,6 +1,5 @@
 package client.ClientView.GameMenu;
 
-
 import client.ClientView.HeadViewController;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -10,11 +9,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.util.Duration;
+import message.client.gameLobby.ChangeGameMode;
 import message.client.gameLobby.CheckServerMessage;
 import message.client.gameLobby.GiveMeOnlineFriend;
 import message.client.gameLobby.ShowPupUpMessage;
@@ -62,7 +66,9 @@ public class GameLobby {
         if (isMute) button.setText("UNMUTE");
         else button.setText("MUTE");
     }
-
+    public void back() {
+        HeadViewController.changeScene("main page");
+    }
     // check server
     private static boolean isCalled = false;
     public void checkServer() {
@@ -94,6 +100,8 @@ public class GameLobby {
     public Button openFriendButton;
     public ScrollPane onlineFriendScroll;
     public Button counterButton;
+    public ImageView typePicture;
+    public HBox typeHBox;
 
     public void showOnlineFriend() {
         openFriendButton.setVisible(false);
@@ -160,6 +168,7 @@ public class GameLobby {
             // todo : meeeet
         }
     }
+
     private boolean showPupUp(String username) {
         clientTPC.sendMassage(clientTPC.gson.toJson(new ShowPupUpMessage(clientTPC.token, username)));
         return clientTPC.receiveMassage().isSuccess();
@@ -173,7 +182,32 @@ public class GameLobby {
         closeFriendButton.setVisible(false);
     }
 
-    public void back() {
-        HeadViewController.changeScene("main page");
+    public void showTypeHBox() {
+        typeHBox.setVisible(true);
+    }
+    public void changeGameType(MouseEvent mouseEvent) {
+        typeHBox.setVisible(false);
+
+        Image image = ((ImageView) mouseEvent.getSource()).getImage();
+
+        typePicture.setImage(image);
+
+        clientTPC.sendMassage(clientTPC.gson.toJson(
+            new ChangeGameMode(image.equals(new Image(
+                    getClass().getResource("/asset/img/icons/L1.jpeg").toExternalForm())))
+        ));
+
+        clientTPC.receiveMassage();
+    }
+    public void maximize(MouseEvent mouseEvent) {
+        ImageView image = (ImageView) mouseEvent.getSource();
+        image.setScaleX(1.5);
+        image.setScaleY(1.5);
+    }
+
+    public void minimize(MouseEvent mouseEvent) {
+        ImageView image = (ImageView) mouseEvent.getSource();
+        image.setScaleX(1);
+        image.setScaleY(1);
     }
 }

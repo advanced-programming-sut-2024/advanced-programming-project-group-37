@@ -32,7 +32,7 @@
             <Font name="System Bold Italic" size="12.0" />
          </font>
       </Button>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="673.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="typePicture" fitHeight="150.0" fitWidth="200.0" layoutX="673.0" layoutY="238.0" onMouseClicked="#showTypeHBox" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../asset/img/icons/L2.jpg" />
          </image>
@@ -42,19 +42,24 @@
             <Font name="System Bold Italic" size="14.0" />
          </font>
       </Label>
-      <HBox layoutX="300.0" layoutY="175.0" prefHeight="100.0" prefWidth="200.0">
+      <HBox fx:id="typeHBox" layoutX="276.0" layoutY="149.0" prefHeight="100.0" prefWidth="200.0" style="-fx-spacing: 20;" visible="false">
          <children>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="150.0" fitWidth="200.0" onMouseClicked="#changeGameType" onMouseEntered="#maximize" onMouseExited="#minimize" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../asset/img/icons/L1.jpeg" />
                </image>
             </ImageView>
-            <ImageView fitHeight="150.0" fitWidth="165.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="150.0" fitWidth="165.0" onMouseClicked="#changeGameType" onMouseEntered="#maximize" onMouseExited="#minimize" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../asset/img/icons/L2.jpg" />
                </image>
             </ImageView>
          </children>
       </HBox>
+      <Button layoutX="673.0" layoutY="408.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="113.0" style="-fx-background-color: #e1b900;" text="START">
+         <font>
+            <Font name="System Bold Italic" size="14.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
