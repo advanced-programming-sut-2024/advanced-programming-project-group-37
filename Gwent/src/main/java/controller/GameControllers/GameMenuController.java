@@ -31,10 +31,6 @@ public class GameMenuController {
         return roundNumber;
     }
 
-    public void setRoundNumber(int roundNumber) {
-        this.roundNumber = roundNumber;
-    }
-
     private UserInGame player1, player2;
     private UserInGame userTurn;
 
@@ -107,7 +103,6 @@ public class GameMenuController {
         //set upperBound and LowerBound
         int lowerBound = 0;
         int upperBound = cards.size();
-
         //new Random Object
         Random random = new Random();
 
@@ -282,7 +277,7 @@ public class GameMenuController {
         return new Result(false, "no winner");
     }
 
-    private void makeEmpty(UserInGame player1, UserInGame player2, UserInGame winner) {
+    public void makeEmpty(UserInGame player1, UserInGame player2, UserInGame winner) {
         //add to total score
         player1.totalScore += calculateTotalScore(player1);
         player2.totalScore += calculateTotalScore(player2);

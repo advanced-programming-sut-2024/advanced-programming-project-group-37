@@ -26,6 +26,10 @@ public enum Factions {
         this.cardCollection = cardCollection;
     }
 
+    public ArrayList<Pair<Card, Integer>> getCardCollection() {
+        return cardCollection;
+    }
+
     public String getName() {
         return name;
     }

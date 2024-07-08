@@ -185,36 +185,19 @@ public class PreGameMenuController {
 
     // save deck
     public static Result saveDeckWithName(String address) {
-        return null;
+        return new Result(true,"");
     }
 
     public static Result saveDeckWithAddress(String address) {
-        return null;
+        return new Result(true, "");
     }
 
-    private static boolean isAddressAlreadyUsed(String address) {
-        return true;
-    }
-
-    private static boolean isSavedSuccessfully(String address) {
-        return true;
-    }
-
-    // load deck
     public static Result loadDeckWithAddress(String address) {
-        return null;
+        return new Result(true,"");
     }
 
     public static Result loadDeckWithName(String address) {
-        return null;
-    }
-
-    private static boolean isAddressValid(String address) {
-        return true;
-    }
-
-    private static boolean checkValidationOfFileContext(String fileAddress) {
-        return true;
+        return new Result(true, "");
     }
 
     // leader commands
@@ -353,6 +336,7 @@ public class PreGameMenuController {
 
         //get card in deck
         ArrayList<Pair<Card, Integer>> cardsInDeck = user.getUserPreGameInfo().getCardsInDeck();
+
         Pair<Card, Integer> cardInDeck = null;
         for (Pair<Card, Integer> pair : cardsInDeck) {
             if (pair.getFirst().equals(card))
@@ -393,26 +377,22 @@ public class PreGameMenuController {
         return new Result(true, "card deleted from deck successfully");
     }
 
-    private static boolean isCountValid(int count) {
+    public static boolean isCountValid(int count) {
         return true;
     }
 
-    private static boolean isCardNameValid(String cardName) {
+    public static boolean isCardNameValid(String cardName) {
         return true;
     }
 
-    private static boolean checkNumberOfCardInDeck() {
+    public static boolean checkNumberOfCardInDeck() {
         return true;
     } // TODO: ???
 
-    private static boolean checkSpecialCardInDeck() {
+    public static boolean checkSpecialCardInDeck() {
         return true;
     }
 
-    // change turn
-    public static Result changeTurn() {
-        return null;
-    }
 
     public static boolean checkDeckIsOk(User user) {
         //check if soldier cards are more than 22

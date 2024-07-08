@@ -64,13 +64,13 @@ public class LoginMenuController{
     protected static boolean isPasswordValid(String password) {
         return password.matches(RegEx.validPassword.getRegex());
     }
-    protected static boolean isPasswordStrong(String password) {
+    public static boolean isPasswordStrong(String password) {
         return password.matches(RegEx.strongPassword.getRegex());
     }
     private static boolean isPasswordConfirmed(String password, String confirmPassword) {
         return password.equals(confirmPassword);
     }
-    private static String randomPasswordGenerator() {
+    public static String randomPasswordGenerator() {
         //for choosing a random small letter we add 'a' a random number between 0 and 26
         char firstSmallLetter = 'a';
         int numberOfLetters = 26;
@@ -149,7 +149,7 @@ public class LoginMenuController{
     // use the  <isUsernameAlreadyUsed> for check existence of username
 
     // forget password
-    private static Result forgetPassword(String username, String answer) {  // todo : اول چک کن ببین یوزر وجود داره و اینکه کاری کن بتونم بزنم اول باید برات بفرستم  که چک
+    public static Result forgetPassword(String username, String answer) {
         //get user by username
         User user = User.getUserByUsername(username);
 
@@ -160,6 +160,4 @@ public class LoginMenuController{
         return new Result(false, "answer doesn't match.");
 
     }
-    // check existence of username by <isUsernameAlreadyUsed>
-    private static boolean isAnswerCorrect(String username, String answer) {return true;}
 }

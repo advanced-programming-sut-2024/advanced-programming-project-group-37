@@ -28,7 +28,7 @@ public class UserInfoController {
 
     }
     //check n validation n>1
-    public static boolean checkN(int n){return false;}
+    public static boolean checkN(int n){return true;}
     public static boolean checkUserNumberOfGames(){
         return !User.getLoggedInUser().getAllPlayedGamesHistory().isEmpty();
     }

@@ -50,7 +50,7 @@ public class ProfileMenuController extends LoginMenuController {
             return new Result(false, "New Email is as the same as the previous one.");
 
         //check email validation
-        if (isEmailValid(newEmail))
+        if (!isEmailValid(newEmail))
             return new Result(false, "Invalid Email Format!");
 
         //change the email
@@ -62,6 +62,7 @@ public class ProfileMenuController extends LoginMenuController {
     //change Password
     public static Result changePassword(String newPassword, String oldPassword) {
         User user = User.getLoggedInUser();
+        System.out.println(user.getUsername());
 
         //check if new password and the old one is the same or not
         if (newPassword.equals(oldPassword))
