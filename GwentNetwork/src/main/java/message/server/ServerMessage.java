@@ -97,4 +97,16 @@ public class ServerMessage {
         this.type = type;
         this.opponent = username;
     }
+
+
+
+
+    //some getter
+    public ServerType getType() {
+        return type;
+    }
+
+    public String getOpponent() {
+        return opponent;
+    }
 }
