@@ -281,7 +281,7 @@ public class ProfileMenu {
         GridPane gridPane = new GridPane();
 
         pane.setContent(gridPane);
-        gridPane.setHgap(70);
+        gridPane.setHgap(50);
         gridPane.setVgap(20);
 
         pane.setFitToWidth(true);
@@ -296,9 +296,15 @@ public class ProfileMenu {
             int finalI = i;
             button.setOnAction(event -> acceptRequest(users.get(finalI)));
 
-            gridPane.add(new Label(dates.get(i)), 1, i);
+            Button button2 = new Button("Reject");
 
-            gridPane.add(new Label(users.get(i)), 2, i);
+            gridPane.add(button, 1, i);
+
+            button2.setOnAction(event -> rejectRequest(users.get(finalI)));
+
+            gridPane.add(new Label(dates.get(i)), 2, i);
+
+            gridPane.add(new Label(users.get(i)), 3, i);
 
             Circle node = new Circle(15);
             node.setFill(new ImagePattern(
@@ -336,6 +342,11 @@ public class ProfileMenu {
             gridPane.add(node, 4, i);
         }
 
+    }
+    private void rejectRequest(String username) {
+        clientTPC.sendMassage(clientTPC.gson.toJson(new AcceptRequest(clientTPC.token, username)));
+
+        clientTPC.receiveMassage();
     }
     private void acceptRequest(String username) {
         clientTPC.sendMassage(clientTPC.gson.toJson(new AcceptRequest(clientTPC.token, username)));
