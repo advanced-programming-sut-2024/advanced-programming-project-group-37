@@ -1,16 +1,13 @@
 package server;
 
-import client.ClientView.GameMenu.GameLobby;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import javafx.stage.Popup;
 import message.client.*;
 import message.client.LoginMenu.*;
 import message.client.MainMenu.SignOutMessage;
-import message.client.gameLobby.CheckServerMessage;
-import message.client.gameLobby.GiveMeOnlineFriend;
-import message.client.gameLobby.ShowPupUpMessage;
+import message.client.gameLobby.*;
 import message.client.profileMenu.*;
+import message.enums.PlayerState;
 import message.enums.loginMenu.ConfirmQuestions;
 import message.server.ServerMessage;
 import message.server.ServerType;
@@ -144,6 +141,12 @@ public class ServerTCP extends Thread {
                 checkServerForMatchReq((CheckServerMessage) msg);
             } else if (msg instanceof RejectRequest) {
                 rejectReqNetwork((RejectRequest) msg);
+            } else if (msg instanceof EnterGameLobby){
+                enterGameLobby((EnterGameLobby) msg);
+            } else if (msg instanceof EnterGame) {
+                enterGame((EnterGame) msg);
+            } else if (msg instanceof ChangeGameMode) {
+                changeGameModeNet((ChangeGameMode) msg);
             }
 
 
@@ -153,6 +156,23 @@ public class ServerTCP extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void changeGameModeNet(ChangeGameMode msg) {
+        //TODO
+        sendMessage(new ServerMessage());
+    }
+
+    private void enterGame(EnterGame msg) {
+        String token = msg.getToken();
+        GameLobbyController.setState(token, PlayerState.IN_GAME);
+        sendMessage(new ServerMessage());
+    }
+
+    private void enterGameLobby(EnterGameLobby msg) {
+        String token = msg.getToken();
+        GameLobbyController.setState(token, PlayerState.ONLINE);
+        sendMessage(new ServerMessage());
     }
 
     private void rejectReqNetwork(RejectRequest msg) {
@@ -348,7 +368,7 @@ public class ServerTCP extends Thread {
                     return gson.fromJson(clientStr, GiveFriendMessage.class);
                 case MessageType.ACCEPT_REQUEST:
                     return gson.fromJson(clientStr, AcceptRequest.class);
-                case MessageType.CHECK_SERVER://TODO
+                case MessageType.CHECK_SERVER:
                     return gson.fromJson(clientStr, CheckServerMessage.class);
                 case MessageType.GEVE_ONLINE_FRIEND:
                     return gson.fromJson(clientStr, GiveMeOnlineFriend.class);
@@ -358,6 +378,12 @@ public class ServerTCP extends Thread {
                     return gson.fromJson(clientStr, ShowPupUpMessage.class);
                 case MessageType.REJECT_REQUEST:
                     return gson.fromJson(clientStr, RejectRequest.class);
+                case MessageType.ENTER_GAMELOBBY:
+                    return gson.fromJson(clientStr, EnterGameLobby.class);
+                case MessageType.ENTER_GAME:
+                    return gson.fromJson(clientStr, EnterGame.class);
+                case MessageType.CHANGE_GAME_MODE:
+                    return gson.fromJson(clientStr, ChangeGameMode.class);
             }
             return null;
         } catch (Exception e) {

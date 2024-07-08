@@ -1,6 +1,6 @@
 package message.enums;
 
-public enum State {
+public enum PlayerState {
     ONLINE,
     OFFLINE,
     IN_GAME

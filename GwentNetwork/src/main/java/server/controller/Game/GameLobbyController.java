@@ -1,5 +1,6 @@
 package server.controller.Game;
 
+import message.enums.PlayerState;
 import server.model.User;
 import server.model.toolClasses.Result;
 
@@ -30,7 +31,7 @@ public class GameLobbyController {
         ArrayList<User> friends = user.getFriends();
         //add online friends
         for(User users : friends){
-            if (users.isOnline())
+            if (users.getState() == PlayerState.ONLINE)
                 onlineFriends.add(users.getUsername());
         }
 
@@ -57,4 +58,13 @@ public class GameLobbyController {
             return new Result(true, user.getOpponetRequest().getUsername());
         } else return new Result(false, "NO!");
     }
+
+    public static void setState(String token, PlayerState playerState) {
+        User user = User.getUserByToken(token);
+        if (user == null) {
+            return;
+        }
+        user.setState(playerState);
+    }
+
 }
