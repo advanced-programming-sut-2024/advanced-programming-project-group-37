@@ -31,11 +31,11 @@ public enum Factions {
     }
 
     public static Factions getFaction(String targetName) {
-        for (Factions faction : Factions.values()) {
-            if (faction.getName().equals(targetName)) {
-                return faction;
+            for (Factions faction : Factions.values()) {
+                if (faction.getName().equals(targetName)) {
+                    return faction;
+                }
             }
-        }
         // Throw an exception or handle the case where no matching faction is found
         return null;
     }
@@ -55,10 +55,12 @@ public enum Factions {
     // methods for fill default arraylist
     private static ArrayList<Pair<Card, Integer>> setForMonster() {
         ArrayList<Pair<Card, Integer>> list = new ArrayList<>();
+        Platform.startup( () -> {
             for (Card card : Card.values()) {
                 if (card.getFaction().equals(FactionsName.MONSTER) || card.getFaction().equals(FactionsName.NEUTRAL))
                     list.add(new Pair<>(card, card.getNumberOfCardInGame()));
             }
+        });
         return list;
     }
 
