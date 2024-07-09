@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
@@ -317,7 +318,7 @@ public class ProfileMenu {
             node.setFill(new ImagePattern(
                     new Image(getClass().getResource("/asset/img/icons/profile.png").toExternalForm())));
 
-            gridPane.add(node, 3, i);
+            gridPane.add(node, 4, i);
         }
     }
     private void updateScrollPaneForSearch(ArrayList<String> users, ScrollPane pane) {
@@ -337,7 +338,7 @@ public class ProfileMenu {
             gridPane.add(button, 0, i);
 
             int finalI = i;
-            button.setOnAction(event -> addFriend(users.get(finalI)));
+            button.setOnAction(event -> addFriend(users.get(finalI), event));
             button.setStyle("-fx-background-color: white");
 
             gridPane.add(new Label(users.get(i)), 1, i);
@@ -352,14 +353,17 @@ public class ProfileMenu {
 
     }
 
-    private void addFriend(String username) {
+    private void addFriend(String username, ActionEvent event) {
         clientTPC.sendMassage(clientTPC.gson.toJson(new SendRequest(clientTPC.token, username)));
 
         clientTPC.receiveMassage();
+
+        ((Button) event.getSource()).setStyle("-fx-background-color: #0001");
+        updateFriend();
     }
 
     private void rejectRequest(String username) {
-        clientTPC.sendMassage(clientTPC.gson.toJson(new AcceptRequest(clientTPC.token, username)));
+        clientTPC.sendMassage(clientTPC.gson.toJson(new RejectRequest(clientTPC.token, username)));
 
         clientTPC.receiveMassage();
         updateFriend();
@@ -403,5 +407,9 @@ public class ProfileMenu {
 
     public void backFromFriendRequest() {
         requestPane.setVisible(false);
+    }
+
+    public void showSearchWindow() {
+        searchWindow.setVisible(!searchWindow.isVisible());
     }
 }
