@@ -11,10 +11,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
-import message.client.pregame.ChangeFaction;
-import message.client.pregame.GetFactionMessage;
-import message.client.pregame.SelectLeader;
-import message.client.pregame.getCollectionDeck;
+import message.client.pregame.*;
 import message.enums.card.Card;
 import message.enums.card.CardType;
 import message.enums.card.Leaders;
@@ -189,12 +186,12 @@ public class PreGameMenu {
     // update Deck and Card
     private void updateDeck() {
         // find arraylist of cardCollection and cardInDeck
-        clientTPC.sendMassage(clientTPC.gson.toJson(new getCollectionDeck(clientTPC.token)));
+        clientTPC.sendMassage(clientTPC.gson.toJson(new GetCollectionDeck(clientTPC.token)));
 
         ServerMessage message = clientTPC.receiveMassage();
 
-        ArrayList<Pair<Card, Integer>> cardCollection;
-        ArrayList<Pair<Card, Integer>> deck;
+        ArrayList<Pair<Card, Integer>> cardCollection = message.getCollection();
+        ArrayList<Pair<Card, Integer>> deck = message.getDeck();
 
         int cardSize = cardCollection.size(), deckSize = deck.size();
 
@@ -249,7 +246,7 @@ public class PreGameMenu {
 
         Card card = Card.getCardByImage(image);
 
-        PreGameMenuController.addToDeck(card.getName(), 1);
+        clientTPC.sendMassage(clientTPC.gson.toJson(new AddToDeck(clientTPC.token, card)));
 
         updateDeck();
 
@@ -275,14 +272,16 @@ public class PreGameMenu {
         if (card.getIsHero()) {
             heroCards.setText(String.valueOf(Integer.parseInt(heroCards.getText()) + 1));
         }
-    } // todo
+    }
 
     private void removeFromDeck(ImageView imageView) {
         Image image = imageView.getImage();
 
         Card card = Card.getCardByImage(image);
 
-        PreGameMenuController.deleteFromDeck(card.getName(), 1);
+        clientTPC.sendMassage(clientTPC.gson.toJson(new RemoveFromDeck(clientTPC.token, card)));
+
+        clientTPC.receiveMassage();
 
         updateDeck();
 
@@ -310,13 +309,16 @@ public class PreGameMenu {
         }
     }
     public void startGame() {
-            if (!PreGameMenuController.checkDeckIsOk(PreGameMenuController.opponentUser)) {
-                DeckError.setText("you don't have enough unit card in your deck!");
-                new Timeline(new KeyFrame(Duration.seconds(3), event1 -> DeckError.setText(""))).play();
-                return;
-            }
+        clientTPC.sendMassage(clientTPC.gson.toJson(new CheckDeckIsOk(clientTPC.token)));
 
-            HeadViewController.changeScene("game page");
+        ServerMessage message = clientTPC.receiveMassage();
+
+        if (message.isSuccess()) {
+            DeckError.setText("you don't have enough unit card in your deck!");
+            new Timeline(new KeyFrame(Duration.seconds(3), event1 -> DeckError.setText(""))).play();
+            return;
         }
+
+        HeadViewController.changeScene("game page");
     }
 }
