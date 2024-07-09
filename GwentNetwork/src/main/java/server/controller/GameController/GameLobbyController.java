@@ -130,5 +130,23 @@ public class GameLobbyController {
         user2.setOpponetRequest(null);
         user2.setHaveRequestForGame(false);
 
+        user2.setKirShodi(true);
+
+    }
+
+    public static boolean checkFriendMatchAccept(String token) {
+        User user = User.getUserByToken(token);
+
+        boolean bool = user.isStartGame();
+        user.setStartGame(false);
+        return bool;
+    }
+
+    public static Boolean checkRejectMatch(String token) {
+        User user = User.getUserByToken(token);
+
+        boolean bool = user.isKirShodi();
+        user.setKirShodi(false);
+        return bool;
     }
 }

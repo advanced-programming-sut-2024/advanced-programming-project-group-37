@@ -299,6 +299,20 @@ public class ServerTCP extends Thread {
             return;
         }
 
+        //check if to start game
+        Boolean bool = GameLobbyController.checkFriendMatchAccept(token);
+
+        if (bool) {
+            sendMessage(new ServerMessage(ServerType.ACCEPTED_FRIEND_MATCH));
+            return;
+        }
+
+        bool = GameLobbyController.checkRejectMatch(token);
+        if (bool) {
+            sendMessage(new ServerMessage(ServerType.SHARMANDE_KIR_SHODI));
+            return;
+        }
+
         sendMessage(new ServerMessage());
     }
 
