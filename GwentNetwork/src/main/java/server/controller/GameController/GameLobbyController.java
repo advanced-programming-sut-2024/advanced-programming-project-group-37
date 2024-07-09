@@ -103,4 +103,30 @@ public class GameLobbyController {
         }
         return new Result(false, "");
     }
+
+    public static void SendBothToGame(String token, String username) {
+        User user1 = User.getUserByToken(token);
+        User user2 = User.getUserByUsername(username);
+
+        PreGameMenuController newGame = new PreGameMenuController(user1, user2);
+
+        user1.setStartGame(true);
+        user2.setStartGame(true);
+
+        user1.setOpponetRequest(user2);
+        user2.setOpponetRequest(user1);
+
+    }
+
+    public static void abrotGameReq(String token, String username) {
+        User user1 = User.getUserByToken(token);
+        User user2 = User.getUserByUsername(username);
+
+        user1.setOpponetRequest(null);
+        user1.setHaveRequestForGame(false);
+
+        user2.setOpponetRequest(null);
+        user2.setHaveRequestForGame(false);
+
+    }
 }

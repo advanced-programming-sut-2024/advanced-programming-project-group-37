@@ -6,6 +6,7 @@ import message.enums.loginMenu.ConfirmQuestions;
 import java.util.ArrayList;
 
 public class User {
+    private boolean startGame = false;
     private boolean haveRequestForGame = false;
     private User opponetRequest;
     private String token;
@@ -241,5 +242,11 @@ public class User {
         this.playerState = playerState;
     }
 
+    public boolean isStartGame() {
+        return startGame;
+    }
 
+    public void setStartGame(boolean startGame) {
+        this.startGame = startGame;
+    }
 }

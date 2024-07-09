@@ -18,7 +18,6 @@ import server.model.User;
 import server.model.toolClasses.Result;
 
 import java.io.*;
-import java.net.ProtocolFamily;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -156,6 +155,10 @@ public class ServerTCP extends Thread {
                 friendGameReqNetwork((FriendGameRequest) msg);
             } else if (msg instanceof SendRequest){
                 sendFrReqNetwork((SendRequest) msg); // for friend request in profile menu
+            } else if (msg instanceof AcceptFriendRequest) {
+                acceptReqForMatch((AcceptFriendRequest) msg);
+            } else if (msg instanceof RejectFriendRequest) {
+                rejectReqForMatch((RejectFriendRequest) msg);
             }
 
 
@@ -165,6 +168,24 @@ public class ServerTCP extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void rejectReqForMatch(RejectFriendRequest msg) {
+        String token = msg.getToken();
+        String username = msg.getUsername();
+
+        GameLobbyController.abrotGameReq(token, username);
+
+        sendMessage(new ServerMessage());
+    }
+
+    private void acceptReqForMatch(AcceptFriendRequest msg) {
+        String username = msg.getUsername();
+        String token = msg.getToken();
+
+        GameLobbyController.SendBothToGame(token, username);
+
+        sendMessage(new ServerMessage(ServerType.START_FRIEND_GAME));
     }
 
     private void sendFrReqNetwork(SendRequest msg) {
@@ -223,6 +244,7 @@ public class ServerTCP extends Thread {
     private void enterGameLobby(EnterGameLobby msg) {
         String token = msg.getToken();
         GameLobbyController.setState(token, PlayerState.ONLINE);
+        System.out.println("hi");
         sendMessage(new ServerMessage());
     }
 
@@ -441,6 +463,9 @@ public class ServerTCP extends Thread {
                 case MessageType.SEND_FRIEND_REQUEST:
                     return gson.fromJson(clientStr, SendRequest.class);
                 case MessageType.ACCEPT_FRIEND_REQUEST:
+                    return gson.fromJson(clientStr, AcceptFriendRequest.class);
+                case MessageType.REJECT_FRIEND_REQUEST:
+                    return gson.fromJson(clientStr, RejectFriendRequest.class);
             }
             return null;
         } catch (Exception e) {
