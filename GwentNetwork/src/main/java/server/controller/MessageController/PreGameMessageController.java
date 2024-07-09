@@ -60,4 +60,12 @@ public class PreGameMessageController {
         pregame.checkDeckIsOk(user);
         return new ServerMessage();
     }
+
+    public static ServerMessage removeFromDeck(RemoveFromDeck msg) {
+        PreGameMenuController pregame = PreGameMenuController.getPregame(User.getUserByToken(msg.getToken()));
+        User user = User.getUserByToken(msg.getToken());
+
+        pregame.deleteFromDeck(msg.getCard().getName(), 1 , user);
+        return new ServerMessage();
+    }
 }
