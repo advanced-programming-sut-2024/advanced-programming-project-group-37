@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 public class User {
     private boolean startGame = false;
+    private boolean kirShodi = false;
     private boolean haveRequestForGame = false;
     private User opponetRequest;
     private String token;
@@ -248,5 +249,13 @@ public class User {
 
     public void setStartGame(boolean startGame) {
         this.startGame = startGame;
+    }
+
+    public boolean isKirShodi() {
+        return kirShodi;
+    }
+
+    public void setKirShodi(boolean kirShodi) {
+        this.kirShodi = kirShodi;
     }
 }
