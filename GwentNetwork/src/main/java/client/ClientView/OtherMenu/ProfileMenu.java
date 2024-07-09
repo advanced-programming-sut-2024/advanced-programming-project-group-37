@@ -394,10 +394,6 @@ public class ProfileMenu {
 
         ArrayList<String> users = message.getFriends();
 
-        for (String user : users) {
-            System.out.println(user);
-        }
-
         updateScrollPaneForSearch(users, searchScrollPane);
     }
 
