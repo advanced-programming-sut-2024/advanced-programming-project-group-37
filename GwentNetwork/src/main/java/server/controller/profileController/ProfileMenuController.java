@@ -98,16 +98,21 @@ public class ProfileMenuController extends LoginMenuController {
         return new Result(true, "Password changed successfully!");
     }
 
-    public static ArrayList<String> FriendsName(String token) {
+    public static ArrayList<ArrayList<String>> FriendsNameAndState(String token) {
         User user = User.getUserByToken(token);
         if (user == null) {
             return null;
         }
+        ArrayList<ArrayList<String>> users = new ArrayList<>();
         ArrayList<String> friendsName = new ArrayList<>();
+        ArrayList<String> state = new ArrayList<>();
         for (User friend : user.getFriends()) {
             friendsName.add(friend.getUsername());
+            state.add(friend.getState().name());
         }
-        return friendsName;
+        users.add(friendsName);
+        users.add(state);
+        return users;
     }
 
     public static ArrayList<ArrayList<String>> friendRequestNames(String token) {

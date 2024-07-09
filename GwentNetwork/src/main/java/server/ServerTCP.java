@@ -131,9 +131,9 @@ public class ServerTCP extends Thread {
             } else if (msg instanceof GiveFriendMessage) {
                 giveFriendNetwork((GiveFriendMessage) msg);
             } else if (msg instanceof AcceptRequest) {
-                acceptRequestNetwork((AcceptRequest) msg);
+                acceptRequestNetwork((AcceptRequest) msg); // Accept friend req in profileMenu
             } else if (msg instanceof SearchMessage) {
-                searchMessageNetwork((SearchMessage) msg);
+                searchMessageNetwork((SearchMessage) msg); //OK
             } else if (msg instanceof GiveMeOnlineFriend) {
                 giveMeOnlineNetwork((GiveMeOnlineFriend) msg);
             } else if (msg instanceof ShowPupUpMessage){
@@ -155,7 +155,7 @@ public class ServerTCP extends Thread {
             } else if (msg instanceof FriendGameRequest) {
                 friendGameReqNetwork((FriendGameRequest) msg);
             } else if (msg instanceof SendRequest){
-                sendFrReqNetwork((SendRequest) msg);
+                sendFrReqNetwork((SendRequest) msg); // for friend request in profile menu
             }
 
 
@@ -279,12 +279,12 @@ public class ServerTCP extends Thread {
 
     private void giveFriendNetwork(GiveFriendMessage msg) {
         String token = msg.getToken();
-        ArrayList<String> FriendsName = ProfileMenuController.FriendsName(token);
-        ArrayList<ArrayList<String>> friendRequests = ProfileMenuController.friendRequestNames(token);
+        ArrayList<ArrayList<String>> friendRequests =ProfileMenuController.FriendsNameAndState(token) ;
+        ArrayList<String> FriendsName = friendRequests.get(0);
 
         ArrayList<String> fromWho = friendRequests.get(0);
         ArrayList<String> date = friendRequests.get(1);
-        ArrayList<String> state = friendRequests.get(2);
+        ArrayList<String> state = friendRequests.get(1);
 
         sendMessage(new ServerMessage(FriendsName, fromWho, date, state));
     }
