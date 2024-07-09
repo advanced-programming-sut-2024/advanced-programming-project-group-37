@@ -58,5 +58,6 @@ public class PreGameMessageController {
         User user = User.getUserByToken(msg.getToken());
 
         pregame.checkDeckIsOk(user);
+        return new ServerMessage();
     }
 }
