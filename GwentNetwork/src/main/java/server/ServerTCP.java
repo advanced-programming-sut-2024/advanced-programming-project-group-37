@@ -164,7 +164,8 @@ public class ServerTCP extends Thread {
             } else if (msg instanceof RejectFriendRequest) {
                 rejectReqForMatch((RejectFriendRequest) msg);
             } else if (msg instanceof ChangeFaction) {
-                PreGameMessageController.changeFactionNetwork((ChangeFaction) msg);
+                ServerMessage serverMessage = PreGameMessageController.changeFactionNetwork((ChangeFaction) msg);
+                sendMessage(serverMessage);
             } else if (msg instanceof GetFactionMessage){
                 ServerMessage serverMessage = PreGameMessageController.getFaction((GetFactionMessage) msg);
                 sendMessage(serverMessage);

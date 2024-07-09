@@ -13,17 +13,27 @@ import java.util.ArrayList;
 
 public class PreGameMenuController {
     public static ArrayList<PreGameMenuController> preGameMenuControllers = new ArrayList<>();
+
     public PreGameMenuController(User currentUser, User opponentUser) {
         this.currentUser = currentUser;
         this.opponentUser = opponentUser;
         preGameMenuControllers.add(this);
     }
 
-    public  User currentUser = User.getLoggedInUser();
-    public  User opponentUser;
+    public User currentUser = User.getLoggedInUser();
+    public User opponentUser;
+
+    public static PreGameMenuController getPregame(User userByToken) {
+        for (PreGameMenuController pg : preGameMenuControllers) {
+            if (pg.currentUser == userByToken || pg.opponentUser == userByToken) {
+                return pg;
+            }
+        }
+        return null;
+    }
 
     // create a game
-    public  Result createGame(String player2Username) {
+    public Result createGame(String player2Username) {
         //check if player2Username is valid or not
         User secondUser = User.getUserByUsername(player2Username);
         if (secondUser == null)
@@ -40,7 +50,7 @@ public class PreGameMenuController {
 
     // show factions
     // it returns the faction that the user selected before
-    public  Result showFactions(String playerNum) {
+    public Result showFactions(String playerNum) {
         User user;
         if (playerNum.equals("1"))
             user = User.getLoggedInUser();
@@ -52,33 +62,23 @@ public class PreGameMenuController {
     }
 
     // select faction
-    public  Result selectFaction(String factionName, String playerNum) {
+    public Result selectFaction(String factionName, User user) {
         Factions factions = null;
         factions = Factions.getFaction(factionName);
         if (factions == null)
             return new Result(false, "No faction found with this name!");
 
-
-        //changing the faction
-        if (playerNum.equals("1")) {
-            User user = User.getLoggedInUser();
-            UserPreGameInfo userPreGameInfo = user.getUserPreGameInfo();
-            userPreGameInfo.setFaction(factions);
-            userPreGameInfo.setCardCollection(userPreGameInfo.getFaction().getDeepCopyOfArraylist());
-            user.setUserPreGameInfo(userPreGameInfo);
-            User.setLoggedInUser(user);
-        } else if (playerNum.equals("2")) {
-            UserPreGameInfo userPreGameInfo = opponentUser.getUserPreGameInfo();
-            userPreGameInfo.setFaction(factions);
-            userPreGameInfo.setCardCollection(userPreGameInfo.getFaction().getDeepCopyOfArraylist());
-            opponentUser.setUserPreGameInfo(userPreGameInfo);
-        }
+        UserPreGameInfo userPreGameInfo = user.getUserPreGameInfo();
+        userPreGameInfo.setFaction(factions);
+        userPreGameInfo.setCardCollection(userPreGameInfo.getFaction().getDeepCopyOfArraylist());
+        user.setUserPreGameInfo(userPreGameInfo);
+        User.setLoggedInUser(user);
 
         return new Result(true, "Faction changed successfully!");
     }
 
     // show Cards
-    public  Result showCards(String playerNum) {
+    public Result showCards(String playerNum) {
         User user;
         if (playerNum.equals("1")) user = currentUser;
         else user = opponentUser;
@@ -121,7 +121,7 @@ public class PreGameMenuController {
         return new Result(true, toPrint.toString());
     }
 
-    private  int searchForCardInDeck(Card card, User user) {
+    private int searchForCardInDeck(Card card, User user) {
         int n = 0;
         UserPreGameInfo userPreGameInfo = user.getUserPreGameInfo();
         ArrayList<Pair<Card, Integer>> deck = userPreGameInfo.getCardsInDeck();
@@ -136,7 +136,7 @@ public class PreGameMenuController {
 
 
     // show information current user
-    public  Result showInfoCurrentUser(String playerNum) {
+    public Result showInfoCurrentUser(String playerNum) {
         //set the user we want to print its information
         User user;
         if (playerNum.equals("1")) user = currentUser;
@@ -166,7 +166,7 @@ public class PreGameMenuController {
         return new Result(true, information.toString());
     }
 
-    private  int calculatePowerOfAllCardsInDeck(User user) {
+    private int calculatePowerOfAllCardsInDeck(User user) {
         int powerSum = 0;
         for (Pair<Card, Integer> pair : user.getUserPreGameInfo().getCardsInDeck()) {
             powerSum += pair.getSecond() * pair.getFirst().getPower();
@@ -174,7 +174,7 @@ public class PreGameMenuController {
         return powerSum;
     }
 
-    private  int calculateNumberOfHerosInDeck(User user) {
+    private int calculateNumberOfHerosInDeck(User user) {
         int n = 0;
         for (Pair<Card, Integer> pair : user.getUserPreGameInfo().getCardsInDeck()) {
             if (pair.getFirst().getIsHero()) n += pair.getSecond();
@@ -182,7 +182,7 @@ public class PreGameMenuController {
         return n;
     }
 
-    private  int calculateNumberOfCardsInDeck(User user) {
+    private int calculateNumberOfCardsInDeck(User user) {
         int n = 0;
         for (Pair<Card, Integer> pair : user.getUserPreGameInfo().getCardsInDeck()) {
             n += pair.getSecond();
@@ -191,24 +191,24 @@ public class PreGameMenuController {
     }
 
     // save deck
-    public  Result saveDeckWithName(String address) {
-        return new Result(true,"");
-    }
-
-    public  Result saveDeckWithAddress(String address) {
+    public Result saveDeckWithName(String address) {
         return new Result(true, "");
     }
 
-    public  Result loadDeckWithAddress(String address) {
-        return new Result(true,"");
+    public Result saveDeckWithAddress(String address) {
+        return new Result(true, "");
     }
 
-    public  Result loadDeckWithName(String address) {
+    public Result loadDeckWithAddress(String address) {
+        return new Result(true, "");
+    }
+
+    public Result loadDeckWithName(String address) {
         return new Result(true, "");
     }
 
     // leader commands
-    public  Result showLeaders(String playerNum) {
+    public Result showLeaders(String playerNum) {
         //Set user
         User user;
         if (playerNum.equals("1")) user = currentUser;
@@ -229,14 +229,14 @@ public class PreGameMenuController {
         return new Result(true, toPrint.toString());
     }
 
-    public  Result selectLeader(String leaderName, String playerNum) {
+    public Result selectLeader(String leaderName, String playerNum) {
         User user = null;
         if (playerNum.equals("1")) user = currentUser;
         else if (playerNum.equals("2")) user = opponentUser;
 
         Leaders leader = null;
-        for (Leaders leaders : Leaders.values()){
-            if (leaders.name().equals(leaderName)){
+        for (Leaders leaders : Leaders.values()) {
+            if (leaders.name().equals(leaderName)) {
                 leader = leaders;
             }
         }
@@ -253,7 +253,7 @@ public class PreGameMenuController {
     }
 
     // add to deck
-    public  Result addToDeck(String cardName, int count, String playerNum) {
+    public Result addToDeck(String cardName, int count, String playerNum) {
         User user;
         if (playerNum.equals("1")) user = currentUser;
         else user = opponentUser;
@@ -293,9 +293,6 @@ public class PreGameMenuController {
         }
 
 
-
-
-
         //add card to deck
         //if there wasn't this card before
         if (cardInDeck == null) {
@@ -320,7 +317,7 @@ public class PreGameMenuController {
     }
 
     // delete card from deck
-    public  Result deleteFromDeck(String cardName, int count, String playerNum) {
+    public Result deleteFromDeck(String cardName, int count, String playerNum) {
         User user;
         if (playerNum.equals("1")) user = currentUser;
         else user = opponentUser;
@@ -371,12 +368,11 @@ public class PreGameMenuController {
             cardInCollection.setSecond(n + count);
         }
         int n = cardInDeck.getSecond();
-        if (n == count){
+        if (n == count) {
             cardsInDeck.remove(cardInDeck);
         } else {
             cardInDeck.setSecond(n - count);
         }
-
 
 
         if (playerNum.equals("1")) User.setLoggedInUser(user);
@@ -384,31 +380,31 @@ public class PreGameMenuController {
         return new Result(true, "card deleted from deck successfully");
     }
 
-    public  boolean isCountValid(int count) {
+    public boolean isCountValid(int count) {
         return true;
     }
 
-    public  boolean isCardNameValid(String cardName) {
+    public boolean isCardNameValid(String cardName) {
         return true;
     }
 
-    public  boolean checkNumberOfCardInDeck() {
+    public boolean checkNumberOfCardInDeck() {
         return true;
     } // TODO: ???
 
-    public  boolean checkSpecialCardInDeck() {
+    public boolean checkSpecialCardInDeck() {
         return true;
     }
 
 
-    public  boolean checkDeckIsOk(User user) {
+    public boolean checkDeckIsOk(User user) {
         //check if soldier cards are more than 22
         return user.getUserPreGameInfo().calculateSoldierCardsInDeck() >= 22;
     }
 
 
     // start game
-    public  Result startGame() {
+    public Result startGame() {
         //check first player deck
         if (!checkDeckIsOk(currentUser))
             return new Result(false, "first player deck is not complete.");
@@ -419,7 +415,7 @@ public class PreGameMenuController {
         return new Result(true, "game begins");
     }
 
-    public  Result showDeck(String playerNum) {
+    public Result showDeck(String playerNum) {
         User user;
         if (playerNum.equals("1")) user = currentUser;
         else user = opponentUser;

@@ -8,8 +8,11 @@ import server.controller.GameController.PreGameMenuController;
 import server.model.User;
 
 public class PreGameMessageController {
-    public static void changeFactionNetwork(ChangeFaction msg) {
-        User user;
+    public static ServerMessage changeFactionNetwork(ChangeFaction msg) {
+        PreGameMenuController pregame = PreGameMenuController.getPregame(User.getUserByToken(msg.getToken()));
+        User user = User.getUserByToken(msg.getToken());
+        pregame.selectFaction(msg.getFactionName(), user);
+        return new ServerMessage();
     }
 
     public static ServerMessage getFaction(GetFactionMessage msg) {
