@@ -490,9 +490,6 @@ public class GameMenuController {
         return sumPower;
     }
 
-    public Result showTotalScoreOfRow(int rowNumber) {
-        return null;
-    }
 
     public Result passRound(UserInGame player) {
         player.setPassed(true);
@@ -534,6 +531,7 @@ public class GameMenuController {
     public void dealCards() {
         //for first user
         ArrayList<Card> cardsInDeck1 = deckToArrayList(player1);
+//        System.out.println(cardsInDeck1.size());
         GameTable gameTable1 = player1.getGameTable();
         gameTable1.setInHandsCards(createRandomCardsInHand(cardsInDeck1));
         gameTable1.setDeckCards(cardsInDeck1);

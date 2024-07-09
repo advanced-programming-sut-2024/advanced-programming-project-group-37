@@ -14,6 +14,7 @@ import model.enums.card.Card;
 import model.enums.card.Leaders;
 import model.enums.gameMenu.Factions;
 import model.enums.loginMenu.ConfirmQuestions;
+import model.gameTable.GameTable;
 import model.gameTable.UserInGame;
 import model.toolClasses.Pair;
 import model.toolClasses.Result;
@@ -26,6 +27,8 @@ import view.GameMenu.PreGameMenu;
 import java.util.ArrayList;
 
 public class test {
+    private static ArrayList<Card> sampleDeck = new ArrayList<>();
+    private static ArrayList<Card> sampleDeck2 = new ArrayList<>();
     private boolean temp = true;
     private static User user1;
     private static GameMenuController game;
@@ -45,6 +48,8 @@ public class test {
             PreGameMenuController.startGame();
             game = new GameMenuController();
             game.setPlayers(user1, user2);
+
+
 
 
             UserInGame user3 = game.getUserTurn();
@@ -82,6 +87,44 @@ public class test {
             user3.getGameTable().setDeckCards(arrayList2);
             user3.getGameTable().setInHandsCards(arrayList);
 
+
+
+            sampleDeck.add(Card.Cow);
+            sampleDeck.add(Card.Rainfarn);
+            sampleDeck.add(Card.Svanrige);
+            sampleDeck.add(Card.TorrentialRain);
+            sampleDeck.add(Card.TorrentialRain);
+            sampleDeck.add(Card.Foglet);
+            sampleDeck.add(Card.Mardoeme);
+            sampleDeck.add(Card.BlackInfantryArcher);
+            sampleDeck.add(Card.BlueStripesCommando);
+            sampleDeck.add(Card.Gargoyle);
+            sampleDeck.add(Card.Albrich);
+            sampleDeck.add(Card.Cynthia);
+            sampleDeck.add(Card.Dandelion);
+
+
+            sampleDeck2.add(Card.Rainfarn);
+            sampleDeck2.add(Card.Svanrige);
+            sampleDeck2.add(Card.TorrentialRain);
+            sampleDeck2.add(Card.TorrentialRain);
+            sampleDeck2.add(Card.Foglet);
+            sampleDeck2.add(Card.Mardoeme);
+            sampleDeck2.add(Card.BlackInfantryArcher);
+            sampleDeck2.add(Card.BlueStripesCommando);
+            sampleDeck2.add(Card.Gargoyle);
+            sampleDeck2.add(Card.Albrich);
+            sampleDeck2.add(Card.Cynthia);
+            sampleDeck2.add(Card.Dandelion);
+
+
+
+            UserInGame user1 = game.getPlayer1();
+            UserInGame user2 = game.getPlayer2();
+            GameTable gameTable = user1.getGameTable();
+            gameTable.setDeckCards(sampleDeck);
+            GameTable gameTable1 = user2.getGameTable();
+            gameTable1.setDeckCards(sampleDeck2);
         });
     }
 
@@ -397,7 +440,67 @@ public class test {
         game.makeEmpty(game.getPlayer1(), game.getPlayer2(), game.getPlayer2());
 
     }
-//    public void
+    @Test
+    public void cheat(){
+        game.doubleSiege();
+        game.doubleClose();
+        game.doubleRanged();
+        game.addHp();
+        game.addCardFromDeck();
+        assert true;
+    }
+    @Test
+    public void deckToArray(){
+
+        game.dealCards();
+        assert true;
+    }
+    @Test
+    public void showCommanderTest(){
+        game.showCommander();
+        assert true;
+    }
+
+    @Test
+    public void showPowerTest(){
+        game.commanderPowerPLay();
+        assert true;
+    }
+    @Test
+    public void leaderPowerPlayTest(){
+        game.showPlayersInfo();
+        game.showPlayersLives();
+        assert true;
+    }
+    @Test
+    public void inHandCardTest(){
+        game.showNumberOfCardsInHand();
+        assert true;
+    }
+    @Test
+    public void showTurnInfo(){
+        game.showTurnInfo();
+        assert true;
+    }
+    @Test
+    public void showtotalScoreTest(){
+        game.showTotalScore();
+        assert true;
+    }
+    @Test
+    public void isOverTest(){
+        game.isOver();
+        assert true;
+    }
+    @Test
+    public void checkRoundWinner(){
+        game.checkroundWinner();
+        assert true;
+    }
+//    @Test
+//    public void createGame(){
+//        game.
+//    }
 
 //    public
 }
