@@ -13,12 +13,15 @@ import javafx.scene.layout.*;
 import javafx.util.Duration;
 import message.client.pregame.ChangeFaction;
 import message.client.pregame.GetFactionMessage;
+import message.client.pregame.SelectLeader;
+import message.client.pregame.getCollectionDeck;
 import message.enums.card.Card;
 import message.enums.card.CardType;
 import message.enums.card.Leaders;
 import message.enums.gameMenu.Factions;
 import message.enums.gameMenu.Shields;
 import message.server.ServerMessage;
+import server.model.toolClasses.Pair;
 
 import java.util.ArrayList;
 import static client.ClientView.HeadViewController.clientTPC;
@@ -141,7 +144,7 @@ public class PreGameMenu {
         clientTPC.sendMassage(clientTPC.gson.toJson(new GetFactionMessage(clientTPC.token)));
 
         ServerMessage message = clientTPC.receiveMassage();
-        Factions faction = User.getLoggedInUser().getUserPreGameInfo().getFaction();
+        Factions faction = message.getFactions();
         ArrayList<Leaders> leaders = Leaders.getLeadersByFaction(faction);
 
         forBreak:
@@ -164,14 +167,16 @@ public class PreGameMenu {
                 changeLeaders(leader);
             });
         }
-    } // todo
+    }
     private void changeLeaders(Leaders leader) {
-        PreGameMenuController.selectLeader(leader.name());
+        clientTPC.sendMassage(clientTPC.gson.toJson(new SelectLeader(clientTPC.token, leader.name())));
+
+        clientTPC.receiveMassage();
 
         // set image visible and set it's image
         leaderImageView.setVisible(true);
         leaderImageView.setImage(leader.getImage());
-    } // todo
+    }
 
     // upload and download Deck
     public void uploadDeck() {
@@ -184,9 +189,12 @@ public class PreGameMenu {
     // update Deck and Card
     private void updateDeck() {
         // find arraylist of cardCollection and cardInDeck
-        User user = User.getLoggedInUser();
-        ArrayList<Pair<Card, Integer>> cardCollection = user.getUserPreGameInfo().getCardCollection();
-        ArrayList<Pair<Card, Integer>> deck = user.getUserPreGameInfo().getCardsInDeck();
+        clientTPC.sendMassage(clientTPC.gson.toJson(new getCollectionDeck(clientTPC.token)));
+
+        ServerMessage message = clientTPC.receiveMassage();
+
+        ArrayList<Pair<Card, Integer>> cardCollection;
+        ArrayList<Pair<Card, Integer>> deck;
 
         int cardSize = cardCollection.size(), deckSize = deck.size();
 
