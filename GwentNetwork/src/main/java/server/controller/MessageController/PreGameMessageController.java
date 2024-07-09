@@ -1,11 +1,7 @@
 package server.controller.MessageController;
 
-import message.client.pregame.ChangeFaction;
-import message.client.pregame.GetCollectionDeck;
-import message.client.pregame.GetFactionMessage;
-import message.client.pregame.SelectLeader;
+import message.client.pregame.*;
 import message.enums.card.Card;
-import message.enums.card.Leaders;
 import message.enums.gameMenu.Factions;
 import message.server.ServerMessage;
 import server.controller.GameController.PreGameMenuController;
@@ -45,5 +41,22 @@ public class PreGameMessageController {
         ArrayList<Pair<Card, Integer>> collection = user.getUserPreGameInfo().getCardCollection();
 
         return new ServerMessage(deck, collection);
+    }
+
+    public static ServerMessage addCardToDeck(AddToDeck msg) {
+        PreGameMenuController pregame = PreGameMenuController.getPregame(User.getUserByToken(msg.getToken()));
+        User user = User.getUserByToken(msg.getToken());
+        Card card = msg.getCard();
+
+        pregame.addToDeck(card.getName(), 1, user);
+
+        return new ServerMessage();
+    }
+
+    public static ServerMessage checkDeckIsOkNetwork(CheckDeckIsOk msg) {
+        PreGameMenuController pregame = PreGameMenuController.getPregame(User.getUserByToken(msg.getToken()));
+        User user = User.getUserByToken(msg.getToken());
+
+        pregame.checkDeckIsOk(user);
     }
 }

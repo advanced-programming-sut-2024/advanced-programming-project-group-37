@@ -250,10 +250,7 @@ public class PreGameMenuController {
     }
 
     // add to deck
-    public Result addToDeck(String cardName, int count, String playerNum) {
-        User user;
-        if (playerNum.equals("1")) user = currentUser;
-        else user = opponentUser;
+    public Result addToDeck(String cardName, int count, User user) {
 
         //get card by name
         Card card = Card.getCardByName(cardName);

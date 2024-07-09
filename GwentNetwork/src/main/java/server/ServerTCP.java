@@ -6,10 +6,7 @@ import message.client.*;
 import message.client.LoginMenu.*;
 import message.client.MainMenu.SignOutMessage;
 import message.client.gameLobby.*;
-import message.client.pregame.ChangeFaction;
-import message.client.pregame.GetFactionMessage;
-import message.client.pregame.SelectLeader;
-import message.client.pregame.GetCollectionDeck;
+import message.client.pregame.*;
 import message.client.profileMenu.*;
 import message.enums.PlayerState;
 import message.enums.loginMenu.ConfirmQuestions;
@@ -176,6 +173,12 @@ public class ServerTCP extends Thread {
                 sendMessage(serverMessage);
             } else if (msg instanceof GetCollectionDeck) {
                 ServerMessage serverMessage = PreGameMessageController.getCards((GetCollectionDeck) msg);
+                sendMessage(serverMessage);
+            } else if (msg instanceof AddToDeck) {
+                ServerMessage serverMessage = PreGameMessageController.addCardToDeck((AddToDeck) msg);
+                sendMessage(serverMessage);
+            } else if (msg instanceof CheckDeckIsOk) {
+                ServerMessage serverMessage = PreGameMessageController.checkDeckIsOkNetwork((CheckDeckIsOk) msg);
                 sendMessage(serverMessage);
             }
 
@@ -491,6 +494,10 @@ public class ServerTCP extends Thread {
                     return gson.fromJson(clientStr, SelectLeader.class);
                 case MessageType.GET_CARD_COLLECTION_DECK:
                     return gson.fromJson(clientStr, GetCollectionDeck.class);
+                case MessageType.ADD_CARD_TO_DECK:
+                    return gson.fromJson(clientStr, AddToDeck.class);
+                case MessageType.IS_DECK_OK:
+                    return gson.fromJson(clientStr, CheckDeckIsOk.class);
             }
             return null;
         } catch (Exception e) {
