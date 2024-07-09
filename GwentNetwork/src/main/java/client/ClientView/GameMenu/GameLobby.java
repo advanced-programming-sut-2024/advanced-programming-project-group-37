@@ -106,6 +106,17 @@ public class GameLobby {
 
                     HeadViewController.changeScene("pregame page");
                 }
+                else if (message.getType() == ServerType.ACCEPTED_FRIEND_MATCH) {
+                    counterButton.setVisible(false);
+
+                    HeadViewController.changeScene("pregame menu");
+                }
+                else if (message.getType() == ServerType.SHARMANDE_KIR_SHODI) {
+                    counterButton.setText("reject :(");
+                    new Timeline(new KeyFrame(Duration.seconds(2), actionEvent -> {
+                        counterButton.setVisible(false);
+                    })).play();
+                }
             });
 
             timeline.getKeyFrames().add(keyFrame);
@@ -160,6 +171,12 @@ public class GameLobby {
         }
     }
     private void inviteFriend(ActionEvent actionEvent, String username) {
+        openFriendButton.setVisible(true);
+
+        onlineFriendPane.setVisible(false);
+
+        closeFriendButton.setVisible(false);
+
         ((Button) actionEvent.getSource()).setStyle("-fx-background-color: green");
         counterButton.setVisible(true);
 
@@ -175,34 +192,10 @@ public class GameLobby {
         }
 
         timeline.play();
-
-        if (!showPupUp(username)) {
-            openFriendButton.setVisible(true);
-
-            onlineFriendPane.setVisible(false);
-
-            closeFriendButton.setVisible(false);
-            timeline.stop();
-            counterButton.setVisible(false);
-        }
-        else {
-            openFriendButton.setVisible(false);
-
-            onlineFriendPane.setVisible(true);
-
-            closeFriendButton.setVisible(true);
-
-            timeline.stop();
-            counterButton.setVisible(false);
-
-            clientTPC.sendMassage(clientTPC.gson.toJson(new FriendGameRequest(clientTPC.token, username)));
-
-            clientTPC.receiveMassage();
-        }
     }
-    private boolean showPupUp(String username) {
+    private void showPupUp(String username) {
         clientTPC.sendMassage(clientTPC.gson.toJson(new ShowPopUpMessage(clientTPC.token, username)));
-        return clientTPC.receiveMassage().isSuccess();
+        clientTPC.receiveMassage();
     }
     public void closeOnlineFriend() {
         openFriendButton.setVisible(true);
