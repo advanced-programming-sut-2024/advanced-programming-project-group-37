@@ -172,6 +172,7 @@ public class ServerTCP extends Thread {
                 sendMessage(serverMessage);
             } else if (msg instanceof SelectLeader) {
                 ServerMessage serverMessage = PreGameMessageController.selectLeader((SelectLeader) msg);
+                sendMessage(serverMessage);
             }
 
 
