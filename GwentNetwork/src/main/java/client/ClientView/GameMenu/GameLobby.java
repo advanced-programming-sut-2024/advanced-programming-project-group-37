@@ -109,7 +109,7 @@ public class GameLobby {
                 else if (message.getType() == ServerType.ACCEPTED_FRIEND_MATCH) {
                     counterButton.setVisible(false);
 
-                    HeadViewController.changeScene("pregame menu");
+                    HeadViewController.changeScene("pregame page");
                 }
                 else if (message.getType() == ServerType.SHARMANDE_KIR_SHODI) {
                     counterButton.setText("reject :(");
@@ -184,7 +184,7 @@ public class GameLobby {
 
         for (int i = 1; i <= 7; i++) {
             int ii = i;
-            KeyFrame keyFrame = new KeyFrame(Duration.seconds(ii), event -> {
+            KeyFrame keyFrame = new KeyFrame(Duration.seconds(8 - ii), event -> {
                 counterButton.setVisible(true);
                 counterButton.setText(ii + "s passed since invite");
             });
@@ -192,6 +192,8 @@ public class GameLobby {
         }
 
         timeline.play();
+
+        showPupUp(username);
     }
     private void showPupUp(String username) {
         clientTPC.sendMassage(clientTPC.gson.toJson(new ShowPopUpMessage(clientTPC.token, username)));
