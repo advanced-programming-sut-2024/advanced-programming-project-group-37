@@ -141,8 +141,8 @@ public class ServerTCP extends Thread {
                 searchMessageNetwork((SearchMessage) msg); //OK
             } else if (msg instanceof GiveMeOnlineFriend) {
                 giveMeOnlineNetwork((GiveMeOnlineFriend) msg);
-            } else if (msg instanceof ShowPupUpMessage) {
-                showPopUpNetwork((ShowPupUpMessage) msg);
+            } else if (msg instanceof ShowPopUpMessage) {
+                showPopUpNetwork((ShowPopUpMessage) msg);
             } else if (msg instanceof CheckServerMessage) {
                 checkServerForMatchReq((CheckServerMessage) msg);
             } else if (msg instanceof RejectRequest) {
@@ -223,7 +223,7 @@ public class ServerTCP extends Thread {
         sendMessage(new ServerMessage());
     }
 
-    private void showPopUpNetwork(ShowPupUpMessage msg) {
+    private void showPopUpNetwork(ShowPopUpMessage msg) {
         String sender = msg.getToken();
         String reciver = msg.getUsername();
 
@@ -462,7 +462,7 @@ public class ServerTCP extends Thread {
                 case MessageType.SEARCH:
                     return gson.fromJson(clientStr, SearchMessage.class);
                 case MessageType.PUP_UP:
-                    return gson.fromJson(clientStr, ShowPupUpMessage.class);
+                    return gson.fromJson(clientStr, ShowPopUpMessage.class);
                 case MessageType.REJECT_REQUEST:
                     return gson.fromJson(clientStr, RejectRequest.class);
                 case MessageType.ENTER_GAMELOBBY:
