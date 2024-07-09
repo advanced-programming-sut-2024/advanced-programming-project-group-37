@@ -1,6 +1,8 @@
 package message.server;
 
+import message.enums.card.Card;
 import message.enums.gameMenu.Factions;
+import server.model.toolClasses.Pair;
 import server.model.toolClasses.Result;
 
 import java.util.ArrayList;
@@ -52,6 +54,7 @@ public class ServerMessage {
     public ServerMessage(Factions factions) {
         this.factions = factions;
     }
+
 
     public boolean isSuccess() {
         return success;
@@ -123,4 +126,24 @@ public class ServerMessage {
         return factions;
     }
 
+
+    ArrayList<Pair<Card, Integer>> deck = new ArrayList<>();
+    ArrayList<Pair<Card, Integer>> collection = new ArrayList<>();
+
+
+
+    public ServerMessage(ArrayList<Pair<Card, Integer>> deck, ArrayList<Pair<Card, Integer>> collection) {
+        this.collection = collection;
+        this.deck = deck;
+    }
+
+    public ArrayList<Pair<Card, Integer>> getDeck() {
+        return deck;
+    }
+
+    public ArrayList<Pair<Card, Integer>> getCollection() {
+        return collection;
+    }
 }
+
+
