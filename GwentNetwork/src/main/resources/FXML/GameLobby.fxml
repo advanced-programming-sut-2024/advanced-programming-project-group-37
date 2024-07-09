@@ -23,7 +23,7 @@
       <Button fx:id="openFriendButton" layoutX="-33.0" layoutY="212.0" mnemonicParsing="false" onAction="#showOnlineFriend" prefWidth="120.0" rotate="-90.0" style="-fx-background-color: #000c;" text="v" textFill="WHITE" />
       <AnchorPane fx:id="onlineFriendPane" layoutX="14.0" layoutY="85.0" prefHeight="280.0" prefWidth="200.0" style="-fx-background-color: #000c;" visible="false">
          <children>
-            <ScrollPane fx:id="onlineFriendScroll" prefHeight="280.0" prefWidth="200.0" visible="false" />
+            <ScrollPane fx:id="onlineFriendScroll" prefHeight="280.0" prefWidth="200.0" />
          </children></AnchorPane>
       <Button fx:id="closeFriendButton" layoutX="167.0" layoutY="212.0" mnemonicParsing="false" onAction="#closeOnlineFriend" prefWidth="120.0" rotate="90.0" style="-fx-background-color: #000c;" text="v" textFill="WHITE" visible="false" />
       <Button fx:id="counterButton" layoutX="264.0" layoutY="212.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="270.0" style="-fx-background-color: #000c;" textFill="WHITE" visible="false" />

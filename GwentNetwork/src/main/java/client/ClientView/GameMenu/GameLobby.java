@@ -139,6 +139,8 @@ public class GameLobby {
         ArrayList<String> onlineFriends = message.getFriends();
 
         GridPane gridPane = new GridPane();
+        gridPane.setHgap(90);
+        gridPane.setVgap(30);
 
         onlineFriendScroll.setFitToHeight(true);
         onlineFriendScroll.setFitToWidth(true);
@@ -151,12 +153,13 @@ public class GameLobby {
             gridPane.add(button, 0, i);
 
             int ii = i;
-            button.setOnAction(event -> inviteFriend(onlineFriends.get(ii)));
+            button.setOnAction(event -> inviteFriend(event, onlineFriends.get(ii)));
 
             gridPane.add(new Label(onlineFriends.get(i)), 1, i);
         }
     }
-    private void inviteFriend(String username) {
+    private void inviteFriend(ActionEvent actionEvent, String username) {
+        ((Button) actionEvent.getSource()).setStyle("-fx-background-color: green");
         counterButton.setVisible(true);
 
         Timeline timeline = new Timeline();
