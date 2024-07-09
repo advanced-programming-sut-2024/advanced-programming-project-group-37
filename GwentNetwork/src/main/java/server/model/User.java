@@ -8,6 +8,8 @@ import java.util.ArrayList;
 public class User {
     private boolean haveRequestForGame = false;
     private User opponetRequest;
+    private boolean haveReqForFriend = false;
+    private User friend;
     private String token;
     private PlayerState playerState;
     private String username;
@@ -239,5 +241,21 @@ public class User {
 
     public void setState(PlayerState playerState) {
         this.playerState = playerState;
+    }
+
+    public boolean isHaveReqForFriend() {
+        return haveReqForFriend;
+    }
+
+    public void setHaveReqForFriend(boolean haveReqForFriend) {
+        this.haveReqForFriend = haveReqForFriend;
+    }
+
+    public User getFriend() {
+        return friend;
+    }
+
+    public void setFriend(User friend) {
+        this.friend = friend;
     }
 }

@@ -6,7 +6,6 @@ import server.model.FriendRequest;
 import server.model.User;
 import server.model.toolClasses.Result;
 
-import java.nio.file.attribute.UserPrincipalLookupService;
 import java.util.ArrayList;
 
 //extending from LoginMenuController because of some methods
@@ -168,6 +167,14 @@ public class ProfileMenuController extends LoginMenuController {
         //remove from friend requests
         removeFromFriendReq(firstUser, secondUser);
         return new Result(true, "removed successfully");
+    }
+    public static void sendFriendRequest(String token, String username){
+        User sender = User.getUserByToken(token);
+        User reviver = User.getUserByUsername(username);
+
+        reviver.setFriend(sender);
+        reviver.setHaveReqForFriend(true);
+
     }
 
     //check if 2 strings are the same

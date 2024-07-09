@@ -18,6 +18,7 @@ import server.model.User;
 import server.model.toolClasses.Result;
 
 import java.io.*;
+import java.net.ProtocolFamily;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -153,6 +154,8 @@ public class ServerTCP extends Thread {
                 randomGameReqNetwork((RandomGameRequest) msg);
             } else if (msg instanceof FriendGameRequest) {
                 friendGameReqNetwork((FriendGameRequest) msg);
+            } else if (msg instanceof SendRequest){
+                sendFrReqNetwork((SendRequest) msg);
             }
 
 
@@ -162,6 +165,14 @@ public class ServerTCP extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void sendFrReqNetwork(SendRequest msg) {
+        String sender = msg.getToken();
+        String receiver = msg.getUsername();
+        ProfileMenuController.sendFriendRequest(sender, receiver);
+
+        sendMessage(new ServerMessage());
     }
 
     private void friendGameReqNetwork(FriendGameRequest msg) {
@@ -427,6 +438,9 @@ public class ServerTCP extends Thread {
                     return gson.fromJson(clientStr, RandomGameRequest.class);
                 case MessageType.FREAND_GAME_RQUEST:
                     return gson.fromJson(clientStr, RandomGameRequest.class);
+                case MessageType.SEND_FRIEND_REQUEST:
+                    return gson.fromJson(clientStr, SendRequest.class);
+                case MessageType.ACCEPT_FRIEND_REQUEST:
             }
             return null;
         } catch (Exception e) {
