@@ -10,6 +10,7 @@ public class GameLobbyController {
     private static ArrayList<User> randomReq = new ArrayList<>();
 
     public static ArrayList<String> findUsersContainsStr(String partOfUsername) {
+        System.out.println(partOfUsername);
         ArrayList<String> foundUsers = new ArrayList<>();
         ArrayList<User> allUsers = User.getAllUsers();
         for (User user : allUsers) {

@@ -77,16 +77,10 @@ public class ServerMessage {
      *  SarchMessage request return a list of string of people with substring
      * and GiveMeOnlineFriend message returns a list of String of friends that are online
      */
-    private ArrayList<String> friendWithStr;
 
     public ServerMessage(ArrayList<String> friendWithStr) {
-        this.friendWithStr = friendWithStr;
+        this.friends = friendWithStr;
     }
-
-    public ArrayList<String> getFriendWithStr() {
-        return friendWithStr;
-    }
-
     /**
      * @author Foad
      * server message for

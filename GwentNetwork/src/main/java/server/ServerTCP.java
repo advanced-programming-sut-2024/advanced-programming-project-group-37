@@ -261,6 +261,7 @@ public class ServerTCP extends Thread {
     private void searchMessageNetwork(SearchMessage msg) {
         String partOfUsername = msg.getStr();
         ArrayList<String> foundUsers = GameLobbyController.findUsersContainsStr(partOfUsername);
+        System.out.println(foundUsers.size());
         sendMessage(new ServerMessage(foundUsers));
     }
 

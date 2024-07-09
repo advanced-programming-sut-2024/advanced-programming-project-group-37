@@ -324,36 +324,40 @@ public class ProfileMenu {
         GridPane gridPane = new GridPane();
 
         pane.setContent(gridPane);
-        gridPane.setHgap(20);
+        gridPane.setHgap(170);
         gridPane.setVgap(20);
 
         pane.setFitToWidth(true);
         pane.setFitToHeight(true);
 
-        for (int i = 0; i < users.size() / 2; i++) {
-            Label label = new Label(users.get(i));
-            gridPane.add(label, 0, i);
-            label.setOnMouseClicked(mouseEvent -> {
+        for (int i = 0; i < users.size(); i++) {
 
-            });
+            Button button = new Button("request");
 
-            Circle node = new Circle(10);
+            gridPane.add(button, 0, i);
+
+            int finalI = i;
+            button.setOnAction(event -> addFriend(users.get(finalI)));
+            button.setStyle("-fx-background-color: white");
+
+            gridPane.add(new Label(users.get(i)), 1, i);
+
+            Circle node = new Circle(15);
             node.setFill(new ImagePattern(
                     new Image(getClass().getResource("/asset/img/icons/profile.png").toExternalForm())));
 
-            gridPane.add(node, 1, i);
+            gridPane.add(node, 2, i);
         }
-        for (int i = users.size()/2 + 1; i < users.size(); i++) {
-            gridPane.add(new Label(users.get(i)), 3, i - users.size()/2 - 1);
 
-            Circle node = new Circle(10);
-            node.setFill(new ImagePattern(
-                    new Image(getClass().getResource("/asset/img/icons/profile.png").toExternalForm())));
-
-            gridPane.add(node, 4, i);
-        }
 
     }
+
+    private void addFriend(String username) {
+        clientTPC.sendMassage(clientTPC.gson.toJson(new SendRequest(clientTPC.token, username)));
+
+        clientTPC.receiveMassage();
+    }
+
     private void rejectRequest(String username) {
         clientTPC.sendMassage(clientTPC.gson.toJson(new AcceptRequest(clientTPC.token, username)));
 
@@ -376,10 +380,11 @@ public class ProfileMenu {
 
     public void showSearch() {
         searchPane.setVisible(true);
+        searchWindow.setVisible(true);
     }
 
     public void search() {
-        searchPane.setVisible(false);
+        searchWindow.setVisible(false);
 
         String username = searchTextField.getText();
 
@@ -389,6 +394,14 @@ public class ProfileMenu {
 
         ArrayList<String> users = message.getFriends();
 
+        for (String user : users) {
+            System.out.println(user);
+        }
+
         updateScrollPaneForSearch(users, searchScrollPane);
+    }
+
+    public void closeSearchPane() {
+        searchPane.setVisible(false);
     }
 }
