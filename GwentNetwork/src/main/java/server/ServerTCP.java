@@ -8,6 +8,7 @@ import message.client.MainMenu.SignOutMessage;
 import message.client.gameLobby.*;
 import message.client.pregame.ChangeFaction;
 import message.client.pregame.GetFactionMessage;
+import message.client.pregame.SelectLeader;
 import message.client.profileMenu.*;
 import message.enums.PlayerState;
 import message.enums.loginMenu.ConfirmQuestions;
@@ -166,9 +167,11 @@ public class ServerTCP extends Thread {
             } else if (msg instanceof ChangeFaction) {
                 ServerMessage serverMessage = PreGameMessageController.changeFactionNetwork((ChangeFaction) msg);
                 sendMessage(serverMessage);
-            } else if (msg instanceof GetFactionMessage){
+            } else if (msg instanceof GetFactionMessage) {
                 ServerMessage serverMessage = PreGameMessageController.getFaction((GetFactionMessage) msg);
                 sendMessage(serverMessage);
+            } else if (msg instanceof SelectLeader) {
+                ServerMessage serverMessage = PreGameMessageController.selectLeader((SelectLeader) msg);
             }
 
 
@@ -479,6 +482,8 @@ public class ServerTCP extends Thread {
                     return gson.fromJson(clientStr, ChangeFaction.class);
                 case MessageType.GET_FACTION:
                     return gson.fromJson(clientStr, GetFactionMessage.class);
+                case MessageType.SELECT_LEADER:
+                    return gson.fromJson(clientStr, SelectLeader.class);
             }
             return null;
         } catch (Exception e) {

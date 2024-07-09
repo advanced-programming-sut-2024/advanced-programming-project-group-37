@@ -229,10 +229,7 @@ public class PreGameMenuController {
         return new Result(true, toPrint.toString());
     }
 
-    public Result selectLeader(String leaderName, String playerNum) {
-        User user = null;
-        if (playerNum.equals("1")) user = currentUser;
-        else if (playerNum.equals("2")) user = opponentUser;
+    public Result selectLeader(String leaderName, User user) {
 
         Leaders leader = null;
         for (Leaders leaders : Leaders.values()) {
