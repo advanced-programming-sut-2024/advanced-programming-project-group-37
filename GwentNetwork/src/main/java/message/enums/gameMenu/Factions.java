@@ -55,12 +55,14 @@ public enum Factions {
     // methods for fill default arraylist
     private static ArrayList<Pair<Card, Integer>> setForMonster() {
         ArrayList<Pair<Card, Integer>> list = new ArrayList<>();
-        Platform.startup( () -> {
-            for (Card card : Card.values()) {
-                if (card.getFaction().equals(FactionsName.MONSTER) || card.getFaction().equals(FactionsName.NEUTRAL))
-                    list.add(new Pair<>(card, card.getNumberOfCardInGame()));
-            }
-        });
+        if (!Platform.isFxApplicationThread()) {
+            Platform.startup(() -> {
+                for (Card card : Card.values()) {
+                    if (card.getFaction().equals(FactionsName.MONSTER) || card.getFaction().equals(FactionsName.NEUTRAL))
+                        list.add(new Pair<>(card, card.getNumberOfCardInGame()));
+                }
+            });
+        }
         return list;
     }
 
