@@ -6,11 +6,11 @@ import message.client.MessageType;
 /**
  * seyyed you have to check friend like to go to game with this username
  */
-public class ShowPupUpMessage extends ClientMessage {
+public class ShowPopUpMessage extends ClientMessage {
 
     private String username; // نام حریفه سید
 
-    public ShowPupUpMessage(String token, String username) {
+    public ShowPopUpMessage(String token, String username) {
         this.token = token;
         this.type = MessageType.PUP_UP;
         this.username = username;

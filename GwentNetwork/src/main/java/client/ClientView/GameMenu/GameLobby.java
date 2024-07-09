@@ -100,10 +100,11 @@ public class GameLobby {
                     player.setCycleCount(1);
                     mediaView.setMediaPlayer(player);
                     player.play();
-                } else if (message.getType() == ServerType.START_RAND_GAME) {
+                }
+                else if (message.getType() == ServerType.START_RAND_GAME) {
                     counterButton.setVisible(false);
 
-                    // todo : go to pre game
+                    HeadViewController.changeScene("pregame page");
                 }
             });
 
@@ -195,10 +196,12 @@ public class GameLobby {
             counterButton.setVisible(false);
 
             clientTPC.sendMassage(clientTPC.gson.toJson(new FriendGameRequest(clientTPC.token, username)));
+
+            clientTPC.receiveMassage();
         }
     }
     private boolean showPupUp(String username) {
-        clientTPC.sendMassage(clientTPC.gson.toJson(new ShowPupUpMessage(clientTPC.token, username)));
+        clientTPC.sendMassage(clientTPC.gson.toJson(new ShowPopUpMessage(clientTPC.token, username)));
         return clientTPC.receiveMassage().isSuccess();
     }
     public void closeOnlineFriend() {
@@ -274,10 +277,14 @@ public class GameLobby {
         clientTPC.sendMassage(clientTPC.gson.toJson(new AcceptFriendRequest(clientTPC.token, username.getText())));
 
         clientTPC.receiveMassage();
+
+        HeadViewController.changeScene("pregame page");
     }
     public void reject() {
         clientTPC.sendMassage(clientTPC.gson.toJson(new RejectFriendRequest(clientTPC.token, username.getText())));
 
         clientTPC.receiveMassage();
+
+        popUpPane.setVisible(false);
     }
 }

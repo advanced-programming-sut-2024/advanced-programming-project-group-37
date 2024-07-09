@@ -125,9 +125,9 @@ public class HeadViewController extends Application {
         // add game lobby
         addAScene("game lobby", HeadViewController.class.getResource("/FXML/GameLobby.fxml"));
 
-//        // add pregame page
-//        addAScene("pregame page", HeadViewController.class.getResource("/FXML/PregamePage.fxml"));
-//
+        // add pregame page
+        addAScene("pregame page", HeadViewController.class.getResource("/FXML/PregamePage.fxml"));
+
 //        // add game page
 //        addAScene("game page", HeadViewController.class.getResource("/FXML/GamePage.fxml"));
     }
