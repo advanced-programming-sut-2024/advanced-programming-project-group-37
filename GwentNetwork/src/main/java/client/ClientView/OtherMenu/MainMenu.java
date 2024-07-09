@@ -8,6 +8,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import message.client.MainMenu.SignOutMessage;
+import message.client.gameLobby.EnterGameLobby;
 import message.enums.mainMenu.MainMenuCommands;
 
 import java.util.regex.Matcher;
@@ -44,7 +45,7 @@ public class MainMenu {
                     goToProfileMenu();
                 }
                 else if (menuName.equals("pregame menu")) {
-                    goToPreGameMenu();
+                    goToGameLobby();
                 }
                 else terminalTextArea.setText(terminalTextArea.getText() +"Invalid Menu Name" + "\n");
             }
@@ -60,8 +61,12 @@ public class MainMenu {
         HeadViewController.changeScene("profile page");
     }
 
-    public void goToPreGameMenu() {
+    public void goToGameLobby() {
         HeadViewController.changeScene("game lobby");
+
+        clientTPC.sendMassage(clientTPC.gson.toJson(new EnterGameLobby(clientTPC.token)));
+
+        clientTPC.receiveMassage();
     }
 
     public void signOut() {

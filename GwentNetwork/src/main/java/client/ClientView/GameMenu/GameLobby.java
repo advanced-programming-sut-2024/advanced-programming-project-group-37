@@ -69,6 +69,10 @@ public class GameLobby {
     }
     public void back() {
         HeadViewController.changeScene("main page");
+
+        clientTPC.sendMassage(clientTPC.gson.toJson(new BackToMainMenu(clientTPC.token)));
+
+        clientTPC.receiveMassage();
     }
     // check server
     private static boolean isCalled = false;
@@ -96,8 +100,10 @@ public class GameLobby {
                     player.setCycleCount(1);
                     mediaView.setMediaPlayer(player);
                     player.play();
-                } else if (message.getType() == ServerType.POP_UP_MATCH_REQ_GAME_LOBBY) { // todo : تغیر تایپ
+                } else if (message.getType() == ServerType.START_RAND_GAME) {
                     counterButton.setVisible(false);
+
+                    // todo : go to pre game
                 }
             });
 

@@ -299,6 +299,7 @@ public class ProfileMenu {
 
             Button button = new Button("Accept");
             button.setStyle("-fx-background-color: GREEN");
+            button.setPrefWidth(70);
 
             gridPane.add(button, 0, i);
 
@@ -307,14 +308,19 @@ public class ProfileMenu {
 
             Button button2 = new Button("Reject");
             button2.setStyle("-fx-background-color: RED");
+            button2.setPrefWidth(70);
 
             gridPane.add(button2, 1, i);
 
             button2.setOnAction(event -> rejectRequest(users.get(finalI)));
 
-            gridPane.add(new Label(dates.get(i)), 2, i);
+            Label label = new Label(dates.get(i));
+            label.setPrefWidth(60);
+            gridPane.add(label, 2, i);
 
-            gridPane.add(new Label(users.get(i)), 3, i);
+            Label label1 = new Label(users.get(i));
+            label1.setPrefWidth(60);
+            gridPane.add(label1, 3, i);
 
             Circle node = new Circle(15);
             node.setFill(new ImagePattern(

@@ -279,14 +279,14 @@ public class ServerTCP extends Thread {
 
     private void giveFriendNetwork(GiveFriendMessage msg) {
         String token = msg.getToken();
-        ArrayList<ArrayList<String>> friendRequests =ProfileMenuController.FriendsNameAndState(token) ;
-        ArrayList<String> FriendsName = friendRequests.get(0);
+        ArrayList<ArrayList<String>> FriendsName = ProfileMenuController.FriendsNameAndState(token);
+        ArrayList<ArrayList<String>> friendRequests =ProfileMenuController.friendRequestNames(token) ;
 
         ArrayList<String> fromWho = friendRequests.get(0);
         ArrayList<String> date = friendRequests.get(1);
-        ArrayList<String> state = friendRequests.get(1);
+        ArrayList<String> state = FriendsName.get(1);
 
-        sendMessage(new ServerMessage(FriendsName, fromWho, date, state));
+        sendMessage(new ServerMessage(FriendsName.get(0), fromWho, date, state));
     }
 
     private void singOutNetwork(SignOutMessage msg) {

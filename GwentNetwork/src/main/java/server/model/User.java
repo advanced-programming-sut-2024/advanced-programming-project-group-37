@@ -9,7 +9,7 @@ public class User {
     private boolean haveRequestForGame = false;
     private User opponetRequest;
     private String token;
-    private PlayerState playerState;
+    private PlayerState playerState = PlayerState.OFFLINE;
     private String username;
     private String password;
     private String nickname;
