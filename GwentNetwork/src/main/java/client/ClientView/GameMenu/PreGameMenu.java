@@ -14,7 +14,7 @@ import javafx.util.Duration;
 import message.client.pregame.ChangeFaction;
 import message.client.pregame.GetFactionMessage;
 import message.client.pregame.SelectLeader;
-import message.client.pregame.getCollectionDeck;
+import message.client.pregame.GetCollectionDeck;
 import message.enums.card.Card;
 import message.enums.card.CardType;
 import message.enums.card.Leaders;
@@ -189,7 +189,7 @@ public class PreGameMenu {
     // update Deck and Card
     private void updateDeck() {
         // find arraylist of cardCollection and cardInDeck
-        clientTPC.sendMassage(clientTPC.gson.toJson(new getCollectionDeck(clientTPC.token)));
+        clientTPC.sendMassage(clientTPC.gson.toJson(new GetCollectionDeck(clientTPC.token)));
 
         ServerMessage message = clientTPC.receiveMassage();
 

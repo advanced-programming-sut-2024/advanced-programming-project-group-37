@@ -9,6 +9,7 @@ import message.client.gameLobby.*;
 import message.client.pregame.ChangeFaction;
 import message.client.pregame.GetFactionMessage;
 import message.client.pregame.SelectLeader;
+import message.client.pregame.GetCollectionDeck;
 import message.client.profileMenu.*;
 import message.enums.PlayerState;
 import message.enums.loginMenu.ConfirmQuestions;
@@ -172,6 +173,9 @@ public class ServerTCP extends Thread {
                 sendMessage(serverMessage);
             } else if (msg instanceof SelectLeader) {
                 ServerMessage serverMessage = PreGameMessageController.selectLeader((SelectLeader) msg);
+                sendMessage(serverMessage);
+            } else if (msg instanceof GetCollectionDeck) {
+                ServerMessage serverMessage = PreGameMessageController.getCards((GetCollectionDeck) msg);
                 sendMessage(serverMessage);
             }
 
@@ -485,6 +489,8 @@ public class ServerTCP extends Thread {
                     return gson.fromJson(clientStr, GetFactionMessage.class);
                 case MessageType.SELECT_LEADER:
                     return gson.fromJson(clientStr, SelectLeader.class);
+                case MessageType.GET_CARD_COLLECTION_DECK:
+                    return gson.fromJson(clientStr, GetCollectionDeck.class);
             }
             return null;
         } catch (Exception e) {
