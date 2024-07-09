@@ -313,7 +313,7 @@ public class PreGameMenu {
 
         ServerMessage message = clientTPC.receiveMassage();
 
-        if (message.isSuccess()) {
+        if (!message.isSuccess()) {
             DeckError.setText("you don't have enough unit card in your deck!");
             new Timeline(new KeyFrame(Duration.seconds(3), event1 -> DeckError.setText(""))).play();
             return;
