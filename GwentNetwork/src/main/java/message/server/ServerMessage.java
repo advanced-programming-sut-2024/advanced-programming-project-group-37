@@ -1,5 +1,6 @@
 package message.server;
 
+import message.enums.gameMenu.Factions;
 import server.model.toolClasses.Result;
 
 import java.util.ArrayList;
@@ -46,6 +47,10 @@ public class ServerMessage {
 
     public ServerMessage(ServerType serverType) {
         this.type = serverType;
+    }
+
+    public ServerMessage(Factions factions) {
+        this.factions = factions;
     }
 
     public boolean isSuccess() {
@@ -112,4 +117,10 @@ public class ServerMessage {
     public String getOpponent() {
         return opponent;
     }
+    Factions factions;
+
+    public Factions getFactions() {
+        return factions;
+    }
+
 }

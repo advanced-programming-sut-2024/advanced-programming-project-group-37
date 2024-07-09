@@ -6,12 +6,15 @@ import message.client.*;
 import message.client.LoginMenu.*;
 import message.client.MainMenu.SignOutMessage;
 import message.client.gameLobby.*;
+import message.client.pregame.ChangeFaction;
+import message.client.pregame.GetFactionMessage;
 import message.client.profileMenu.*;
 import message.enums.PlayerState;
 import message.enums.loginMenu.ConfirmQuestions;
 import message.server.ServerMessage;
 import message.server.ServerType;
 import server.controller.GameController.GameLobbyController;
+import server.controller.MessageController.PreGameMessageController;
 import server.controller.loginController.LoginMenuController;
 import server.controller.profileController.ProfileMenuController;
 import server.model.User;
@@ -160,6 +163,11 @@ public class ServerTCP extends Thread {
                 acceptReqForMatch((AcceptFriendRequest) msg);
             } else if (msg instanceof RejectFriendRequest) {
                 rejectReqForMatch((RejectFriendRequest) msg);
+            } else if (msg instanceof ChangeFaction) {
+                PreGameMessageController.changeFactionNetwork((ChangeFaction) msg);
+            } else if (msg instanceof GetFactionMessage){
+                ServerMessage serverMessage = PreGameMessageController.getFaction((GetFactionMessage) msg);
+                sendMessage(serverMessage);
             }
 
 
@@ -466,6 +474,10 @@ public class ServerTCP extends Thread {
                     return gson.fromJson(clientStr, AcceptFriendRequest.class);
                 case MessageType.REJECT_FRIEND_REQUEST:
                     return gson.fromJson(clientStr, RejectFriendRequest.class);
+                case MessageType.CHANGE_FACTION:
+                    return gson.fromJson(clientStr, ChangeFaction.class);
+                case MessageType.GET_FACTION:
+                    return gson.fromJson(clientStr, GetFactionMessage.class);
             }
             return null;
         } catch (Exception e) {
@@ -483,14 +495,6 @@ public class ServerTCP extends Thread {
         }
     }
 
-    private boolean sendMessage(String message) {
-        try {
-            send.writeUTF(message);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
 
     public static void main(String[] args) {
         try {
