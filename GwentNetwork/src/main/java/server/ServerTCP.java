@@ -180,6 +180,8 @@ public class ServerTCP extends Thread {
             } else if (msg instanceof CheckDeckIsOk) {
                 ServerMessage serverMessage = PreGameMessageController.checkDeckIsOkNetwork((CheckDeckIsOk) msg);
                 sendMessage(serverMessage);
+            } else if (msg instanceof RemoveFromDeck) {
+                ServerMessage serverMessage = PreGameMessageController.removeFromDeck((RemoveFromDeck) msg);
             }
 
 
@@ -512,6 +514,8 @@ public class ServerTCP extends Thread {
                     return gson.fromJson(clientStr, AddToDeck.class);
                 case MessageType.IS_DECK_OK:
                     return gson.fromJson(clientStr, CheckDeckIsOk.class);
+                case MessageType.REMOVE_FROM_DECK:
+                    return gson.fromJson(clientStr, RemoveFromDeck.class);
             }
             return null;
         } catch (Exception e) {

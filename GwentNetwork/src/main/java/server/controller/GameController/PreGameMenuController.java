@@ -311,11 +311,7 @@ public class PreGameMenuController {
     }
 
     // delete card from deck
-    public Result deleteFromDeck(String cardName, int count, String playerNum) {
-        User user;
-        if (playerNum.equals("1")) user = currentUser;
-        else user = opponentUser;
-
+    public Result deleteFromDeck(String cardName, int count, User user) {
         //get card by name
         Card card = Card.getCardByName(cardName);
         if (card == null) {

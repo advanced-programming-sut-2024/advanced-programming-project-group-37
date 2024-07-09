@@ -8,7 +8,7 @@ public class RemoveFromDeck extends ClientMessage {
     private Card card;
     public RemoveFromDeck(String token, Card card) {
         this.token = token;
-        this.type = MessageType.ADD_CARD_TO_DECK;
+        this.type = MessageType.REMOVE_FROM_DECK;
         this.card = card;
     }
 
