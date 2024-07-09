@@ -400,4 +400,8 @@ public class ProfileMenu {
     public void closeSearchPane() {
         searchPane.setVisible(false);
     }
+
+    public void backFromFriendRequest() {
+        requestPane.setVisible(false);
+    }
 }
