@@ -10,7 +10,6 @@ public class GameLobbyController {
     private static ArrayList<User> randomReq = new ArrayList<>();
 
     public static ArrayList<String> findUsersContainsStr(String partOfUsername) {
-        System.out.println(partOfUsername);
         ArrayList<String> foundUsers = new ArrayList<>();
         ArrayList<User> allUsers = User.getAllUsers();
         for (User user : allUsers) {
@@ -43,11 +42,13 @@ public class GameLobbyController {
     public static void sendGameReq(String senderToken, String reciverUsername) {
         User user = User.getUserByUsername(reciverUsername);
         User sender = User.getUserByToken(senderToken);
+        System.out.println(sender.getUsername());
+        System.out.println(user.getUsername());
         if (user == null) {
             return;
         }
-        user.setHaveRequestForGame(true);
         user.setOpponetRequest(sender);
+        user.setHaveRequestForGame(true);
     }
 
     public static Result checkMatchReq(String token) {
@@ -58,8 +59,9 @@ public class GameLobbyController {
         }
         if (user.isHaveRequestForGame()) {
             user.setHaveRequestForGame(false);
+            User opponent = user.getOpponetRequest();
             user.setOpponetRequest(null);
-            return new Result(true, user.getOpponetRequest().getUsername());
+            return new Result(true, opponent.getUsername());
         } else return new Result(false, "NO!");
     }
 

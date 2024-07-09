@@ -19,6 +19,8 @@ import java.util.regex.Matcher;
 
 public class LoginMenuController{
 
+
+
     // register
     public static Result checkAllErrors(String username, String password, String passwordConfirm, String nickname, String email) {
         //first check if the username has used before or not

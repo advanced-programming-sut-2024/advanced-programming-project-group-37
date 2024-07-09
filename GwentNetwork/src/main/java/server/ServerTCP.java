@@ -51,6 +51,7 @@ public class ServerTCP extends Thread {
             return false;
         }
     }
+
     private String generateNewToken() {
         Random random = new Random();
         StringBuilder sb = new StringBuilder();
@@ -135,13 +136,13 @@ public class ServerTCP extends Thread {
                 searchMessageNetwork((SearchMessage) msg); //OK
             } else if (msg instanceof GiveMeOnlineFriend) {
                 giveMeOnlineNetwork((GiveMeOnlineFriend) msg);
-            } else if (msg instanceof ShowPupUpMessage){
+            } else if (msg instanceof ShowPupUpMessage) {
                 showPopUpNetwork((ShowPupUpMessage) msg);
             } else if (msg instanceof CheckServerMessage) {
                 checkServerForMatchReq((CheckServerMessage) msg);
             } else if (msg instanceof RejectRequest) {
                 rejectReqNetwork((RejectRequest) msg);
-            } else if (msg instanceof EnterGameLobby){
+            } else if (msg instanceof EnterGameLobby) {
                 enterGameLobby((EnterGameLobby) msg);
             } else if (msg instanceof EnterGame) {
                 enterGame((EnterGame) msg);
@@ -153,7 +154,7 @@ public class ServerTCP extends Thread {
                 randomGameReqNetwork((RandomGameRequest) msg);
             } else if (msg instanceof FriendGameRequest) {
                 friendGameReqNetwork((FriendGameRequest) msg);
-            } else if (msg instanceof SendRequest){
+            } else if (msg instanceof SendRequest) {
                 sendFrReqNetwork((SendRequest) msg); // for friend request in profile menu
             } else if (msg instanceof AcceptFriendRequest) {
                 acceptReqForMatch((AcceptFriendRequest) msg);
@@ -198,9 +199,9 @@ public class ServerTCP extends Thread {
 
     private void friendGameReqNetwork(FriendGameRequest msg) {
         String sender = msg.getToken();
-        String reciver = msg.getUsername();
+        String receiver = msg.getUsername();
 
-        GameLobbyController.sendGameReq(sender, reciver);
+        GameLobbyController.sendGameReq(sender, receiver);
 
         sendMessage(new ServerMessage());
     }
@@ -209,7 +210,7 @@ public class ServerTCP extends Thread {
         String sender = msg.getToken();
         String reciver = msg.getUsername();
 
-        GameLobbyController.sendGameReq(sender , reciver);
+        GameLobbyController.sendGameReq(sender, reciver);
 
         sendMessage(new ServerMessage());//send a null message
 
@@ -244,7 +245,6 @@ public class ServerTCP extends Thread {
     private void enterGameLobby(EnterGameLobby msg) {
         String token = msg.getToken();
         GameLobbyController.setState(token, PlayerState.ONLINE);
-        System.out.println("hi");
         sendMessage(new ServerMessage());
     }
 
@@ -261,16 +261,17 @@ public class ServerTCP extends Thread {
         String token = msg.getToken();
         String username = msg.getUsername();
 
-        Result result = ProfileMenuController.acceptFriendRequest(token , username);
+        Result result = ProfileMenuController.acceptFriendRequest(token, username);
         //just send a null message
         sendMessage(new ServerMessage());
 
     }
+
     private void checkServerForMatchReq(CheckServerMessage msg) {
         String token = msg.getToken();
         Result result = GameLobbyController.checkMatchReq(token);
 
-        if (result.isSuccessful()){
+        if (result.isSuccessful()) {
             sendMessage(new ServerMessage(ServerType.POP_UP_MATCH_REQ_GAME_LOBBY, result.getMessage()));
             return;
         }
@@ -294,7 +295,6 @@ public class ServerTCP extends Thread {
     private void searchMessageNetwork(SearchMessage msg) {
         String partOfUsername = msg.getStr();
         ArrayList<String> foundUsers = GameLobbyController.findUsersContainsStr(partOfUsername);
-        System.out.println(foundUsers.size());
         sendMessage(new ServerMessage(foundUsers));
     }
 
@@ -302,7 +302,7 @@ public class ServerTCP extends Thread {
     private void giveFriendNetwork(GiveFriendMessage msg) {
         String token = msg.getToken();
         ArrayList<ArrayList<String>> FriendsName = ProfileMenuController.FriendsNameAndState(token);
-        ArrayList<ArrayList<String>> friendRequests =ProfileMenuController.friendRequestNames(token) ;
+        ArrayList<ArrayList<String>> friendRequests = ProfileMenuController.friendRequestNames(token);
 
         ArrayList<String> fromWho = friendRequests.get(0);
         ArrayList<String> date = friendRequests.get(1);
