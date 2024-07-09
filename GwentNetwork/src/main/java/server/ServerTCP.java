@@ -272,6 +272,7 @@ public class ServerTCP extends Thread {
     private void searchMessageNetwork(SearchMessage msg) {
         String partOfUsername = msg.getStr();
         ArrayList<String> foundUsers = GameLobbyController.findUsersContainsStr(partOfUsername);
+        System.out.println(foundUsers.size());
         sendMessage(new ServerMessage(foundUsers));
     }
 
@@ -282,7 +283,6 @@ public class ServerTCP extends Thread {
         ArrayList<ArrayList<String>> friendRequests = ProfileMenuController.friendRequestNames(token);
 
         ArrayList<String> fromWho = friendRequests.get(0);
-        System.out.println(fromWho.size());
         ArrayList<String> date = friendRequests.get(1);
         ArrayList<String> state = friendRequests.get(2);
 

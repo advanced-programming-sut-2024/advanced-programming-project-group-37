@@ -7,7 +7,7 @@ public class FriendRequest {
     private User fromUser;
     private User toUser;
     private String state = new String(); // accepted, rejected, waiting
-    FriendRequest(LocalDate date, User fromUser, User toUser){
+    public FriendRequest(LocalDate date, User fromUser, User toUser){
         this.date = date;
         this.fromUser = fromUser;
         this.toUser = toUser;
