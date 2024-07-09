@@ -289,17 +289,16 @@ public class ProfileMenu {
         GridPane gridPane = new GridPane();
 
         pane.setContent(gridPane);
-        gridPane.setHgap(50);
+        gridPane.setHgap(10);
         gridPane.setVgap(20);
 
         pane.setFitToWidth(true);
         pane.setFitToHeight(true);
 
         for (int i = 0; i < users.size(); i++) {
-
             Button button = new Button("Accept");
             button.setStyle("-fx-background-color: GREEN");
-            button.setPrefWidth(70);
+            button.setPrefWidth(90);
 
             gridPane.add(button, 0, i);
 
@@ -308,18 +307,18 @@ public class ProfileMenu {
 
             Button button2 = new Button("Reject");
             button2.setStyle("-fx-background-color: RED");
-            button2.setPrefWidth(70);
+            button2.setPrefWidth(90);
 
             gridPane.add(button2, 1, i);
 
             button2.setOnAction(event -> rejectRequest(users.get(finalI)));
 
             Label label = new Label(dates.get(i));
-            label.setPrefWidth(60);
+            label.setPrefWidth(90);
             gridPane.add(label, 2, i);
 
             Label label1 = new Label(users.get(i));
-            label1.setPrefWidth(60);
+            label1.setPrefWidth(90);
             gridPane.add(label1, 3, i);
 
             Circle node = new Circle(15);
