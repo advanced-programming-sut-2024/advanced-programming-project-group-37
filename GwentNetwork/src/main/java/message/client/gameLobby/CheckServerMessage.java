@@ -9,9 +9,8 @@ import message.client.MessageType;
  * this method is message for check server that have any message
  */
 public class CheckServerMessage extends ClientMessage {
-
-    public CheckServerMessage(String token) {
+    public CheckServerMessage(String token, MessageType type) {
         this.token = token;
-        this.type = MessageType.CHECK_SERVER;
+        this.type = type;
     }
 }

@@ -21,6 +21,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.util.Duration;
+import message.client.MessageType;
 import message.client.gameLobby.*;
 import message.server.ServerMessage;
 import message.server.ServerType;
@@ -75,18 +76,19 @@ public class GameLobby {
         clientTPC.receiveMassage();
     }
     // check server
+    private static Timeline timeline;
     private static boolean isCalled = false;
     public void checkServer() {
         // this method check if Server have massage
         if (!isCalled){
             isCalled = true;
 
-            Timeline timeline = new Timeline();
+            timeline = new Timeline();
 
             timeline.setCycleCount(Animation.INDEFINITE);
 
             KeyFrame keyFrame = new KeyFrame(Duration.seconds(1), event -> {
-                clientTPC.sendMassage(clientTPC.gson.toJson(new CheckServerMessage(clientTPC.token)));
+                clientTPC.sendMassage(clientTPC.gson.toJson(new CheckServerMessage(clientTPC.token, MessageType.CHECK_SERVER1)));
 
                 ServerMessage message = clientTPC.receiveMassage();
 
@@ -105,11 +107,13 @@ public class GameLobby {
                     counterButton.setVisible(false);
 
                     HeadViewController.changeScene("pregame page");
+                    timeline.stop();
                 }
                 else if (message.getType() == ServerType.ACCEPTED_FRIEND_MATCH) {
                     counterButton.setVisible(false);
 
                     HeadViewController.changeScene("pregame page");
+                    timeline.stop();
                 }
                 else if (message.getType() == ServerType.SHARMANDE_KIR_SHODI) {
                     counterButton.setText("reject :(");
@@ -274,6 +278,7 @@ public class GameLobby {
         clientTPC.receiveMassage();
 
         HeadViewController.changeScene("pregame page");
+        timeline.stop();
     }
     public void reject() {
         clientTPC.sendMassage(clientTPC.gson.toJson(new RejectFriendRequest(clientTPC.token, username.getText())));

@@ -1,6 +1,7 @@
 package client.ClientView.GameMenu;
 
 import client.ClientView.HeadViewController;
+import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.control.*;
@@ -10,7 +11,11 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
+import message.client.MessageType;
+import message.client.gameLobby.CheckServerMessage;
 import message.client.pregame.*;
 import message.enums.card.Card;
 import message.enums.card.CardType;
@@ -18,6 +23,7 @@ import message.enums.card.Leaders;
 import message.enums.gameMenu.Factions;
 import message.enums.gameMenu.Shields;
 import message.server.ServerMessage;
+import message.server.ServerType;
 import server.model.toolClasses.Pair;
 
 import java.util.ArrayList;
@@ -50,6 +56,33 @@ public class PreGameMenu {
         }
     }
 
+    // check server
+    private static Timeline timeline;
+    private static boolean isCalled = false;
+    public void checkServer() {
+        // this method check if Server have massage
+        if (!isCalled){
+            showFaction();
+
+            isCalled = true;
+
+            timeline = new Timeline();
+
+            timeline.setCycleCount(Animation.INDEFINITE);
+
+            KeyFrame keyFrame = new KeyFrame(Duration.seconds(1), event -> {
+                clientTPC.sendMassage(clientTPC.gson.toJson(new CheckServerMessage(clientTPC.token, MessageType.CHECK_SERVER2)));
+
+                ServerMessage message = clientTPC.receiveMassage();
+
+
+            });
+
+            timeline.getKeyFrames().add(keyFrame);
+
+            timeline.play();
+        }
+    }
 
     // graphic part
     public HBox factionHBox;

@@ -13,7 +13,7 @@
             <Image url="@../asset/img/board.jpg" />
          </image>
       </ImageView>
-      <AnchorPane layoutX="25.0" layoutY="25.0" prefHeight="550.0" prefWidth="950.0" style="-fx-background-color: #000c;">
+      <AnchorPane layoutX="25.0" layoutY="25.0" onMouseEntered="#checkServer" prefHeight="550.0" prefWidth="950.0" style="-fx-background-color: #000c;">
          <children>
             <Button layoutX="409.0" layoutY="512.0" mnemonicParsing="false" onAction="#startGame" prefHeight="26.0" prefWidth="132.0" style="-fx-background-color: #000a;" text="START" textFill="WHITE">
                <font>
