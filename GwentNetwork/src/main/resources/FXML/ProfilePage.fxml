@@ -52,19 +52,19 @@
          <Font name="System Bold Italic" size="12.0" />
       </font>
    </Button>
-   <AnchorPane fx:id="friendPane" layoutX="80.0" layoutY="22.0" prefHeight="400.0" prefWidth="658.0" style="-fx-background-color: #000d;">
+   <AnchorPane fx:id="friendPane" layoutX="80.0" layoutY="22.0" prefHeight="400.0" prefWidth="658.0" style="-fx-background-color: #000d;" visible="false">
       <children>
          <Button layoutX="585.0" layoutY="353.0" mnemonicParsing="false" onAction="#backFromFriendPage" style="-fx-background-color: #000f; -fx-border-color: #ffffff;" text="back" textFill="WHITE" />
          <Button layoutX="537.0" layoutY="14.0" mnemonicParsing="false" onAction="#showRequest" style="-fx-background-color: #000e; -fx-border-color: #ffffff;" text="Friend Reuests" textFill="#fcfcfc" />
          <Button layoutX="440.0" layoutY="14.0" mnemonicParsing="false" onAction="#showSearch" style="-fx-background-color: #000e; -fx-border-color: #ffffff;" text="ADD Friend" textFill="#fcfcfc" />
          <ScrollPane fx:id="friendScrollPane" layoutX="91.0" layoutY="50.0" prefHeight="300.0" prefWidth="475.0" />
-         <AnchorPane fx:id="requestPane" prefHeight="400.0" prefWidth="658.0" style="-fx-background-color: #000e;">
+         <AnchorPane fx:id="requestPane" prefHeight="400.0" prefWidth="658.0" style="-fx-background-color: #000e;" visible="false">
             <children>
                <ScrollPane fx:id="friendRequests" layoutX="139.0" layoutY="50.0" prefHeight="300.0" prefWidth="380.0" />
                <Button layoutX="573.0" layoutY="361.0" mnemonicParsing="false" onAction="#backFromFriendRequest" style="-fx-background-color: #000f; -fx-border-color: #ffffff;" text="back" textFill="WHITE" />
             </children>
          </AnchorPane>
-         <AnchorPane fx:id="searchPane" prefHeight="400.0" prefWidth="658.0" style="-fx-background-color: #000d;">
+         <AnchorPane fx:id="searchPane" prefHeight="400.0" prefWidth="658.0" style="-fx-background-color: #000d;" visible="false">
             <children>
                <ScrollPane fx:id="searchScrollPane" layoutX="79.0" layoutY="50.0" prefHeight="300.0" prefWidth="500.0" />
                <AnchorPane fx:id="searchWindow" layoutX="229.0" layoutY="100.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #000f; -fx-border-color: #fff;">

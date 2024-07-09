@@ -298,6 +298,7 @@ public class ProfileMenu {
         for (int i = 0; i < users.size(); i++) {
 
             Button button = new Button("Accept");
+            button.setStyle("-fx-background-color: GREEN");
 
             gridPane.add(button, 0, i);
 
@@ -305,8 +306,9 @@ public class ProfileMenu {
             button.setOnAction(event -> acceptRequest(users.get(finalI)));
 
             Button button2 = new Button("Reject");
+            button2.setStyle("-fx-background-color: RED");
 
-            gridPane.add(button, 1, i);
+            gridPane.add(button2, 1, i);
 
             button2.setOnAction(event -> rejectRequest(users.get(finalI)));
 
