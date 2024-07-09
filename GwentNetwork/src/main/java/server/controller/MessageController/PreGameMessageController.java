@@ -1,9 +1,11 @@
 package server.controller.MessageController;
 
+import message.client.gameLobby.CheckServerMessage;
 import message.client.pregame.*;
 import message.enums.card.Card;
 import message.enums.gameMenu.Factions;
 import message.server.ServerMessage;
+import message.server.ServerType;
 import server.controller.GameController.PreGameMenuController;
 import server.model.User;
 import server.model.toolClasses.Pair;
@@ -66,6 +68,17 @@ public class PreGameMessageController {
         User user = User.getUserByToken(msg.getToken());
 
         pregame.deleteFromDeck(msg.getCard().getName(), 1 , user);
+        return new ServerMessage();
+    }
+
+    public static ServerMessage checkServerInPreGame(CheckServerMessage msg) {
+        PreGameMenuController pregame = PreGameMenuController.getPregame(User.getUserByToken(msg.getToken()));
+        User user1 = pregame.currentUser;
+        User user2 = pregame.opponentUser;
+
+        if (user1.isReadyDeck() && user2.isReadyDeck()){
+            return new ServerMessage(ServerType.BOTH_HAVE_READY_DECK);
+        }
         return new ServerMessage();
     }
 }

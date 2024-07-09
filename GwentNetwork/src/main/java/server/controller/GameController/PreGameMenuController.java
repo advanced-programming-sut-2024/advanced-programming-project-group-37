@@ -387,7 +387,11 @@ public class PreGameMenuController {
 
     public boolean checkDeckIsOk(User user) {
         //check if soldier cards are more than 22
-        return user.getUserPreGameInfo().calculateSoldierCardsInDeck() >= 22;
+        Boolean boll =user.getUserPreGameInfo().calculateSoldierCardsInDeck() >= 22;
+        if (boll){
+            user.setReadyDeck(true);
+        }
+        return boll;
     }
 
 

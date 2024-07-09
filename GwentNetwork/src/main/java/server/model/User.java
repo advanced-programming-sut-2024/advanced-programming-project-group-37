@@ -6,6 +6,7 @@ import message.enums.loginMenu.ConfirmQuestions;
 import java.util.ArrayList;
 
 public class User {
+    private boolean readyDeck = false;
     private boolean startGame = false;
     private boolean kirShodi = false;
     private boolean haveRequestForGame = false;
@@ -257,5 +258,13 @@ public class User {
 
     public void setKirShodi(boolean kirShodi) {
         this.kirShodi = kirShodi;
+    }
+
+    public boolean isReadyDeck() {
+        return readyDeck;
+    }
+
+    public void setReadyDeck(boolean readyDeck) {
+        this.readyDeck = readyDeck;
     }
 }

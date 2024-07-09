@@ -140,7 +140,7 @@ public class ServerTCP extends Thread {
                 giveMeOnlineNetwork((GiveMeOnlineFriend) msg);
             } else if (msg instanceof ShowPopUpMessage) {
                 showPopUpNetwork((ShowPopUpMessage) msg);
-            } else if (msg instanceof CheckServerMessage) {
+            } else if (msg instanceof CheckServerMessage && msg.getType() == MessageType.CHECK_SERVER1) {
                 checkServerForMatchReq((CheckServerMessage) msg);
             } else if (msg instanceof RejectRequest) {
                 rejectReqNetwork((RejectRequest) msg);
@@ -182,6 +182,10 @@ public class ServerTCP extends Thread {
                 sendMessage(serverMessage);
             } else if (msg instanceof RemoveFromDeck) {
                 ServerMessage serverMessage = PreGameMessageController.removeFromDeck((RemoveFromDeck) msg);
+                sendMessage(serverMessage);
+            } else if (msg instanceof CheckServerMessage && msg.getType() == MessageType.CHECK_SERVER2) {
+                ServerMessage serverMessage = PreGameMessageController.checkServerInPreGame((CheckServerMessage) msg);
+                sendMessage(serverMessage);
             }
 
 
@@ -474,7 +478,7 @@ public class ServerTCP extends Thread {
                     return gson.fromJson(clientStr, GiveFriendMessage.class);
                 case MessageType.ACCEPT_REQUEST:
                     return gson.fromJson(clientStr, AcceptRequest.class);
-                case MessageType.CHECK_SERVER:
+                case MessageType.CHECK_SERVER1:
                     return gson.fromJson(clientStr, CheckServerMessage.class);
                 case MessageType.GEVE_ONLINE_FRIEND:
                     return gson.fromJson(clientStr, GiveMeOnlineFriend.class);
@@ -516,6 +520,8 @@ public class ServerTCP extends Thread {
                     return gson.fromJson(clientStr, CheckDeckIsOk.class);
                 case MessageType.REMOVE_FROM_DECK:
                     return gson.fromJson(clientStr, RemoveFromDeck.class);
+                case MessageType.CHECK_SERVER2:
+                    return gson.fromJson(clientStr, CheckServerMessage.class);
             }
             return null;
         } catch (Exception e) {
