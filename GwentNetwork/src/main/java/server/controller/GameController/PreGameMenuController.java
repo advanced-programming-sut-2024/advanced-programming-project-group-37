@@ -365,8 +365,6 @@ public class PreGameMenuController {
         }
 
 
-        if (playerNum.equals("1")) User.setLoggedInUser(user);
-
         return new Result(true, "card deleted from deck successfully");
     }
 
