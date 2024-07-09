@@ -21,23 +21,31 @@ public class ServerMessage {
         this.success = success;
         this.info = info;
     }
+
     public ServerMessage(Result result) {
         this.success = result.isSuccessful();
         this.info = result.getMessage();
     }
-    public ServerMessage(Result result, String token){
+
+    public ServerMessage(Result result, String token) {
         this.success = result.isSuccessful();
         this.info = result.getMessage();
         this.token = token;
     }
+
     public ServerMessage(ArrayList<String> friends, ArrayList<String> fromWho, ArrayList<String> date, ArrayList<String> state) {
         this.friends = friends;
         this.fromWho = fromWho;
         this.date = date;
         this.state = state;
     }
-    public ServerMessage(){
+
+    public ServerMessage() {
         //an empty constructor
+    }
+
+    public ServerMessage(ServerType serverType) {
+        this.type = serverType;
     }
 
     public boolean isSuccess() {
@@ -74,13 +82,14 @@ public class ServerMessage {
     /**
      * @author FOAD
      * server message for
-     *  SarchMessage request return a list of string of people with substring
+     * SarchMessage request return a list of string of people with substring
      * and GiveMeOnlineFriend message returns a list of String of friends that are online
      */
 
     public ServerMessage(ArrayList<String> friendWithStr) {
         this.friends = friendWithStr;
     }
+
     /**
      * @author Foad
      * server message for
@@ -88,12 +97,11 @@ public class ServerMessage {
      * sending that if the rand game created or not
      */
     String opponent;
+
     public ServerMessage(ServerType type, String username) {
         this.type = type;
         this.opponent = username;
     }
-
-
 
 
     //some getter
