@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane onKeyPressed="#showTerminal" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #160C06FF;" stylesheets="@../CSS/css1.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.GameMenu.PreGameMenu">
+<AnchorPane onKeyPressed="#showTerminal" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #160C06FF;" stylesheets="@../CSS/css1.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.ClientView.GameMenu.PreGameMenu">
    <children>
       <ImageView fitHeight="600.0" fitWidth="1000.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -15,7 +15,7 @@
       </ImageView>
       <AnchorPane layoutX="25.0" layoutY="25.0" prefHeight="550.0" prefWidth="950.0" style="-fx-background-color: #000c;">
          <children>
-            <Button layoutX="409.0" layoutY="512.0" mnemonicParsing="false" onAction="#startGame" prefHeight="26.0" prefWidth="132.0" style="-fx-background-color: #000a;" text="READY" textFill="WHITE">
+            <Button layoutX="409.0" layoutY="512.0" mnemonicParsing="false" onAction="#startGame" prefHeight="26.0" prefWidth="132.0" style="-fx-background-color: #000a;" text="START" textFill="WHITE">
                <font>
                   <Font name="System Bold Italic" size="12.0" />
                </font>
@@ -165,30 +165,6 @@
                </children>
             </HBox>
             <HBox fx:id="leadersList" alignment="CENTER" layoutX="-1.0" layoutY="163.0" prefHeight="229.0" prefWidth="950.0" visible="false" />
-            <AnchorPane fx:id="selectOpponentPane" layoutX="375.0" layoutY="163.0" prefHeight="171.0" prefWidth="200.0" style="-fx-background-color: #000e;">
-               <children>
-                  <Label layoutX="13.0" layoutY="89.0" prefHeight="18.0" prefWidth="179.0" textFill="RED">
-                     <font>
-                        <Font name="System Italic" size="10.0" />
-                     </font>
-                  </Label>
-                  <Label alignment="CENTER" layoutX="26.0" layoutY="23.0" prefHeight="18.0" prefWidth="148.0" text="select your opponent" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold Italic" size="12.0" />
-                     </font>
-                  </Label>
-                  <TextField layoutX="26.0" layoutY="63.0" promptText="username" style="-fx-background-color: #000d;">
-                     <font>
-                        <Font name="System Bold Italic" size="12.0" />
-                     </font>
-                  </TextField>
-                  <Button layoutX="86.0" layoutY="129.0" mnemonicParsing="false" onAction="#setOpponent" style="-fx-background-color: #000d;" text="ok" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold Italic" size="12.0" />
-                     </font>
-                  </Button>
-               </children>
-            </AnchorPane>
             <Label fx:id="DeckError" layoutX="334.0" layoutY="533.0" prefHeight="18.0" prefWidth="282.0" textFill="RED">
                <font>
                   <Font name="System Italic" size="12.0" />
