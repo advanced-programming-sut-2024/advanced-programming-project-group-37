@@ -11,12 +11,15 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
+import message.client.ClientMessage;
 import message.client.pregame.ChangeFaction;
+import message.client.pregame.getFactionMessage;
 import message.enums.card.Card;
 import message.enums.card.CardType;
 import message.enums.card.Leaders;
 import message.enums.gameMenu.Factions;
 import message.enums.gameMenu.Shields;
+import message.server.ServerMessage;
 
 import java.util.ArrayList;
 import static client.ClientView.HeadViewController.clientTPC;
@@ -136,6 +139,9 @@ public class PreGameMenu {
         leaderImageView.setVisible(false);
 
         // find faction and get leaders of faction
+        clientTPC.sendMassage(clientTPC.gson.toJson(new getFactionMessage(clientTPC.token)));
+
+        ServerMessage message = clientTPC.receiveMassage();
         Factions faction = User.getLoggedInUser().getUserPreGameInfo().getFaction();
         ArrayList<Leaders> leaders = Leaders.getLeadersByFaction(faction);
 
