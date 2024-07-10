@@ -168,4 +168,14 @@ public class GameMessageController {
 
         return new ServerMessage();
     }
+
+    public static ServerMessage whoseTurnServer(WhoseTrun msg) {
+        GameMenuController game = GameMenuController.getGame(msg.getToken());
+        User user = User.getUserByToken(msg.getToken());
+
+        if (game.getUserTurn().getUser() == user) {
+            return new ServerMessage(true);
+        } else
+            return new ServerMessage(false);
+    }
 }

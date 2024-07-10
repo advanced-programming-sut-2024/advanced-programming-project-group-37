@@ -210,6 +210,9 @@ public class ServerTCP extends Thread {
             } else if (msg instanceof CheckServerMessage && msg.getType() == MessageType.CHECK_SERVER3){
                 ServerMessage serverMessage = GameMessageController.checkServer((CheckServerMessage) msg);
                 sendMessage(serverMessage);
+            } else if (msg instanceof WhoseTrun) {
+                ServerMessage serverMessage = GameMessageController.whoseTurnServer((WhoseTrun) msg);
+                sendMessage(serverMessage);
             }
 
 
@@ -560,6 +563,8 @@ public class ServerTCP extends Thread {
                     return gson.fromJson(clientStr, PlayCard.class);
                 case MessageType.CHECK_SERVER3:
                     return gson.fromJson(clientStr, CheckServerMessage.class);
+                case MessageType.TURN_CHECKING:
+                    return gson.fromJson(clientStr, WhoseTrun.class);
             }
             return null;
         } catch (Exception e) {

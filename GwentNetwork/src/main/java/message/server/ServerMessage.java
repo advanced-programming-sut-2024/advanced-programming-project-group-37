@@ -62,6 +62,10 @@ public class ServerMessage {
         this.success = equals;
     }
 
+    public ServerMessage(boolean b) {
+        success = b;
+    }
+
 
     public boolean isSuccess() {
         return success;
