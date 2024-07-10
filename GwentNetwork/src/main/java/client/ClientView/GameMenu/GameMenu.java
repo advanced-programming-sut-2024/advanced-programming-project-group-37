@@ -44,8 +44,29 @@ public class GameMenu {
 
             ServerMessage message = clientTPC.receiveMassage();
 
-            if (message.getType() == ServerType.BOTH_HAVE_READY_DECK) {
-                HeadViewController.changeScene("game page");
+            if (message.getType() == ServerType.NEW_ROUND) {
+                result.setVisible(true);
+                if (message.getOpponent() == null) {
+                    ((Label) this.result.getChildren().get(2)).setText("DRAW");
+                }
+                else {
+                    if (message.isSuccess()) {
+                        ((Label) this.result.getChildren().get(2)).setText("you WON this round");
+                        setShield(true);
+                    } else {
+                        ((Label) this.result.getChildren().get(2)).setText("you lose this round");
+                        setShield(false);
+                    }
+                }
+                new Timeline(new KeyFrame(Duration.seconds(2), actionEvent -> result.setVisible(false)));
+            }
+            if (message.getType() == ServerType.END_GAME) {
+                updateEndPage(message.isSuccess());
+            }
+            if (message.getType() == ServerType.YOUR_TURN) {
+                isMyTurn = true;
+
+                showAnimation();
             }
         });
 
@@ -88,6 +109,7 @@ public class GameMenu {
     public AnchorPane passPane;
     public AnchorPane result;
     public AnchorPane winnerPane;
+    private boolean isMyTurn;
     public final int pictureWidth = 90;
 
     private static boolean isCalled = false;
@@ -97,6 +119,19 @@ public class GameMenu {
         if (!isCalled) {
             checkServer();
             isCalled = true;
+
+            // set whose turn
+            clientTPC.sendMassage(clientTPC.gson.toJson(new WhoseTrun(clientTPC.token)));
+
+            ServerMessage m = clientTPC.receiveMassage();
+
+            if (m.isSuccess()) {
+                isMyTurn = true;
+            } else {
+                isMyTurn = false;
+
+                turnPane.getChildren().getFirst().setRotate(-90);
+            }
 
             // set picture are leaders
             clientTPC.sendMassage(clientTPC.gson.toJson(new GiveMeLeader(clientTPC.token)));
@@ -358,6 +393,9 @@ public class GameMenu {
         clientTPC.sendMassage(clientTPC.gson.toJson(new ChangeTurn(clientTPC.token)));
         clientTPC.receiveMassage();
 
+        showAnimation();
+    }
+    private void showAnimation() {
         // now show some graphic
         turnPane.setVisible(true);
 
@@ -375,52 +413,56 @@ public class GameMenu {
     public void passTurn() {
         passPane.setVisible(true);
         ((Label) passPane.getChildren().get(2)).setText("you pass turn");
-        clientTPC.sendMassage(clientTPC.gson.toJson(new PassTurn(clientTPC.token)));
-
-        clientTPC.receiveMassage();
 
         new Timeline(new KeyFrame(Duration.seconds(2), event -> {
             passPane.setVisible(false);
+
+            clientTPC.sendMassage(clientTPC.gson.toJson(new PassTurn(clientTPC.token)));
+
+            clientTPC.receiveMassage();
             changeTurn();
             updateTable();
         })).play();
     }
-//    private void updateEndPage(UserInGame user) {
-//        winnerPane.setVisible(true);
-//
-//        Label massage =(Label) winnerPane.getChildren().get(0);
-//
-//        massage.setText(user.getUser().getUsername() + " won the game");
-//
-//        // know set on action for buttons
-//        Button rematch = (Button) winnerPane.getChildren().get(1);
-//        Button customize = (Button) winnerPane.getChildren().get(2);
-//
-//        rematch.setOnAction(event -> {
-//            game = null;
-//
-//            winnerPane.setVisible(false);
-//
-//            firstOption();
-//        });
-//
-//        customize.setOnAction(event -> {
-//
-//        });
-//    }
-//    private void setShield(String username) {
-//        User user = User.getUserByUsername(username);
-//
-//
-//        if (player1.getUser().equals(user)) {
-//            Factions factions = player2.getGameTable().getLeader().getFaction();
-//            player2shield.setImage(Shields.valueOf(factions.name()).getImage2());
-//        } else {
-//            Factions factions = player1.getGameTable().getLeader().getFaction();
-//            player1shield.setImage(Shields.valueOf(factions.name()).getImage2());
-//        }
-//    }
+    private void updateEndPage(boolean win) {
+        winnerPane.setVisible(true);
 
-// button on end page
+        Label massage =(Label) winnerPane.getChildren().get(0);
 
+        ImageView imageView = (ImageView) winnerPane.getChildren().get(4);
+        if (win) {
+            massage.setText("you won the game");
+
+            imageView.setImage(new Image(getClass().getResource("/asset/img/icons/end_win.png").toExternalForm()));
+        }
+        else {
+            massage.setText("you lose the game");
+            imageView.setImage(new Image(getClass().getResource("/asset/img/icons/end_lose.png").toExternalForm()));
+        }
+
+        // know set on action for buttons
+        Button rematch = (Button) winnerPane.getChildren().get(1);
+        Button customize = (Button) winnerPane.getChildren().get(2);
+
+        rematch.setOnAction(event -> {
+            winnerPane.setVisible(false);
+                // todo
+            firstOption();
+        });
+
+        customize.setOnAction(event -> {
+            // todo
+        });
+    }
+    private void setShield(boolean win) {
+        clientTPC.sendMassage(clientTPC.gson.toJson(new GiveMeLeader(clientTPC.token)));
+        ServerMessage message = clientTPC.receiveMassage();
+
+        if (win) {
+            player2shield.setImage(Shields.valueOf(message.opponnetLeader.getFaction().name()).getImage2());
+        }
+        else {
+            player1shield.setImage(Shields.valueOf(message.yourLeader.getFaction().name()).getImage2());
+        }
+    }
 }
