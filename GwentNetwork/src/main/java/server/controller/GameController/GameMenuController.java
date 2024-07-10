@@ -269,12 +269,12 @@ public class GameMenuController {
 
     public Result checkroundWinner() {
         if (player1.isPassed() && player2.isPassed()) {
-            UserInGame winner = null;
+            roundWinner = null;
             if (calculateTotalScore(player1) > calculateTotalScore(player2)) {
                 makeEmpty(player1, player2, player1);
                 GameTable gameTable = player2.getGameTable();
                 gameTable.setHP(gameTable.getHP() - 1);
-                winner = player1;
+                roundWinner = player1;
                 return new Result(true, player1.getUser().getUsername() + " won");
             }
             if (calculateTotalScore(player2) > calculateTotalScore(player1)) {
@@ -282,10 +282,11 @@ public class GameMenuController {
                 makeEmpty(player1, player2, player1);
                 GameTable gameTable = player1.getGameTable();
                 gameTable.setHP(gameTable.getHP() - 1);
-                winner = player2;
+                roundWinner = player2;
                 return new Result(true, player2.getUser().getUsername() + " won");
             }
             if (calculateTotalScore(player1) == calculateTotalScore(player2)) {
+                roundWinner = null;
                 makeEmpty(player1, player2, player1);
                 return niflgaardianPower(player1, player2); // if game is draw return "player " + losser.getUser().getUsername() + " lost" and returns
 //                "no winner, game draw" if round is draw
