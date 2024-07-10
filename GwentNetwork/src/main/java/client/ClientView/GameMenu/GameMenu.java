@@ -329,23 +329,25 @@ public class GameMenu {
 
         CardType type = Card.getCardByImage(((ImageView) mouseEvent.getSource()).getImage()).getType();
         Color color = Color.web("00F7FF4C");
-        if (type.equals(CardType.CLOSE_COMBAT)) {
-            player1closeCombat.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
-            player1closeCombat.setOnMouseClicked(event -> playCard(Card.getCardByImage(image.getImage()), player1closeCombat, 3));
-        } else if (type.equals(CardType.RANGED_COMBAT)) {
-            player1rangedCombat.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
-            player1rangedCombat.setOnMouseClicked(event -> playCard(Card.getCardByImage(image.getImage()), player1rangedCombat, 2));
-        } else if (type.equals(CardType.SIEGE)) {
-            player1siege.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
-            player1siege.setOnMouseClicked(event -> playCard(Card.getCardByImage(image.getImage()), player1siege, 1));
-        } else if (type.equals(CardType.WEATHER)) {
-            weather.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
-            weather.setOnMouseClicked(event -> playCard(Card.getCardByImage(image.getImage()), weather, 4));
-        } else if (type.equals(CardType.AGILE)) {
-            player1closeCombat.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
-            player1rangedCombat.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
-            player1rangedCombat.setOnMouseClicked(event -> playCard(Card.getCardByImage(image.getImage()), player1rangedCombat, 2));
-            player1closeCombat.setOnMouseClicked(event -> playCard(Card.getCardByImage(image.getImage()), player1closeCombat, 3));
+        if (isMyTurn) {
+            if (type.equals(CardType.CLOSE_COMBAT)) {
+                player1closeCombat.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
+                player1closeCombat.setOnMouseClicked(event -> playCard(Card.getCardByImage(image.getImage()), player1closeCombat, 3));
+            } else if (type.equals(CardType.RANGED_COMBAT)) {
+                player1rangedCombat.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
+                player1rangedCombat.setOnMouseClicked(event -> playCard(Card.getCardByImage(image.getImage()), player1rangedCombat, 2));
+            } else if (type.equals(CardType.SIEGE)) {
+                player1siege.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
+                player1siege.setOnMouseClicked(event -> playCard(Card.getCardByImage(image.getImage()), player1siege, 1));
+            } else if (type.equals(CardType.WEATHER)) {
+                weather.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
+                weather.setOnMouseClicked(event -> playCard(Card.getCardByImage(image.getImage()), weather, 4));
+            } else if (type.equals(CardType.AGILE)) {
+                player1closeCombat.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
+                player1rangedCombat.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
+                player1rangedCombat.setOnMouseClicked(event -> playCard(Card.getCardByImage(image.getImage()), player1rangedCombat, 2));
+                player1closeCombat.setOnMouseClicked(event -> playCard(Card.getCardByImage(image.getImage()), player1closeCombat, 3));
+            }
         }
 
     } // todo.for.debug
