@@ -1,4 +1,6 @@
 package client.ClientView.GameMenu;
+import client.ClientView.HeadViewController;
+import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.RotateTransition;
 import javafx.animation.Timeline;
@@ -12,11 +14,14 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import message.client.Game.*;
+import message.client.MessageType;
+import message.client.gameLobby.CheckServerMessage;
 import message.enums.card.Card;
 import message.enums.card.CardType;
 import message.enums.card.Leaders;
 import message.enums.gameMenu.Shields;
 import message.server.ServerMessage;
+import message.server.ServerType;
 import server.model.toolClasses.Pair;
 import server.model.toolClasses.Result;
 
@@ -27,6 +32,27 @@ import static client.ClientView.HeadViewController.clientTPC;
 
 
 public class GameMenu {
+    // check server
+    private static Timeline timeline;
+    public void checkServer() {
+        timeline = new Timeline();
+
+        timeline.setCycleCount(Animation.INDEFINITE);
+
+        KeyFrame keyFrame = new KeyFrame(Duration.seconds(1), event -> {
+            clientTPC.sendMassage(clientTPC.gson.toJson(new CheckServerMessage(clientTPC.token, MessageType.CHECK_SERVER3)));
+
+            ServerMessage message = clientTPC.receiveMassage();
+
+            if (message.getType() == ServerType.BOTH_HAVE_READY_DECK) {
+                HeadViewController.changeScene("game page");
+            }
+        });
+
+        timeline.getKeyFrames().add(keyFrame);
+
+        timeline.play();
+    }
     public HBox player2siege;
     public HBox player2rangedCombat;
     public HBox player2closeCombat;
@@ -69,6 +95,7 @@ public class GameMenu {
     // this method call ar first and initialize some of field
     public void firstOption() {
         if (!isCalled) {
+            checkServer();
             isCalled = true;
 
             // set picture are leaders
