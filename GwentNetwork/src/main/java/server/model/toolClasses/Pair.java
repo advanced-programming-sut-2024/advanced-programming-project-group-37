@@ -1,6 +1,8 @@
 package server.model.toolClasses;
 
-public class Pair<A, B> {
+import java.io.Serializable;
+
+public class Pair<A, B> implements Serializable {
     private A first;
     private B second;
 

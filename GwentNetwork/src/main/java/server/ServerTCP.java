@@ -589,6 +589,10 @@ public class ServerTCP extends Thread {
 
 
     public static void main(String[] args) {
+
+        Runtime.getRuntime().addShutdownHook(new Thread(JsonController::save, "Shutdown-thread"));
+        JsonController.load();
+
         try {
             ServerTCP.setupServer(5000, 10);
             for (int i = 0; i < WORKERS; i++) {

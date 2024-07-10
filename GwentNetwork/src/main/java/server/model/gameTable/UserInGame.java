@@ -2,7 +2,9 @@ package server.model.gameTable;
 
 import server.model.User;
 
-public class UserInGame {
+import java.io.Serializable;
+
+public class UserInGame implements Serializable {
     public int totalScore = 0;
     private User user;
     private GameTable gameTable;

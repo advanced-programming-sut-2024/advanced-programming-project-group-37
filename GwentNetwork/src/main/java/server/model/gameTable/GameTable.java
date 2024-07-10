@@ -4,9 +4,10 @@ import message.enums.card.Card;
 import message.enums.card.Leaders;
 import server.model.toolClasses.Pair;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class GameTable {
+public class GameTable implements Serializable {
     int HP = 2;
     private Leaders leader;
     private ArrayList<Card> spsells = new ArrayList<>();

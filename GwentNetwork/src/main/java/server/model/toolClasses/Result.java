@@ -1,6 +1,8 @@
 package server.model.toolClasses;
 
-public class Result {
+import java.io.Serializable;
+
+public class Result implements Serializable {
     private final boolean isSuccessful;
     private final String message;
 

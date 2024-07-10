@@ -6,9 +6,10 @@ import message.enums.card.Leaders;
 import message.enums.gameMenu.Factions;
 import server.model.toolClasses.Pair;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class UserPreGameInfo {
+public class UserPreGameInfo implements Serializable {
     private Factions faction;
     private Leaders leader;
     private ArrayList<Pair<Card, Integer>> cardCollection;

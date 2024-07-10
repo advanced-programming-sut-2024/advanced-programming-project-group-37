@@ -2,10 +2,11 @@ package server.model;
 
 import server.model.toolClasses.Pair;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class GameHistory {
+public class GameHistory implements Serializable {
     private User winner;
     private User losser;
     private LocalDate dateOfGame;

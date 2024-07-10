@@ -1,8 +1,9 @@
 package server.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class FriendRequest {
+public class FriendRequest implements Serializable {
     private LocalDate date;
     private User fromUser;
     private User toUser;
