@@ -62,7 +62,7 @@
             <TextArea fx:id="terminalTextArea" layoutX="14.0" layoutY="14.0" onKeyPressed="#checkCommand" prefHeight="400.0" prefWidth="420.0" styleClass="terminal" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="emailPane" layoutX="293.0" layoutY="125.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #000d;">
+      <AnchorPane fx:id="emailPane" layoutX="293.0" layoutY="125.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #000d;" visible="false">
          <children>
             <TextField layoutX="24.0" layoutY="39.0" promptText="code" style="-fx-background-color: #0001; -fx-border-color: #fff;" />
             <Button layoutX="85.0" layoutY="128.0" mnemonicParsing="false" onAction="#sendEmail" style="-fx-background-color: #0001; -fx-border-color: #fff;" text="ok" textFill="WHITE" />

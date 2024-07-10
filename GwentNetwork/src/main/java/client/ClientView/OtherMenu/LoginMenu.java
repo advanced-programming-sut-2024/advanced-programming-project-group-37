@@ -325,6 +325,8 @@ public class LoginMenu {
 
             b.setOnAction(action -> {
 
+                emailPane.setVisible(false);
+
                 String code = ((TextField) emailPane.getChildren().get(0)).getText();
 
                 clientTPC.sendMassage(clientTPC.gson.toJson(new EmailVerify(code, email)));
