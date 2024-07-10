@@ -19,7 +19,14 @@ import java.util.regex.Matcher;
 
 public class LoginMenuController{
 
-
+    static {
+        User user = new User(ConfirmQuestions.q1,"username1", "","","","", "Q");
+        User user2 = new User(ConfirmQuestions.q1,"username2", "","","","", "Z");
+        ArrayList<User> friends = user.getFriends();
+        friends.add(user2);
+        ArrayList<User> friends2 = user2.getFriends();
+        friends.add(user);
+    }
 
     // register
     public static Result checkAllErrors(String username, String password, String passwordConfirm, String nickname, String email) {
