@@ -3,7 +3,6 @@ package server.controller.MessageController;
 import message.client.Game.GetHand;
 import message.client.Game.GiveMeLeader;
 import message.client.Game.SelectVetoCard;
-import message.client.MessageType;
 import message.enums.card.Card;
 import message.server.ServerMessage;
 import server.controller.GameController.GameMenuController;
@@ -29,19 +28,49 @@ public class GameMessageController {
     public static ServerMessage getGameTableNetwork(GetHand msg) {
         GameMenuController game = GameMenuController.getGame(msg.getToken());
         User user = User.getUserByToken(msg.getToken());
-        UserInGame userInGame;
+        UserInGame myUserInGame;
+        UserInGame opponentUserInGame;
         if (game.getPlayer1().getUser() == user) {
-            userInGame = game.getPlayer1();
+            myUserInGame = game.getPlayer1();
+            opponentUserInGame = game.getPlayer2();
         } else {
-            userInGame = game.getPlayer2();
+            myUserInGame = game.getPlayer2();
+            opponentUserInGame = game.getPlayer1();
         }
-        GameTable gameTable = userInGame.getGameTable();
-        Pair<Card, ArrayList<Card>>[] cards = gameTable.getCardsOfRow();
-        int hp = gameTable.getHP();
-        ArrayList<Card> inHand = gameTable.getInHandsCards();
-        ArrayList<Card> spells = gameTable.getSpsells();
 
-        return new ServerMessage(cards, hp, inHand, spells);
+        //first get both side game table
+        GameTable mygameTable = myUserInGame.getGameTable();
+        GameTable opponentGameTable = opponentUserInGame.getGameTable();
+
+        //get card in row for both player
+        Pair<Card, ArrayList<Card>>[] myCards = mygameTable.getCardsOfRow();
+        Pair<Card, ArrayList<Card>>[] opponentCards = opponentGameTable.getCardsOfRow();
+
+        //get hp
+        int myHp = mygameTable.getHP();
+        int opponentHp = opponentGameTable.getHP();
+
+        //get card in hand
+        ArrayList<Card> myInHand = mygameTable.getInHandsCards();
+        ArrayList<Card> opponentHand = opponentGameTable.getInHandsCards();
+
+        //get the points of all rows and total for each
+        ArrayList<Integer> myScores = calculateScore(myUserInGame, game);
+        ArrayList<Integer> opponentScores = calculateScore(opponentUserInGame, game);
+
+        //get spell
+        ArrayList<Card> spells = game.getSpells();
+
+        return new ServerMessage(myCards, opponentCards, spells, myHp, opponentHp, myInHand, opponentHand, myScores, opponentScores);
+    }
+
+    private static ArrayList<Integer> calculateScore(UserInGame userInGame, GameMenuController game) {
+        ArrayList<Integer> returnInt = new ArrayList<>();
+        returnInt.add(game.calculateScoreInRow(userInGame, 1));
+        returnInt.add(game.calculateScoreInRow(userInGame, 2));
+        returnInt.add(game.calculateScoreInRow(userInGame, 3));
+        returnInt.add(game.calculateTotalScore(userInGame));
+        return returnInt;
     }
 
     public static ServerMessage selectVetoNetwork(SelectVetoCard msg) {

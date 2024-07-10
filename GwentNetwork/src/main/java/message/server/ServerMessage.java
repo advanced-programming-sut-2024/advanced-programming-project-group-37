@@ -165,31 +165,62 @@ public class ServerMessage {
 
 
     //get in game table
-    private Pair<Card, ArrayList<Card>>[] cards;
+    private Pair<Card, ArrayList<Card>>[] myCards;
+    private Pair<Card, ArrayList<Card>>[] opponentCards;
     private ArrayList<Card> spells;
-    private int hp;
-    private ArrayList<Card> inHand;
-    public ServerMessage(Pair<Card, ArrayList<Card>>[] cards, int hp, ArrayList<Card> inHand, ArrayList<Card> spells) {
-        this.cards = cards;
+    private int myHp;
+    private int opponentHp;
+    private ArrayList<Card> myInHand;
+    private ArrayList<Card> opponentInHand;
+    private ArrayList<Integer> myScores;
+    private ArrayList<Integer> opponentScores;
+
+    public ServerMessage(Pair<Card, ArrayList<Card>>[] myCards, Pair<Card, ArrayList<Card>>[] opponentCards, ArrayList<Card> spells, int myHp, int opponentHp, ArrayList<Card> myInHand, ArrayList<Card> opponentInHand, ArrayList<Integer> myScores, ArrayList<Integer> opponentScores) {
+        this.myCards = myCards;
+        this.opponentCards = opponentCards;
         this.spells = spells;
-        this.hp = hp;
-        this.inHand =inHand;
+        this.myHp = myHp;
+        this.opponentHp = opponentHp;
+        this.myInHand = myInHand;
+        this.opponentInHand = opponentInHand;
+        this.myScores = myScores;
+        this.opponentScores = opponentScores;
     }
 
-    public Pair<Card, ArrayList<Card>>[] getCards() {
-        return cards;
+    public Pair<Card, ArrayList<Card>>[] getMyCards() {
+        return myCards;
+    }
+
+    public Pair<Card, ArrayList<Card>>[] getOpponentCards() {
+        return opponentCards;
     }
 
     public ArrayList<Card> getSpells() {
         return spells;
     }
 
-    public int getHp() {
-        return hp;
+    public int getMyHp() {
+        return myHp;
     }
 
-    public ArrayList<Card> getInHand() {
-        return inHand;
+    public int getOpponentHp() {
+        return opponentHp;
+    }
+
+    public ArrayList<Card> getMyInHand() {
+        return myInHand;
+    }
+
+    public ArrayList<Card> getOpponentInHand() {
+        return opponentInHand;
+    }
+
+    public ArrayList<Integer> getMyScores() {
+        return myScores;
+    }
+
+    public ArrayList<Integer> getOpponentScores() {
+        return opponentScores;
     }
 
     //get  number of veto
