@@ -1,10 +1,12 @@
 package server.controller.loginController;
+import java.util.HashMap;
 import java.util.Properties;
 import javax.mail.*;
 import javax.mail.internet.*;
 import java.util.Properties;
 
 public class SendEmailVerification {
+    public static HashMap<String, Integer> codeAndEmail = new HashMap<>();
     public static void sendEmail(String emailAddress, int radNum) {
         // Recipient's email ID needs to be mentioned.
         String to = emailAddress;
@@ -51,8 +53,9 @@ public class SendEmailVerification {
 
             // Send message
             Transport.send(message);
+            codeAndEmail.put(emailAddress, radNum);
 
-            System.out.println("Sent message successfully....");
+//            System.out.println("Sent message successfully....");
 
         } catch (MessagingException e) {
             throw new RuntimeException(e);

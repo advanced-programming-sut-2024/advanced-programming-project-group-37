@@ -1,5 +1,6 @@
 package server;
 
+import client.ClientView.OtherMenu.LoginMenu;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import javafx.scene.control.TextFormatter;
@@ -18,6 +19,7 @@ import server.controller.GameController.GameLobbyController;
 import server.controller.MessageController.GameMessageController;
 import server.controller.MessageController.PreGameMessageController;
 import server.controller.loginController.LoginMenuController;
+import server.controller.loginController.SendEmailVerification;
 import server.controller.profileController.ProfileMenuController;
 import server.model.User;
 import server.model.toolClasses.Result;
@@ -26,6 +28,7 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 import java.util.regex.Matcher;
 
@@ -207,7 +210,7 @@ public class ServerTCP extends Thread {
             } else if (msg instanceof PlayCard) {
                 ServerMessage serverMessage = GameMessageController.placeCardNetwork((PlayCard) msg);
                 sendMessage(serverMessage);
-            } else if (msg instanceof CheckServerMessage && msg.getType() == MessageType.CHECK_SERVER3){
+            } else if (msg instanceof CheckServerMessage && msg.getType() == MessageType.CHECK_SERVER3) {
                 ServerMessage serverMessage = GameMessageController.checkServer((CheckServerMessage) msg);
                 sendMessage(serverMessage);
             } else if (msg instanceof WhoseTrun) {
@@ -216,6 +219,8 @@ public class ServerTCP extends Thread {
             } else if (msg instanceof Chat) {
                 ServerMessage serverMessage = GameMessageController.chatServer((Chat) msg);
                 sendMessage(serverMessage);
+            } else if (msg instanceof EmailVerify) {
+                emailVerify((EmailVerify) msg);
             }
 
 
@@ -225,6 +230,16 @@ public class ServerTCP extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void emailVerify(EmailVerify msg) {
+        String email = msg.getEmail();
+        String code = msg.getCode();
+
+        HashMap<String, Integer> hashMap = SendEmailVerification.codeAndEmail;
+
+//        if (hashMap.ge)
+
     }
 
     private void rejectReqForMatch(RejectFriendRequest msg) {
@@ -332,7 +347,7 @@ public class ServerTCP extends Thread {
             return;
         }
 
-        if (User.getUserByToken(token).isRandMatch()){
+        if (User.getUserByToken(token).isRandMatch()) {
             sendMessage(new ServerMessage(ServerType.START_RAND_GAME));
             return;
         }
@@ -423,7 +438,7 @@ public class ServerTCP extends Thread {
     }
 
     private void answerQNetwork(AnswerQMessage msg) {
-        Matcher matcher = msg.getMatcher();
+        String matcher = msg.getMatcher();
         String username = msg.getUsername();
         Result result = LoginMenuController.answerQ(matcher, username);
         sendMessage(new ServerMessage(result));
@@ -479,6 +494,10 @@ public class ServerTCP extends Thread {
         String email = msg.getEmail();
         String nickname = msg.getNickname();
         Result result = LoginMenuController.checkAllErrors(username, password, passwordConfirm, nickname, email);
+
+        Random random = new Random();
+        if (result.isSuccessful()) SendEmailVerification.sendEmail(email, 100000 + random.nextInt(900000));
+
         sendMessage(new ServerMessage(result));
     }
 
@@ -575,6 +594,8 @@ public class ServerTCP extends Thread {
                     return gson.fromJson(clientStr, WhoseTrun.class);
                 case MessageType.CHAT:
                     return gson.fromJson(clientStr, Chat.class);
+                case MessageType.VERIFY_EMAIL:
+                    return gson.fromJson(clientStr, EmailVerify.class);
             }
             return null;
         } catch (Exception e) {

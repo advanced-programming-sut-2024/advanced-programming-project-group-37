@@ -15,4 +15,8 @@ public class EmailVerify extends ClientMessage {
     public String getCode() {
         return code;
     }
+
+    public String getEmail() {
+        return email;
+    }
 }

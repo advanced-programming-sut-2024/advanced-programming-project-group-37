@@ -185,8 +185,8 @@ public class LoginMenuController{
         return new Result(true, "Password changed successfully!");
     }
 
-    public static Result answerQ(Matcher matcher, String usernameForForget) {
-        String answer = matcher.group("answer");
+    public static Result answerQ(String matcher, String usernameForForget) {
+        String answer = matcher;
         User user = User.getUserByUsername(usernameForForget);
         if (!user.getAnswer().equals(answer)) {
             return new Result(false, "Wrong answer!");
