@@ -7,6 +7,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class User implements Serializable {
+    //for message
+    public boolean haveNewMessage = false;
+    public String message = new String();
+    public String time = new String();
+    //
+
     private boolean randMatch = false;
     private boolean yourTurn = false;
     private boolean readyDeck = false;

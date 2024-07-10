@@ -213,6 +213,9 @@ public class ServerTCP extends Thread {
             } else if (msg instanceof WhoseTrun) {
                 ServerMessage serverMessage = GameMessageController.whoseTurnServer((WhoseTrun) msg);
                 sendMessage(serverMessage);
+            } else if (msg instanceof Chat) {
+                ServerMessage serverMessage = GameMessageController.chatServer((Chat) msg);
+                sendMessage(serverMessage);
             }
 
 
@@ -570,6 +573,8 @@ public class ServerTCP extends Thread {
                     return gson.fromJson(clientStr, CheckServerMessage.class);
                 case MessageType.TURN_CHECKING:
                     return gson.fromJson(clientStr, WhoseTrun.class);
+                case MessageType.CHAT:
+                    return gson.fromJson(clientStr, Chat.class);
             }
             return null;
         } catch (Exception e) {

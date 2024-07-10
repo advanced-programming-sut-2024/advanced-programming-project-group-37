@@ -65,7 +65,17 @@ public class ServerMessage {
     public ServerMessage(boolean b) {
         success = b;
     }
+    private String time = new String();
 
+    public ServerMessage(ServerType serverType, String message, String time) {
+        this.type = serverType;
+        this.opponent = message;
+        this.time = time;
+    }
+
+    public String getTime() {
+        return time;
+    }
 
     public boolean isSuccess() {
         return success;

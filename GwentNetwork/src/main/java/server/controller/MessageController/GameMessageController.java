@@ -139,6 +139,14 @@ public class GameMessageController {
         GameMenuController game = GameMenuController.getGame(msg.getToken());
         User user = User.getUserByToken(msg.getToken());
 
+
+        //check for new message
+        if (user.haveNewMessage){
+            user.haveNewMessage = false;
+            return new ServerMessage(ServerType.NEW_MESSAGE, user.message, user.time);
+        }
+
+
         //check if game is over
         Pair<Boolean, UserInGame> over = game.isOver();
         if (over.getFirst()) {
@@ -183,5 +191,19 @@ public class GameMessageController {
             return new ServerMessage(true);
         } else
             return new ServerMessage(false);
+    }
+
+    public static ServerMessage chatServer(Chat msg) {
+        GameMenuController game = GameMenuController.getGame(msg.getToken());
+        User sender = User.getUserByToken(msg.getToken());
+        User reciever;
+        if (game.getPlayer1().getUser() == sender){
+            reciever = game.getPlayer2().getUser();
+        } else reciever = game.getPlayer1().getUser();
+
+        reciever.haveNewMessage = true;
+        reciever.message = msg.getMassage();
+        reciever.time = msg.getTime();
+        return new ServerMessage();
     }
 }
