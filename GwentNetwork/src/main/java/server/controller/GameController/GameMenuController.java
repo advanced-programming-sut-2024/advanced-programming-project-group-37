@@ -18,6 +18,16 @@ import java.util.*;
 public class GameMenuController {
     private ArrayList<Card> spells = new ArrayList<>();
 
+    public static GameMenuController getGame(String token) {
+        User user = User.getUserByToken(token);
+
+        for (GameMenuController game : games){
+            if (game.player1.getUser() == user || game.player2.getUser() == user)
+                return game;
+        }
+        return null;
+    }
+
     public void setSpells(ArrayList<Card> spells) {
         this.spells = spells;
     }
@@ -44,12 +54,13 @@ public class GameMenuController {
     }
 
     public static ArrayList<GameMenuController> games = new ArrayList<>();
-    public void setPlayers(User user1, User user2) {
-        player1 = new UserInGame(user1);
-        player2 = new UserInGame(user2);
-        userTurn = player1;
-        games.add(this);
+
+    public GameMenuController(User player1, User player2) {
+        this.player1 = new UserInGame(player1);
+        this.player2 = new UserInGame(player2);
+        this.userTurn = this.player1;
     }
+
 
     public Result changeTurn() {
         if (userTurn == player1) userTurn = player2;

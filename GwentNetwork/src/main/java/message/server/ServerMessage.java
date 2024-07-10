@@ -1,6 +1,7 @@
 package message.server;
 
 import message.enums.card.Card;
+import message.enums.card.Leaders;
 import message.enums.gameMenu.Factions;
 import server.model.toolClasses.Pair;
 import server.model.toolClasses.Result;
@@ -54,6 +55,7 @@ public class ServerMessage {
     public ServerMessage(Factions factions) {
         this.factions = factions;
     }
+
 
 
     public boolean isSuccess() {
@@ -143,6 +145,22 @@ public class ServerMessage {
 
     public ArrayList<Pair<Card, Integer>> getCollection() {
         return collection;
+    }
+    //show leader
+    public ServerMessage(Leaders yourLeader, Leaders opponnetLeader) {
+        this.yourLeader = yourLeader;
+        this.opponnetLeader = opponnetLeader;
+    }
+
+    public Leaders yourLeader;
+    public Leaders opponnetLeader;
+
+    public Leaders getYourLeader() {
+        return yourLeader;
+    }
+
+    public Leaders getOpponnetLeader() {
+        return opponnetLeader;
     }
 }
 

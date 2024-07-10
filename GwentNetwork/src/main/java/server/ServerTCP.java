@@ -3,6 +3,7 @@ package server;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import message.client.*;
+import message.client.Game.GiveMeLeader;
 import message.client.LoginMenu.*;
 import message.client.MainMenu.SignOutMessage;
 import message.client.gameLobby.*;
@@ -13,6 +14,7 @@ import message.enums.loginMenu.ConfirmQuestions;
 import message.server.ServerMessage;
 import message.server.ServerType;
 import server.controller.GameController.GameLobbyController;
+import server.controller.MessageController.GameMessageController;
 import server.controller.MessageController.PreGameMessageController;
 import server.controller.loginController.LoginMenuController;
 import server.controller.profileController.ProfileMenuController;
@@ -185,6 +187,9 @@ public class ServerTCP extends Thread {
                 sendMessage(serverMessage);
             } else if (msg instanceof CheckServerMessage && msg.getType() == MessageType.CHECK_SERVER2) {
                 ServerMessage serverMessage = PreGameMessageController.checkServerInPreGame((CheckServerMessage) msg);
+                sendMessage(serverMessage);
+            } else if (msg instanceof GiveMeLeader) {
+                ServerMessage serverMessage = GameMessageController.passLeader((GiveMeLeader) msg);
                 sendMessage(serverMessage);
             }
 

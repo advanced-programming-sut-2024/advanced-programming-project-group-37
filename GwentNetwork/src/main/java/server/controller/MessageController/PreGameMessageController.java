@@ -6,6 +6,7 @@ import message.enums.card.Card;
 import message.enums.gameMenu.Factions;
 import message.server.ServerMessage;
 import message.server.ServerType;
+import server.controller.GameController.GameMenuController;
 import server.controller.GameController.PreGameMenuController;
 import server.model.User;
 import server.model.toolClasses.Pair;
@@ -76,6 +77,7 @@ public class PreGameMessageController {
         User user1 = pregame.currentUser;
         User user2 = pregame.opponentUser;
 
+        GameMenuController game = new GameMenuController(user1, user2);
         if (user1.isReadyDeck() && user2.isReadyDeck()){
             return new ServerMessage(ServerType.BOTH_HAVE_READY_DECK);
         }
