@@ -1,15 +1,16 @@
 package server.controller.MessageController;
 
-import message.client.Game.GetHand;
-import message.client.Game.GiveMeLeader;
-import message.client.Game.SelectVetoCard;
+import message.client.Game.*;
+import message.client.gameLobby.CheckServerMessage;
 import message.enums.card.Card;
 import message.server.ServerMessage;
+import message.server.ServerType;
 import server.controller.GameController.GameMenuController;
 import server.model.User;
 import server.model.gameTable.GameTable;
 import server.model.gameTable.UserInGame;
 import server.model.toolClasses.Pair;
+import server.model.toolClasses.Result;
 
 import java.util.ArrayList;
 
@@ -97,5 +98,67 @@ public class GameMessageController {
         //return number of veto in message
         return new ServerMessage(userInGame.getNumberOfVeto());
 
+    }
+
+    public static ServerMessage changeTurn(ChangeTurn msg) {
+        GameMenuController game = GameMenuController.getGame(msg.getToken());
+        User user = User.getUserByToken(msg.getToken());
+        game.changeTurn();
+        return new ServerMessage();
+    }
+
+    public static ServerMessage passTurn(PassTurn msg) {
+        GameMenuController game = GameMenuController.getGame(msg.getToken());
+        User user = User.getUserByToken(msg.getToken());
+
+        UserInGame myUserInGame;
+        if (game.getPlayer1().getUser() == user) {
+            myUserInGame = game.getPlayer1();
+        } else {
+            myUserInGame = game.getPlayer2();
+        }
+        Result result = game.passRound(myUserInGame);
+
+        return new ServerMessage(result);
+    }
+
+    public static ServerMessage placeCardNetwork(PlayCard msg) {
+        GameMenuController game = GameMenuController.getGame(msg.getToken());
+        User user = User.getUserByToken(msg.getToken());
+
+        game.placeCard(msg.getCard().getName(), msg.getRow());
+
+
+        return new ServerMessage();
+    }
+
+    public static ServerMessage checkServer(CheckServerMessage msg) {
+        GameMenuController game = GameMenuController.getGame(msg.getToken());
+        User user = User.getUserByToken(msg.getToken());
+
+        //check if game is over
+        Pair<Boolean, UserInGame> over = game.isOver();
+        if (over.getFirst()){
+            return new ServerMessage(ServerType.END_GAME,over.getSecond().getUser().getUsername());
+        }
+
+
+        //check if winner was found
+        int tempRound = game.getTempRound();
+        int round = game.getRoundNumber();
+
+        if (tempRound < round){
+            game.setTempRound(tempRound + 1);
+            return new ServerMessage(ServerType.NEW_ROUND, game.getRoundWinner().getUser().getUsername());
+        }
+
+        //check if turn backed to him or not
+        if (user.isYourTurn()) {
+            user.setYourTurn(false);
+            return new ServerMessage(ServerType.YOUR_TURN);
+        }
+
+
+        return new ServerMessage();
     }
 }

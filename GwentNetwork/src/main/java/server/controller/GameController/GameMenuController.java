@@ -16,6 +16,8 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class GameMenuController {
+    private UserInGame roundWinner;
+    private int tempRound = 1;
     private ArrayList<Card> spells = new ArrayList<>();
 
     public static GameMenuController getGame(String token) {
@@ -63,8 +65,14 @@ public class GameMenuController {
 
 
     public Result changeTurn() {
-        if (userTurn == player1) userTurn = player2;
-        else userTurn = player1;
+        if (userTurn == player1){
+            userTurn = player2;
+            player2.getUser().setYourTurn(true);
+        }
+        else {
+            userTurn = player1;
+            player1.getUser().setYourTurn(true);
+        }
         return new Result(false, "turn changed to" + userTurn.getUser().getUsername());
     }
 
@@ -607,7 +615,17 @@ public class GameMenuController {
         userTurn.setRangedDouble(true);
     }
 
+    public int getTempRound() {
+        return tempRound;
+    }
 
+    public void setTempRound(int tempRound) {
+        this.tempRound = tempRound;
+    }
+
+    public UserInGame getRoundWinner() {
+        return roundWinner;
+    }
 }
 
 //

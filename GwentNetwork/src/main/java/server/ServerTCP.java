@@ -2,10 +2,9 @@ package server;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import javafx.scene.control.TextFormatter;
 import message.client.*;
-import message.client.Game.GetHand;
-import message.client.Game.GiveMeLeader;
-import message.client.Game.SelectVetoCard;
+import message.client.Game.*;
 import message.client.LoginMenu.*;
 import message.client.MainMenu.SignOutMessage;
 import message.client.gameLobby.*;
@@ -198,6 +197,18 @@ public class ServerTCP extends Thread {
                 sendMessage(serverMessage);
             } else if (msg instanceof SelectVetoCard) {
                 ServerMessage serverMessage = GameMessageController.selectVetoNetwork((SelectVetoCard) msg);
+                sendMessage(serverMessage);
+            } else if (msg instanceof ChangeTurn) {
+                ServerMessage serverMessage = GameMessageController.changeTurn((ChangeTurn) msg);
+                sendMessage(serverMessage);
+            } else if (msg instanceof PassTurn) {
+                ServerMessage serverMessage = GameMessageController.passTurn((PassTurn) msg);
+                sendMessage(serverMessage);
+            } else if (msg instanceof PlayCard) {
+                ServerMessage serverMessage = GameMessageController.placeCardNetwork((PlayCard) msg);
+                sendMessage(serverMessage);
+            } else if (msg instanceof CheckServerMessage && msg.getType() == MessageType.CHECK_SERVER3){
+                ServerMessage serverMessage = GameMessageController.checkServer((CheckServerMessage) msg);
                 sendMessage(serverMessage);
             }
 
@@ -539,6 +550,16 @@ public class ServerTCP extends Thread {
                     return gson.fromJson(clientStr, GiveMeLeader.class);
                 case MessageType.GET_HAND:
                     return gson.fromJson(clientStr, GetHand.class);
+                case MessageType.SELECT_VETO_CARD:
+                    return gson.fromJson(clientStr, SelectVetoCard.class);
+                case MessageType.CHANGE_TURN:
+                    return gson.fromJson(clientStr, ChangeTurn.class);
+                case MessageType.PASS_TURN:
+                    return gson.fromJson(clientStr, PassTurn.class);
+                case MessageType.PLAY_CARD:
+                    return gson.fromJson(clientStr, PlayCard.class);
+                case MessageType.CHECK_SERVER3:
+                    return gson.fromJson(clientStr, CheckServerMessage.class);
             }
             return null;
         } catch (Exception e) {
