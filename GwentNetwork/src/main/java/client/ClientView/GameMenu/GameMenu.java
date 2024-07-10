@@ -11,7 +11,16 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
+import message.client.Game.GetHand;
+import message.client.Game.GiveMeLeader;
+import message.enums.card.Card;
+import message.enums.card.CardType;
+import message.enums.card.Leaders;
+import message.enums.gameMenu.Shields;
 import message.server.ServerMessage;
+import server.model.toolClasses.Result;
+
+import java.util.ArrayList;
 
 import static client.ClientView.HeadViewController.clientTPC;
 
@@ -63,21 +72,24 @@ public class GameMenu {
             isCalled = true;
 
             // set picture are leaders
-            clientTPC.sendMassage(clientTPC.gson.toJson(new GiveMeLeder(clientTPC.token)));
+            clientTPC.sendMassage(clientTPC.gson.toJson(new GiveMeLeader(clientTPC.token)));
 
             ServerMessage message = clientTPC.receiveMassage();
 
-            player1leader.setImage(player1.getGameTable().getLeader().getImage());
-            player2leader.setImage(player2.getGameTable().getLeader().getImage());
-            player1shield.setImage(Shields.valueOf(player1.getGameTable().getLeader().getFaction().name()).getImage1());
-            player2shield.setImage(Shields.valueOf(player2.getGameTable().getLeader().getFaction().name()).getImage1());
+            Leaders me = Leaders.BringerOfDeath; // todo
+            Leaders opponent = Leaders.CommanderOfTheRedRiders;
+
+            player1leader.setImage(me.getImage());
+            player2leader.setImage(opponent.getImage());
+            player1shield.setImage(Shields.valueOf(me.getFaction().name()).getImage1());
+            player2shield.setImage(Shields.valueOf(opponent.getFaction().name()).getImage1());
 
             // other setting
             hand.setSpacing(10);
 
             showVetoCards();
         }
-    } // set player
+    } // todo*
 
 // show vetoCards
     private void showVetoCards() {
@@ -89,7 +101,12 @@ public class GameMenu {
         ImageView image4 = (ImageView) selectPane.getChildren().get(3);
         ImageView image5 = (ImageView) selectPane.getChildren().get(4);
 
-        ArrayList<Card> Hand = player.getGameTable().getInHandsCards();
+        clientTPC.sendMassage(clientTPC.gson.toJson(new GetHand(clientTPC.token)));
+
+        ServerMessage message = clientTPC.receiveMassage();
+
+        ArrayList<Card> Hand = player.getGameTable().getInHandsCards(); // todo
+
         image1.setImage(Hand.get(0).getImage());
         image2.setImage(Hand.get(1).getImage());
         image3.setImage(Hand.get(2).getImage());
@@ -101,7 +118,7 @@ public class GameMenu {
         image4.setOnMouseClicked(mouseEvent -> changePlaceOfImage(1, Hand, image1, image2, image3, image4, image5));
         image5.setOnMouseClicked(mouseEvent -> changePlaceOfImage(2, Hand, image1, image2, image3, image4, image5));
 
-        image3.setOnMouseClicked(mouseEvent -> selectVetoCard(mouseEvent, Hand, player));
+        image3.setOnMouseClicked(mouseEvent -> selectVetoCard(mouseEvent, Hand));
 
         updateTable();
     }
@@ -117,7 +134,7 @@ public class GameMenu {
             images[i].setImage(Hand.get(centerIndex + mode + (i - 2)).getImage());
         }
     }
-    private void selectVetoCard(MouseEvent mouseEvent, ArrayList<Card> hand, UserInGame player) {
+    private void selectVetoCard(MouseEvent mouseEvent, ArrayList<Card> hand) {
         Image image = ((ImageView) mouseEvent.getSource()).getImage();
 
         Card card = Card.getCardByImage(image);
