@@ -11,14 +11,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
-import message.client.Game.GetHand;
-import message.client.Game.GiveMeLeader;
-import message.client.Game.SelectVetoCard;
+import message.client.Game.*;
 import message.enums.card.Card;
 import message.enums.card.CardType;
 import message.enums.card.Leaders;
 import message.enums.gameMenu.Shields;
 import message.server.ServerMessage;
+import server.model.toolClasses.Pair;
 import server.model.toolClasses.Result;
 
 import java.util.ArrayList;
@@ -77,8 +76,8 @@ public class GameMenu {
 
             ServerMessage message = clientTPC.receiveMassage();
 
-            Leaders me = Leaders.BringerOfDeath; // todo
-            Leaders opponent = Leaders.CommanderOfTheRedRiders;
+            Leaders me = message.yourLeader;
+            Leaders opponent = message.opponnetLeader;
 
             player1leader.setImage(me.getImage());
             player2leader.setImage(opponent.getImage());
@@ -90,7 +89,7 @@ public class GameMenu {
 
             showVetoCards();
         }
-    } // todo*
+    }
 
 // show vetoCards
     private void showVetoCards() {
@@ -106,7 +105,7 @@ public class GameMenu {
 
         ServerMessage message = clientTPC.receiveMassage();
 
-        ArrayList<Card> Hand = player.getGameTable().getInHandsCards(); // todo
+        ArrayList<Card> Hand = message.getMyInHand();
 
         image1.setImage(Hand.get(0).getImage());
         image2.setImage(Hand.get(1).getImage());
@@ -144,7 +143,7 @@ public class GameMenu {
 
         ServerMessage message = clientTPC.receiveMassage();
 
-        int numOfVeto = 5; // todo
+        int numOfVeto = message.getNumberOfVeto();
 
         if (numOfVeto == 1) {
             showVetoCards();
@@ -161,34 +160,35 @@ public class GameMenu {
         removeAllLines();
 
         // update hand
-        UserInGame userTurn = game.getUserTurn();
+        clientTPC.sendMassage(clientTPC.gson.toJson(new GetHand(clientTPC.token)));
+        ServerMessage message = clientTPC.receiveMassage();
 
-        for (Card card : userTurn.getGameTable().getInHandsCards()) {
+        for (Card card : message.getMyInHand()) {
             locateCard(card, hand);
         }
 
         // update spells row
-        for (Card card : game.getSpells()) {
+        for (Card card : message.getSpells()) {
             locateCard(card, weather);
         }
 
         // update rows
-        updateRows(player1.getGameTable().getCardsOfRow(), 1);
-        updateRows(player2.getGameTable().getCardsOfRow(), 2);
+        updateRows(message.getMyCards(), message.getMyDead(), 1);
+        updateRows(message.getOpponentCards(), message.getOpponentDead(), 2);
 
         // update sum of card
-        player1sum.setText(String.valueOf(game.calculateTotalScore(player1)));
-        player1sumSiege.setText(String.valueOf(game.calculateScoreInRow(player1, 1)));
-        player1sumRanged.setText(String.valueOf(game.calculateScoreInRow(player1, 2)));
-        player1sumClose.setText(String.valueOf(game.calculateScoreInRow(player1, 3)));
-        player2sum.setText(String.valueOf(game.calculateTotalScore(player2)));
-        player2sumSiege.setText(String.valueOf(game.calculateScoreInRow(player2, 1)));
-        player2sumRanged.setText(String.valueOf(game.calculateScoreInRow(player2, 2)));
-        player2sumClose.setText(String.valueOf(game.calculateScoreInRow(player2, 3)));
+        player1sum.setText(String.valueOf(message.getMyScores().get(3)));
+        player1sumSiege.setText(String.valueOf(message.getMyScores().get(0)));
+        player1sumRanged.setText(String.valueOf(message.getMyScores().get(1)));
+        player1sumClose.setText(String.valueOf(message.getMyScores().get(2)));
+        player2sum.setText(String.valueOf(message.getOpponentScores().get(3)));
+        player2sumSiege.setText(String.valueOf(message.getOpponentScores().get(0)));
+        player2sumRanged.setText(String.valueOf(message.getOpponentScores().get(1)));
+        player2sumClose.setText(String.valueOf(message.getOpponentScores().get(2)));
 
         // update num of card in deck
-        player1deckNum.setText(String.valueOf(player1.getGameTable().getDeckCards().size()));
-        player2deckNum.setText(String.valueOf(player2.getGameTable().getDeckCards().size()));
+        player1deckNum.setText(String.valueOf(message.getMyDeck().size()));
+        player2deckNum.setText(String.valueOf(message.getOpponentDeck().size()));
     }
     // this method is for remove card from all line
     private void removeAllLines() {
@@ -202,7 +202,7 @@ public class GameMenu {
         weather.getChildren().clear();
     }
     // these methods are for set rows
-    private void updateRows(Pair<Card, ArrayList<Card>>[] rows, int mode) {
+    private void updateRows(Pair<Card, ArrayList<Card>>[] rows, ArrayList<Card> dead, int mode) {
         ImageView siege, ranged, close;
         HBox siegeH, rangedH, closeH;
         if (mode == 1) {
@@ -231,10 +231,11 @@ public class GameMenu {
         }
 
         // update dead card
-        if (!player1.getGameTable().getDeadCards().isEmpty())
-            player1dead.setImage(player1.getGameTable().getDeadCards().getLast().getImage());
-        if (!player2.getGameTable().getDeadCards().isEmpty())
-            player2dead.setImage(player2.getGameTable().getDeadCards().getLast().getImage());
+        if (!dead.isEmpty()) {
+            if (mode == 1) player1dead.setImage(dead.getLast().getImage());
+            else  player2dead.setImage(dead.getLast().getImage());
+        }
+
     }
     private void locateCard(Card card, HBox hBox) {
         ImageView image = new ImageView(card.getImage());
@@ -264,94 +265,51 @@ public class GameMenu {
 
         CardType type = Card.getCardByImage(((ImageView) mouseEvent.getSource()).getImage()).getType();
         Color color = Color.web("00F7FF4C");
-        if (game.getUserTurn().equals(player1)) {
-            if (type.equals(CardType.CLOSE_COMBAT)) {
-                player1closeCombat.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
-                player1closeCombat.setOnMouseClicked(event -> playCard(Card.getCardByImage(image.getImage()), player1closeCombat, 3));
-            } else if (type.equals(CardType.RANGED_COMBAT)) {
-                player1rangedCombat.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
-                player1rangedCombat.setOnMouseClicked(event -> playCard(Card.getCardByImage(image.getImage()), player1rangedCombat, 2));
-            } else if (type.equals(CardType.SIEGE)) {
-                player1siege.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
-                player1siege.setOnMouseClicked(event -> playCard(Card.getCardByImage(image.getImage()), player1siege, 1));
-            } else if (type.equals(CardType.WEATHER)) {
-                weather.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
-                weather.setOnMouseClicked(event -> playCard(Card.getCardByImage(image.getImage()), weather, 4));
-            } else if (type.equals(CardType.AGILE)) {
-                player1closeCombat.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
-                player1rangedCombat.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
-                player1rangedCombat.setOnMouseClicked(event -> playCard(Card.getCardByImage(image.getImage()), player1rangedCombat, 2));
-                player1closeCombat.setOnMouseClicked(event -> playCard(Card.getCardByImage(image.getImage()), player1closeCombat, 3));
-            }
-        } else {
-            if (type.equals(CardType.CLOSE_COMBAT)) {
-                player2closeCombat.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
-                player2closeCombat.setOnMouseClicked(event -> playCard(Card.getCardByImage(image.getImage()), player2closeCombat, 3));
-            } else if (type.equals(CardType.RANGED_COMBAT)) {
-                player2rangedCombat.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
-                player2rangedCombat.setOnMouseClicked(event -> playCard(Card.getCardByImage(image.getImage()), player2rangedCombat, 2));
-            } else if (type.equals(CardType.SIEGE)) {
-                player2siege.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
-                player2siege.setOnMouseClicked(event -> playCard(Card.getCardByImage(image.getImage()), player2siege, 1));
-            } else if (type.equals(CardType.WEATHER)) {
-                weather.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
-                weather.setOnMouseClicked(event -> playCard(Card.getCardByImage(image.getImage()), weather, 4));
-
-            } else if (type.equals(CardType.AGILE)) {
-                player2closeCombat.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
-                player2rangedCombat.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
-                player2rangedCombat.setOnMouseClicked(event -> playCard(Card.getCardByImage(image.getImage()), player2rangedCombat, 2));
-                player2closeCombat.setOnMouseClicked(event -> playCard(Card.getCardByImage(image.getImage()), player2closeCombat, 3));
-            }
+        if (type.equals(CardType.CLOSE_COMBAT)) {
+            player1closeCombat.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
+            player1closeCombat.setOnMouseClicked(event -> playCard(Card.getCardByImage(image.getImage()), player1closeCombat, 3));
+        } else if (type.equals(CardType.RANGED_COMBAT)) {
+            player1rangedCombat.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
+            player1rangedCombat.setOnMouseClicked(event -> playCard(Card.getCardByImage(image.getImage()), player1rangedCombat, 2));
+        } else if (type.equals(CardType.SIEGE)) {
+            player1siege.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
+            player1siege.setOnMouseClicked(event -> playCard(Card.getCardByImage(image.getImage()), player1siege, 1));
+        } else if (type.equals(CardType.WEATHER)) {
+            weather.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
+            weather.setOnMouseClicked(event -> playCard(Card.getCardByImage(image.getImage()), weather, 4));
+        } else if (type.equals(CardType.AGILE)) {
+            player1closeCombat.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
+            player1rangedCombat.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
+            player1rangedCombat.setOnMouseClicked(event -> playCard(Card.getCardByImage(image.getImage()), player1rangedCombat, 2));
+            player1closeCombat.setOnMouseClicked(event -> playCard(Card.getCardByImage(image.getImage()), player1closeCombat, 3));
         }
-    }
+
+    } // todo.for.debug
     private void minimize(MouseEvent mouseEvent) {
         ImageView image = (ImageView) mouseEvent.getSource();
         image.setScaleX(1);
         image.setScaleY(1);
 
         CardType type = Card.getCardByImage(((ImageView) mouseEvent.getSource()).getImage()).getType();
-        // todo commanderHorn
-        if (game.getUserTurn().equals(player1)) {
-            if (type.equals(CardType.CLOSE_COMBAT)) {
-                player1closeCombat.setBackground(null);
-                player1closeCombat.setOnMouseClicked(null);
-            } else if (type.equals(CardType.RANGED_COMBAT)) {
-                player1rangedCombat.setBackground(null);
-                player1rangedCombat.setOnMouseClicked(null);
-            } else if (type.equals(CardType.SIEGE)) {
-                player1siege.setBackground(null);
-                player1siege.setOnMouseClicked(null);
-            } else if (type.equals(CardType.WEATHER)) {
-                weather.setBackground(null);
-                weather.setOnMouseClicked(null);
-            } else if (type.equals(CardType.AGILE)) {
-                player1closeCombat.setBackground(null);
-                player1rangedCombat.setBackground(null);
-                player1rangedCombat.setOnMouseClicked(null);
-                player1closeCombat.setOnMouseClicked(null);
-            }
-        } else {
-            if (type.equals(CardType.CLOSE_COMBAT)) {
-                player2closeCombat.setBackground(null);
-                player2closeCombat.setOnMouseClicked(null);
-            } else if (type.equals(CardType.RANGED_COMBAT)) {
-                player2rangedCombat.setBackground(null);
-                player2rangedCombat.setOnMouseClicked(null);
-            } else if (type.equals(CardType.SIEGE)) {
-                player2siege.setBackground(null);
-                player2siege.setOnMouseClicked(null);
-            } else if (type.equals(CardType.WEATHER)) {
-                weather.setBackground(null);
-                weather.setOnMouseClicked(null);
-            } else if (type.equals(CardType.AGILE)) {
-                player2closeCombat.setBackground(null);
-                player2rangedCombat.setBackground(null);
-                player2rangedCombat.setOnMouseClicked(null);
-                player2closeCombat.setOnMouseClicked(null);
-            }
+        if (type.equals(CardType.CLOSE_COMBAT)) {
+            player1closeCombat.setBackground(null);
+            player1closeCombat.setOnMouseClicked(null);
+        } else if (type.equals(CardType.RANGED_COMBAT)) {
+            player1rangedCombat.setBackground(null);
+            player1rangedCombat.setOnMouseClicked(null);
+        } else if (type.equals(CardType.SIEGE)) {
+            player1siege.setBackground(null);
+            player1siege.setOnMouseClicked(null);
+        } else if (type.equals(CardType.WEATHER)) {
+            weather.setBackground(null);
+            weather.setOnMouseClicked(null);
+        } else if (type.equals(CardType.AGILE)) {
+            player1closeCombat.setBackground(null);
+            player1rangedCombat.setBackground(null);
+            player1rangedCombat.setOnMouseClicked(null);
+            player1closeCombat.setOnMouseClicked(null);
         }
-    }
+    } // todo.for.debug
 
 // play card method
     private void playCard(Card card, HBox hBox, int row) {
@@ -360,7 +318,8 @@ public class GameMenu {
         hBox.setOnMouseClicked(null);
 
         // call backend
-        game.placeCard(card.getName(), row);
+        clientTPC.sendMassage(clientTPC.gson.toJson(new PlayCard(clientTPC.token, card, row)));
+        clientTPC.receiveMassage();
         changeTurn();
 
         // update table
@@ -369,7 +328,8 @@ public class GameMenu {
 
 // change turn
     private void changeTurn() {
-        game.changeTurn();
+        clientTPC.sendMassage(clientTPC.gson.toJson(new ChangeTurn(clientTPC.token)));
+        clientTPC.receiveMassage();
 
         // now show some graphic
         turnPane.setVisible(true);
@@ -387,84 +347,52 @@ public class GameMenu {
 // pass turn
     public void passTurn() {
         passPane.setVisible(true);
-        ((Label) passPane.getChildren().get(2)).setText(game.getUserTurn().getUser().getUsername() + "pass turn");
+        ((Label) passPane.getChildren().get(2)).setText("you pass turn");
+        clientTPC.sendMassage(clientTPC.gson.toJson(new PassTurn(clientTPC.token)));
+
+        clientTPC.receiveMassage();
 
         new Timeline(new KeyFrame(Duration.seconds(2), event -> {
             passPane.setVisible(false);
-            Result result = game.passRound(game.getUserTurn());
             changeTurn();
             updateTable();
-
-            if (result.isSuccessful()) { // it means that we have a winner or draw in this round
-                String massage = result.getMessage();
-
-                if (massage.contains("won")) {  // it can be end of the game
-                    new Timeline(
-                        new KeyFrame(Duration.seconds(2), event1 -> {
-                            this.result.setVisible(true);
-                            ((Label) this.result.getChildren().get(2)).setText(massage);
-
-                            // set image of shield
-                            setShield(massage.split(" ")[0]);
-                        }),
-                        new KeyFrame(Duration.seconds(4), event2 -> {
-                            this.result.setVisible(false);
-
-                            Pair<Boolean, UserInGame> pair;
-                            if ((pair = game.isOver()).getFirst()) { // it means one of the player won total game and, it's end of game
-                                updateEndPage(pair.getSecond());
-                            }})
-                    ).play();
-                } else if (massage.contains("draw")) {
-                    new Timeline(
-                    new KeyFrame(Duration.seconds(2), event1 -> {
-                        this.result.setVisible(true);
-                        ((Label) this.result.getChildren().get(2)).setText(massage);
-                    }),
-                    new KeyFrame(Duration.seconds(2), event2 -> {
-                        this.result.setVisible(false);
-                    })).play();
-                }
-            }
         })).play();
-
-
     }
-    private void updateEndPage(UserInGame user) {
-        winnerPane.setVisible(true);
-
-        Label massage =(Label) winnerPane.getChildren().get(0);
-
-        massage.setText(user.getUser().getUsername() + " won the game");
-
-        // know set on action for buttons
-        Button rematch = (Button) winnerPane.getChildren().get(1);
-        Button customize = (Button) winnerPane.getChildren().get(2);
-
-        rematch.setOnAction(event -> {
-            game = null;
-
-            winnerPane.setVisible(false);
-
-            firstOption();
-        });
-
-        customize.setOnAction(event -> {
-
-        });
-    }
-    private void setShield(String username) {
-        User user = User.getUserByUsername(username);
-
-
-        if (player1.getUser().equals(user)) {
-            Factions factions = player2.getGameTable().getLeader().getFaction();
-            player2shield.setImage(Shields.valueOf(factions.name()).getImage2());
-        } else {
-            Factions factions = player1.getGameTable().getLeader().getFaction();
-            player1shield.setImage(Shields.valueOf(factions.name()).getImage2());
-        }
-    }
+//    private void updateEndPage(UserInGame user) {
+//        winnerPane.setVisible(true);
+//
+//        Label massage =(Label) winnerPane.getChildren().get(0);
+//
+//        massage.setText(user.getUser().getUsername() + " won the game");
+//
+//        // know set on action for buttons
+//        Button rematch = (Button) winnerPane.getChildren().get(1);
+//        Button customize = (Button) winnerPane.getChildren().get(2);
+//
+//        rematch.setOnAction(event -> {
+//            game = null;
+//
+//            winnerPane.setVisible(false);
+//
+//            firstOption();
+//        });
+//
+//        customize.setOnAction(event -> {
+//
+//        });
+//    }
+//    private void setShield(String username) {
+//        User user = User.getUserByUsername(username);
+//
+//
+//        if (player1.getUser().equals(user)) {
+//            Factions factions = player2.getGameTable().getLeader().getFaction();
+//            player2shield.setImage(Shields.valueOf(factions.name()).getImage2());
+//        } else {
+//            Factions factions = player1.getGameTable().getLeader().getFaction();
+//            player1shield.setImage(Shields.valueOf(factions.name()).getImage2());
+//        }
+//    }
 
 // button on end page
 
