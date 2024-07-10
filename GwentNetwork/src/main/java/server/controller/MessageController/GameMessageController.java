@@ -152,6 +152,7 @@ public class GameMessageController {
         int round = game.getRoundNumber();
 
         if (tempRound < round) {
+            System.out.println("hi");
             game.setTempRound(tempRound + 1);
             boolean bool = false;
             String winnerName = null;
