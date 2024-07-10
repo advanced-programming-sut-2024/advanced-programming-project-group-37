@@ -140,6 +140,13 @@ public class GameMessageController {
         User user = User.getUserByToken(msg.getToken());
 
 
+        //check for new reaction
+        if (user.haveReaction) {
+            user.haveReaction = false;
+            return new ServerMessage(ServerType.REACTION, user.react);
+        }
+
+
         //check for new message
         if (user.haveNewMessage){
             user.haveNewMessage = false;
@@ -204,6 +211,22 @@ public class GameMessageController {
         reciever.haveNewMessage = true;
         reciever.message = msg.getMassage();
         reciever.time = msg.getTime();
+        return new ServerMessage();
+    }
+
+    public static ServerMessage reactionServer(Reaction msg) {
+        String reaction = msg.getMessage();
+
+        GameMenuController game = GameMenuController.getGame(msg.getToken());
+        User sender = User.getUserByToken(msg.getToken());
+        User reciever;
+
+        if (game.getPlayer1().getUser() == sender){
+            reciever = game.getPlayer2().getUser();
+        } else reciever = game.getPlayer1().getUser();
+
+        reciever.react = reaction;
+        reciever.haveReaction = true;
         return new ServerMessage();
     }
 }

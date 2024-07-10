@@ -25,7 +25,7 @@ public class LoginMenuController{
         ArrayList<User> friends = user.getFriends();
         friends.add(user2);
         ArrayList<User> friends2 = user2.getFriends();
-        friends.add(user);
+        friends2.add(user);
     }
 
     // register
@@ -191,12 +191,12 @@ public class LoginMenuController{
         if (!user.getAnswer().equals(answer)) {
             return new Result(false, "Wrong answer!");
         }
-        return new Result(false, "now change your password!");
+        return new Result(true, "now change your password!");
     }
 
     public static Result forgetPasswordCommand(String matcher) {
-        User user;
-        if ((user = User.getUserByUsername(matcher)) == null) return new Result(false, "Username not found!");
+        User user = User.getUserByUsername(matcher);
+        if ((user) == null) return new Result(false, "Username not found!");
         return new Result(true, "answer your saved question\n" +
                 user.getConfirmQuestions().getQuestion() + "\n");
     }

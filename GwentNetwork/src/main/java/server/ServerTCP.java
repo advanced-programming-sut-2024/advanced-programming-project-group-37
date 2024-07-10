@@ -221,6 +221,9 @@ public class ServerTCP extends Thread {
                 sendMessage(serverMessage);
             } else if (msg instanceof EmailVerify) {
                 emailVerify((EmailVerify) msg);
+            } else if (msg instanceof Reaction) {
+                ServerMessage serverMessage = GameMessageController.reactionServer((Reaction) msg);
+                sendMessage(serverMessage);
             }
 
 
@@ -238,10 +241,11 @@ public class ServerTCP extends Thread {
 
         HashMap<String, Integer> hashMap = SendEmailVerification.codeAndEmail;
         System.out.println("hi");
+        if (code == null)
+            sendMessage(new ServerMessage(true));
         if (hashMap.get(email) == Integer.parseInt(code)){
             sendMessage(new ServerMessage(true));
         } else sendMessage(new ServerMessage(false));
-
     }
 
     private void rejectReqForMatch(RejectFriendRequest msg) {
@@ -598,6 +602,8 @@ public class ServerTCP extends Thread {
                     return gson.fromJson(clientStr, Chat.class);
                 case MessageType.VERIFY_EMAIL:
                     return gson.fromJson(clientStr, EmailVerify.class);
+                case MessageType.REACTION:
+                    return gson.fromJson(clientStr, Reaction.class);
             }
             return null;
         } catch (Exception e) {

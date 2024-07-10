@@ -5,12 +5,16 @@ import message.enums.loginMenu.ConfirmQuestions;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.SplittableRandom;
 
 public class User implements Serializable {
     //for message
     public boolean haveNewMessage = false;
     public String message = new String();
     public String time = new String();
+    //REACTION
+    public boolean haveReaction = false;
+    public String react = new String();
     //
 
     private boolean randMatch = false;
