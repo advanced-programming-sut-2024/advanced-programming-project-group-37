@@ -174,8 +174,13 @@ public class ServerMessage {
     private ArrayList<Card> opponentInHand;
     private ArrayList<Integer> myScores;
     private ArrayList<Integer> opponentScores;
+    private ArrayList<Card> myDeck;
+    private ArrayList<Card> opponentDeck;
 
-    public ServerMessage(Pair<Card, ArrayList<Card>>[] myCards, Pair<Card, ArrayList<Card>>[] opponentCards, ArrayList<Card> spells, int myHp, int opponentHp, ArrayList<Card> myInHand, ArrayList<Card> opponentInHand, ArrayList<Integer> myScores, ArrayList<Integer> opponentScores) {
+
+    public ServerMessage(Pair<Card, ArrayList<Card>>[] myCards, Pair<Card, ArrayList<Card>>[] opponentCards, ArrayList<Card> spells,
+                         int myHp, int opponentHp, ArrayList<Card> myInHand, ArrayList<Card> opponentInHand, ArrayList<Integer> myScores,
+                         ArrayList<Integer> opponentScores, ArrayList<Card> myDeck, ArrayList<Card> opponentDeck) {
         this.myCards = myCards;
         this.opponentCards = opponentCards;
         this.spells = spells;
@@ -185,6 +190,8 @@ public class ServerMessage {
         this.opponentInHand = opponentInHand;
         this.myScores = myScores;
         this.opponentScores = opponentScores;
+        this.myDeck = myDeck;
+        this.opponentDeck = opponentDeck;
     }
 
     public Pair<Card, ArrayList<Card>>[] getMyCards() {
@@ -221,6 +228,14 @@ public class ServerMessage {
 
     public ArrayList<Integer> getOpponentScores() {
         return opponentScores;
+    }
+
+    public ArrayList<Card> getMyDeck() {
+        return myDeck;
+    }
+
+    public ArrayList<Card> getOpponentDeck() {
+        return opponentDeck;
     }
 
     //get  number of veto

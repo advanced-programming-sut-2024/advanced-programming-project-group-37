@@ -57,11 +57,13 @@ public class GameMessageController {
         //get the points of all rows and total for each
         ArrayList<Integer> myScores = calculateScore(myUserInGame, game);
         ArrayList<Integer> opponentScores = calculateScore(opponentUserInGame, game);
-
+        //get deck
+        ArrayList<Card> myDeck = mygameTable.getDeckCards();
+        ArrayList<Card> opponentDeck = opponentGameTable.getDeckCards();
         //get spell
         ArrayList<Card> spells = game.getSpells();
 
-        return new ServerMessage(myCards, opponentCards, spells, myHp, opponentHp, myInHand, opponentHand, myScores, opponentScores);
+        return new ServerMessage(myCards, opponentCards, spells, myHp, opponentHp, myInHand, opponentHand, myScores, opponentScores, myDeck, opponentDeck);
     }
 
     private static ArrayList<Integer> calculateScore(UserInGame userInGame, GameMenuController game) {
