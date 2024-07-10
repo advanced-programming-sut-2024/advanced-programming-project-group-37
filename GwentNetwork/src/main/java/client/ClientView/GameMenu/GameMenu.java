@@ -76,6 +76,10 @@ public class GameMenu {
 
                 showAnimation();
             }
+
+            if (message.getType() == ServerType.NEW_MESSAGE) {
+                receiveMessage(message.getOpponent(), message.getTime());
+            }
         });
 
         timeline.getKeyFrames().add(keyFrame);
@@ -139,6 +143,15 @@ public class GameMenu {
             chatScrollPane.setContent(gridPane);
             gridPane.setHgap(10);
             gridPane.setVgap(20);
+
+            ColumnConstraints column1 = new ColumnConstraints();
+            column1.setPercentWidth(100);
+            ColumnConstraints column2 = new ColumnConstraints();
+            column2.setPercentWidth(100);
+            ColumnConstraints column3 = new ColumnConstraints();
+            column3.setPercentWidth(50);
+
+            gridPane.getColumnConstraints().addAll(column1, column2, column3);
 
             chatScrollPane.setFitToWidth(true);
             chatScrollPane.setFitToHeight(true);
@@ -494,25 +507,33 @@ public class GameMenu {
     public void showChat(KeyEvent event) {
         if (event.getCode().equals(KeyCode.ESCAPE)) {
             chatScrollPane.setVisible(!chatScrollPane.isVisible());
-            messageTextField.setVisible(true);
+            messageTextField.setVisible(!messageTextField.isVisible());
         }
     }
     public void sendMessage(KeyEvent keyEvent) {
         if (keyEvent.getCode().equals(KeyCode.ENTER)) {
             String message = messageTextField.getText();
+            messageTextField.setText("");
 
             LocalTime time = LocalTime.now();
             int hour = time.getHour(); int minute = time.getMinute();
             String localTime = hour + ":" + String.format("%02d", minute);
-            gridPane.add(new Label(localTime), lineOfChat, 2);
+            gridPane.add(new Label(localTime), 2, lineOfChat);
 
             Button button = new Button(message);
-            button.setStyle("-fx-background-color: #5500ff; -fx-fill: #fff;");
+            button.setStyle("-fx-background-color: #5500ff; -fx-text-fill: #fff");
             button.setMaxWidth(200);
-            gridPane.add(new Button(message), lineOfChat++, 0);
+            gridPane.add(button, 0, lineOfChat++);
 
             clientTPC.sendMassage(clientTPC.gson.toJson(new Chat(clientTPC.token, message, localTime)));
             clientTPC.receiveMassage();
         }
+    }
+    private void receiveMessage(String message, String time) {
+        gridPane.add(new Label(time), 2, lineOfChat);
+
+        Button button = new Button(message);
+        button.setStyle("-fx-background-color: gray; -fx-text-fill: #fff");
+        gridPane.add(button, 1, lineOfChat++);
     }
 }

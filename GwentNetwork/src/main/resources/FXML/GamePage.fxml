@@ -233,7 +233,7 @@
             </ImageView>
          </children>
       </AnchorPane>
-      <ScrollPane fx:id="chatScrollPane" layoutX="1214.0" layoutY="240.0" prefHeight="342.0" prefWidth="254.0" stylesheets="@../../../../../Gwent/src/main/resources/CSS/css1.css" />
+      <ScrollPane fx:id="chatScrollPane" layoutX="1214.0" layoutY="240.0" prefHeight="342.0" prefWidth="254.0" stylesheets="@../CSS/css1.css" />
       <TextField fx:id="messageTextField" layoutX="1213.0" layoutY="594.0" onKeyPressed="#sendMessage" prefHeight="26.0" prefWidth="254.0" />
    </children>
 </AnchorPane>
