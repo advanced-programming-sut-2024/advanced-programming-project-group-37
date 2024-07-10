@@ -95,7 +95,7 @@ public class GameMessageController {
             userInGame = game.getPlayer2();
         }
         ArrayList<Card> inHand = userInGame.getGameTable().getInHandsCards();
-        game.vetoCard(inHand.get(Integer.parseInt(msg.getIndexOfVetoCard())).getName());
+        game.vetoCard(msg.getIndexOfVetoCard());
 
 
         //return number of veto in message
