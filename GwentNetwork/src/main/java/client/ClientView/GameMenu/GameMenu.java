@@ -201,7 +201,7 @@ public class GameMenu {
 
         Card card = Card.getCardByImage(image);
 
-        clientTPC.sendMassage(clientTPC.gson.toJson(new SelectVetoCard(clientTPC.token, String.valueOf(hand.indexOf(card) + 1))));
+        clientTPC.sendMassage(clientTPC.gson.toJson(new SelectVetoCard(clientTPC.token, hand.indexOf(card) + 1 + "")));
 
         ServerMessage message = clientTPC.receiveMassage();
 
