@@ -175,6 +175,8 @@ public class GameMessageController {
     public static ServerMessage whoseTurnServer(WhoseTrun msg) {
         GameMenuController game = GameMenuController.getGame(msg.getToken());
         User user = User.getUserByToken(msg.getToken());
+        //deal cards to players
+        game.dealCards();
 
         if (game.getUserTurn().getUser() == user) {
             return new ServerMessage(true);
