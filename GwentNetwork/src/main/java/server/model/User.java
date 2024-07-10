@@ -6,6 +6,7 @@ import message.enums.loginMenu.ConfirmQuestions;
 import java.util.ArrayList;
 
 public class User {
+    private boolean randMatch = false;
     private boolean yourTurn = false;
     private boolean readyDeck = false;
     private boolean startGame = false;
@@ -275,5 +276,13 @@ public class User {
 
     public void setYourTurn(boolean yourTurn) {
         this.yourTurn = yourTurn;
+    }
+
+    public boolean isRandMatch() {
+        return randMatch;
+    }
+
+    public void setRandMatch(boolean randMatch) {
+        this.randMatch = randMatch;
     }
 }

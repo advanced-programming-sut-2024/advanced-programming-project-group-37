@@ -329,6 +329,11 @@ public class ServerTCP extends Thread {
             return;
         }
 
+        if (User.getUserByToken(token).isRandMatch()){
+            sendMessage(new ServerMessage(ServerType.START_RAND_GAME));
+            return;
+        }
+
         result = GameLobbyController.checkRandMatch(token);
         if (result.isSuccessful()) {
             sendMessage(new ServerMessage(ServerType.START_RAND_GAME, result.getMessage()));

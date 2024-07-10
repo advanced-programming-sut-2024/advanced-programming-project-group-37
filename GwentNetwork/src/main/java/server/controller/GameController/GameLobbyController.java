@@ -100,6 +100,7 @@ public class GameLobbyController {
         if (randomReq.size() == 2){
             randomReq.remove(user);
             User user2 = randomReq.get(0);
+            user2.setRandMatch(true);
             PreGameMenuController preGameMenuController = new PreGameMenuController(user, user2);
             return new Result(true,user2.getUsername());
         }
