@@ -15,6 +15,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import java.net.URL;
 import java.util.HashMap;
@@ -75,6 +76,8 @@ public class HeadViewController extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        Font.loadFont(getClass().getResourceAsStream("/emoji.ttf"), 24);
+
         HeadViewController.stage = stage;
 
         stage.setScene(scenes.get("start page"));

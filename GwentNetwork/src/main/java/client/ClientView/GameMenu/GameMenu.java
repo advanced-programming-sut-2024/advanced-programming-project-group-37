@@ -4,6 +4,7 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.RotateTransition;
 import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -80,12 +81,17 @@ public class GameMenu {
             if (message.getType() == ServerType.NEW_MESSAGE) {
                 receiveMessage(message.getOpponent(), message.getTime());
             }
+
+            if (message.getType() == ServerType.REACTION) {
+                showEnemyReaction(message.getOpponent());
+            }
         });
 
         timeline.getKeyFrames().add(keyFrame);
 
         timeline.play();
     }
+
 
 
     public HBox player2siege;
@@ -131,8 +137,8 @@ public class GameMenu {
     public final int pictureWidth = 90;
 
     private static boolean isCalled = false;
-
     // this method call ar first and initialize some of field
+
     public void firstOption() {
         if (!isCalled) {
             checkServer();
@@ -188,8 +194,8 @@ public class GameMenu {
             showVetoCards();
         }
     }
-
 // show vetoCards
+
     private void showVetoCards() {
         selectPane.setVisible(true);
 
@@ -251,8 +257,8 @@ public class GameMenu {
             updateTable();
         }
     }
-
 // update table
+
     private void updateTable() {
         // remove all --> hand, rows, weather
         removeAllLines();
@@ -410,8 +416,8 @@ public class GameMenu {
             player1closeCombat.setOnMouseClicked(null);
         }
     } // todo.for.debug
-
 // play card method
+
     private void playCard(Card card, HBox hBox, int row) {
         // add card to imageview
         hBox.setBackground(null);
@@ -425,8 +431,8 @@ public class GameMenu {
         // update table
         updateTable();
     }
-
 // change turn
+
     private void changeTurn() {
         clientTPC.sendMassage(clientTPC.gson.toJson(new ChangeTurn(clientTPC.token)));
         clientTPC.receiveMassage();
@@ -446,8 +452,8 @@ public class GameMenu {
             turnPane.setVisible(false);
         })).play();
     }
-
 // pass turn
+
     public void passTurn() {
         passPane.setVisible(true);
         ((Label) passPane.getChildren().get(2)).setText("you pass turn");
@@ -503,13 +509,13 @@ public class GameMenu {
             player1shield.setImage(Shields.valueOf(message.yourLeader.getFaction().name()).getImage2());
         }
     }
-
     public void showChat(KeyEvent event) {
         if (event.getCode().equals(KeyCode.ESCAPE)) {
             chatScrollPane.setVisible(!chatScrollPane.isVisible());
             messageTextField.setVisible(!messageTextField.isVisible());
         }
     }
+
     public void sendMessage(KeyEvent keyEvent) {
         if (keyEvent.getCode().equals(KeyCode.ENTER)) {
             String message = messageTextField.getText();
@@ -535,5 +541,52 @@ public class GameMenu {
         Button button = new Button(message);
         button.setStyle("-fx-background-color: gray; -fx-text-fill: #fff");
         gridPane.add(button, 1, lineOfChat++);
+    }
+    public AnchorPane reactionPane;
+    public TextField reactionTextField;
+    public ImageView reactionImagePlayer1;
+    public Label reactionLabelPlayer1;
+    public ImageView reactionImagePlayer2;
+    public Label reactionLabelPlayer2;
+    private void showEnemyReaction(String message) {
+        reactionImagePlayer2.setVisible(true);
+        reactionLabelPlayer2.setVisible(true);
+        reactionLabelPlayer2.setText(message);
+
+        new Timeline(new KeyFrame(Duration.seconds(7), event -> {
+            reactionLabelPlayer2.setVisible(false);
+            reactionImagePlayer2.setVisible(false);
+        }));
+    }
+    public void showReaction(ActionEvent actionEvent) {
+        reactionPane.setVisible(false);
+
+        String message = ((Button) actionEvent.getSource()).getText();
+
+        sendReaction(message);
+    }
+    public void showReactionText(KeyEvent keyEvent) {
+        reactionPane.setVisible(false);
+
+        String message = ((TextField) keyEvent.getSource()).getText();
+
+        sendReaction(message);
+    }
+    private void sendReaction(String message) {
+        reactionImagePlayer1.setVisible(true);
+        reactionLabelPlayer1.setVisible(true);
+        reactionLabelPlayer1.setText(message);
+
+        new Timeline(new KeyFrame(Duration.seconds(7), event -> {
+            reactionLabelPlayer1.setVisible(false);
+            reactionImagePlayer1.setVisible(false);
+        }));
+
+        clientTPC.sendMassage(clientTPC.gson.toJson(new Reaction(clientTPC.token, message)));
+        clientTPC.receiveMassage();
+    }
+
+    public void showReactionPane() {
+        reactionPane.setVisible(!reactionPane.isVisible());
     }
 }

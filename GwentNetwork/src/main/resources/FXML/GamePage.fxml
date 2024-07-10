@@ -235,5 +235,52 @@
       </AnchorPane>
       <ScrollPane fx:id="chatScrollPane" layoutX="1214.0" layoutY="240.0" prefHeight="342.0" prefWidth="254.0" stylesheets="@../CSS/css1.css" />
       <TextField fx:id="messageTextField" layoutX="1213.0" layoutY="594.0" onKeyPressed="#sendMessage" prefHeight="26.0" prefWidth="254.0" />
+      <ImageView fx:id="reactionImagePlayer2" fitHeight="143.0" fitWidth="137.0" layoutX="194.0" layoutY="169.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@../asset/img/icons/q.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="reactionLabelPlayer2" alignment="CENTER" layoutX="219.0" layoutY="201.0" prefHeight="30.0" prefWidth="90.0" style="-fx-font-family: 'Segoe UI Emoji'" visible="false">
+         <font>
+            <Font size="35.0" />
+         </font></Label>
+      <ImageView fitHeight="34.0" fitWidth="40.0" layoutX="11.0" layoutY="417.0" onMouseClicked="#showReactionPane" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../asset/img/icons/m.png" />
+         </image>
+      </ImageView>
+      <AnchorPane fx:id="reactionPane" layoutX="64.0" layoutY="346.0" prefHeight="222.0" prefWidth="200.0" style="-fx-background-color: #000a;" visible="false">
+         <children>
+            <Button layoutX="5.0" layoutY="110.0" mnemonicParsing="false" onAction="#showReaction" prefHeight="70.0" prefWidth="90.0" text="salam">
+               <font>
+                  <Font size="21.0" />
+               </font></Button>
+            <Button layoutX="99.0" layoutY="110.0" mnemonicParsing="false" onAction="#showReaction" prefHeight="70.0" prefWidth="90.0" text="noooo">
+               <font>
+                  <Font size="21.0" />
+               </font></Button>
+            <Button layoutX="5.0" layoutY="12.0" mnemonicParsing="false" onAction="#showReaction" prefHeight="70.0" prefWidth="90.0" text="🖕">
+               <font>
+                  <Font name="Segoe UI Emoji" size="30.0" />
+               </font>
+            </Button>
+            <Button layoutX="99.0" layoutY="12.0" mnemonicParsing="false" onAction="#showReaction" prefHeight="70.0" prefWidth="90.0" text="👌">
+               <font>
+                  <Font name="Segoe UI Emoji" size="33.0" />
+               </font>
+            </Button>
+            <TextField fx:id="reactionTextField" layoutX="22.0" layoutY="188.0" onKeyPressed="#showReactionText" promptText="message" />
+         </children>
+      </AnchorPane>
+      <ImageView fx:id="reactionImagePlayer1" fitHeight="143.0" fitWidth="137.0" layoutX="204.0" layoutY="549.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@../asset/img/icons/q.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="reactionLabelPlayer1" alignment="CENTER" layoutX="232.0" layoutY="582.0" prefHeight="30.0" prefWidth="90.0" style="-fx-font-family: 'Segoe UI Emoji'" visible="false">
+         <font>
+            <Font size="35.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
