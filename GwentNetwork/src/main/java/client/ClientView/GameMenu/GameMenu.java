@@ -64,6 +64,8 @@ public class GameMenu {
                 updateEndPage(message.isSuccess());
             }
             if (message.getType() == ServerType.YOUR_TURN) {
+                updateTable();
+
                 isMyTurn = true;
 
                 showAnimation();
@@ -200,7 +202,6 @@ public class GameMenu {
         Image image = ((ImageView) mouseEvent.getSource()).getImage();
 
         Card card = Card.getCardByImage(image);
-        System.out.println(String.valueOf(hand.indexOf(card) + 1));
 
         clientTPC.sendMassage(clientTPC.gson.toJson(new SelectVetoCard(clientTPC.token, hand.indexOf(card) + 1 + "")));
 
