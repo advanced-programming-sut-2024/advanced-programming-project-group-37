@@ -58,11 +58,14 @@ public class GameMenu {
                         setShield(false);
                     }
                 }
-                new Timeline(new KeyFrame(Duration.seconds(2), actionEvent -> result.setVisible(false)));
+                new Timeline(new KeyFrame(Duration.seconds(2), actionEvent -> result.setVisible(false))).play();
             }
+
+
             if (message.getType() == ServerType.END_GAME) {
                 updateEndPage(message.isSuccess());
             }
+
             if (message.getType() == ServerType.YOUR_TURN) {
                 updateTable();
 
