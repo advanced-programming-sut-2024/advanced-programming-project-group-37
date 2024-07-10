@@ -139,7 +139,8 @@ public class GameMessageController {
         //check if game is over
         Pair<Boolean, UserInGame> over = game.isOver();
         if (over.getFirst()){
-            return new ServerMessage(ServerType.END_GAME,over.getSecond().getUser().getUsername());
+            return new ServerMessage(ServerType.END_GAME,over.getSecond().getUser().getUsername(),
+                    over.getSecond().getUser().getUsername().equals(user.getUsername()));
         }
 
 
@@ -149,7 +150,8 @@ public class GameMessageController {
 
         if (tempRound < round){
             game.setTempRound(tempRound + 1);
-            return new ServerMessage(ServerType.NEW_ROUND, game.getRoundWinner().getUser().getUsername());
+            return new ServerMessage(ServerType.NEW_ROUND, game.getRoundWinner().getUser().getUsername(),
+                    user.getUsername().equals(game.getRoundWinner().getUser().getUsername()));
         }
 
         //check if turn backed to him or not

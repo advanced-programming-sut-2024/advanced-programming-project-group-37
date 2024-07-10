@@ -56,6 +56,12 @@ public class ServerMessage {
         this.factions = factions;
     }
 
+    public ServerMessage(ServerType serverType, String username, boolean equals) {
+        this.type = serverType;
+        this.opponent = username;
+        this.success = equals;
+    }
+
 
     public boolean isSuccess() {
         return success;
