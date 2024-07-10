@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import message.client.*;
 import message.client.Game.GetHand;
 import message.client.Game.GiveMeLeader;
+import message.client.Game.SelectVetoCard;
 import message.client.LoginMenu.*;
 import message.client.MainMenu.SignOutMessage;
 import message.client.gameLobby.*;
@@ -190,10 +191,13 @@ public class ServerTCP extends Thread {
                 ServerMessage serverMessage = PreGameMessageController.checkServerInPreGame((CheckServerMessage) msg);
                 sendMessage(serverMessage);
             } else if (msg instanceof GiveMeLeader) {
-                ServerMessage serverMessage = GameMessageController.passLeader((GiveMeLeader) msg);
+                ServerMessage serverMessage = GameMessageController.passLeaderNetwork((GiveMeLeader) msg);
                 sendMessage(serverMessage);
             } else if (msg instanceof GetHand) {
-                ServerMessage serverMessage = GameMessageController.getGameTable((GetHand) msg);
+                ServerMessage serverMessage = GameMessageController.getGameTableNetwork((GetHand) msg);
+                sendMessage(serverMessage);
+            } else if (msg instanceof SelectVetoCard) {
+                ServerMessage serverMessage = GameMessageController.selectVetoNetwork((SelectVetoCard) msg);
                 sendMessage(serverMessage);
             }
 

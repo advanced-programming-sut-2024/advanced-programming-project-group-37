@@ -2,6 +2,8 @@ package server.controller.MessageController;
 
 import message.client.Game.GetHand;
 import message.client.Game.GiveMeLeader;
+import message.client.Game.SelectVetoCard;
+import message.client.MessageType;
 import message.enums.card.Card;
 import message.server.ServerMessage;
 import server.controller.GameController.GameMenuController;
@@ -13,7 +15,7 @@ import server.model.toolClasses.Pair;
 import java.util.ArrayList;
 
 public class GameMessageController {
-    public static ServerMessage passLeader(GiveMeLeader msg) {
+    public static ServerMessage passLeaderNetwork(GiveMeLeader msg) {
         GameMenuController game = GameMenuController.getGame(msg.getToken());
         User user = User.getUserByToken(msg.getToken());
 
@@ -24,7 +26,7 @@ public class GameMessageController {
         }
     }
 
-    public static ServerMessage getGameTable(GetHand msg) {
+    public static ServerMessage getGameTableNetwork(GetHand msg) {
         GameMenuController game = GameMenuController.getGame(msg.getToken());
         User user = User.getUserByToken(msg.getToken());
         UserInGame userInGame;
@@ -40,5 +42,25 @@ public class GameMessageController {
         ArrayList<Card> spells = gameTable.getSpsells();
 
         return new ServerMessage(cards, hp, inHand, spells);
+    }
+
+    public static ServerMessage selectVetoNetwork(SelectVetoCard msg) {
+        //get user game
+        GameMenuController game = GameMenuController.getGame(msg.getToken());
+        User user = User.getUserByToken(msg.getToken());
+        UserInGame userInGame;
+        //get user userInGame
+        if (game.getPlayer1().getUser() == user) {
+            userInGame = game.getPlayer1();
+        } else {
+            userInGame = game.getPlayer2();
+        }
+        ArrayList<Card> inHand = userInGame.getGameTable().getInHandsCards();
+        game.vetoCard(inHand.get(Integer.parseInt(msg.getIndexOfVetoCard())).getName());
+
+
+        //return number of veto in message
+        return new ServerMessage(userInGame.getNumberOfVeto());
+
     }
 }

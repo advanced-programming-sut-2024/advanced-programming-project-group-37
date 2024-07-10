@@ -165,10 +165,10 @@ public class ServerMessage {
 
 
     //get in game table
-    public Pair<Card, ArrayList<Card>>[] cards;
-    public ArrayList<Card> spells;
+    private Pair<Card, ArrayList<Card>>[] cards;
+    private ArrayList<Card> spells;
     private int hp;
-    public ArrayList<Card> inHand;
+    private ArrayList<Card> inHand;
     public ServerMessage(Pair<Card, ArrayList<Card>>[] cards, int hp, ArrayList<Card> inHand, ArrayList<Card> spells) {
         this.cards = cards;
         this.spells = spells;
@@ -190,6 +190,16 @@ public class ServerMessage {
 
     public ArrayList<Card> getInHand() {
         return inHand;
+    }
+
+    //get  number of veto
+    private int numberOfVeto;
+    public ServerMessage(int numberOfVeto) {
+        this.numberOfVeto = numberOfVeto;
+    }
+
+    public int getNumberOfVeto() {
+        return numberOfVeto;
     }
 }
 
