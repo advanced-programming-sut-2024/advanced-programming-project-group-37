@@ -3,11 +3,15 @@ package message.enums.card;
 //import controller.GameControllers.GameMenuController;
 import javafx.scene.image.Image;
 import message.enums.gameMenu.Factions;
+import server.controller.GameController.GameMenuController;
 import server.model.gameTable.GameTable;
 import server.model.gameTable.UserInGame;
 import server.model.toolClasses.Result;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 
 public enum Leaders {
     TheSiegemaster(Factions.REALMS_NORTHERN,
@@ -84,7 +88,7 @@ public enum Leaders {
         return new Result(false, "horn was existed");
     }
     //Leader abilities
-    /*
+
 
     public Result passiveCommanderOfTheRedRiders(UserInGame player, GameMenuController game) {
         //choose one weather card from deck and play it
@@ -380,7 +384,7 @@ public enum Leaders {
         game.placeCard(Card.BitingForest.getName(), 4);
         return new Result(true, "card biting frost played successfully");
     }
-    */
+
     public Factions getFaction() {
         return faction;
     }

@@ -57,7 +57,6 @@ public class ServerMessage {
     }
 
 
-
     public boolean isSuccess() {
         return success;
     }
@@ -122,6 +121,7 @@ public class ServerMessage {
     public String getOpponent() {
         return opponent;
     }
+
     Factions factions;
 
     public Factions getFactions() {
@@ -131,7 +131,6 @@ public class ServerMessage {
 
     ArrayList<Pair<Card, Integer>> deck = new ArrayList<>();
     ArrayList<Pair<Card, Integer>> collection = new ArrayList<>();
-
 
 
     public ServerMessage(ArrayList<Pair<Card, Integer>> deck, ArrayList<Pair<Card, Integer>> collection) {
@@ -146,6 +145,7 @@ public class ServerMessage {
     public ArrayList<Pair<Card, Integer>> getCollection() {
         return collection;
     }
+
     //show leader
     public ServerMessage(Leaders yourLeader, Leaders opponnetLeader) {
         this.yourLeader = yourLeader;
@@ -161,6 +161,35 @@ public class ServerMessage {
 
     public Leaders getOpponnetLeader() {
         return opponnetLeader;
+    }
+
+
+    //get in game table
+    public Pair<Card, ArrayList<Card>>[] cards;
+    public ArrayList<Card> spells;
+    private int hp;
+    public ArrayList<Card> inHand;
+    public ServerMessage(Pair<Card, ArrayList<Card>>[] cards, int hp, ArrayList<Card> inHand, ArrayList<Card> spells) {
+        this.cards = cards;
+        this.spells = spells;
+        this.hp = hp;
+        this.inHand =inHand;
+    }
+
+    public Pair<Card, ArrayList<Card>>[] getCards() {
+        return cards;
+    }
+
+    public ArrayList<Card> getSpells() {
+        return spells;
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public ArrayList<Card> getInHand() {
+        return inHand;
     }
 }
 

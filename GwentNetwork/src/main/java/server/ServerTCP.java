@@ -3,6 +3,7 @@ package server;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import message.client.*;
+import message.client.Game.GetHand;
 import message.client.Game.GiveMeLeader;
 import message.client.LoginMenu.*;
 import message.client.MainMenu.SignOutMessage;
@@ -190,6 +191,9 @@ public class ServerTCP extends Thread {
                 sendMessage(serverMessage);
             } else if (msg instanceof GiveMeLeader) {
                 ServerMessage serverMessage = GameMessageController.passLeader((GiveMeLeader) msg);
+                sendMessage(serverMessage);
+            } else if (msg instanceof GetHand) {
+                ServerMessage serverMessage = GameMessageController.getGameTable((GetHand) msg);
                 sendMessage(serverMessage);
             }
 
@@ -527,6 +531,10 @@ public class ServerTCP extends Thread {
                     return gson.fromJson(clientStr, RemoveFromDeck.class);
                 case MessageType.CHECK_SERVER2:
                     return gson.fromJson(clientStr, CheckServerMessage.class);
+                case MessageType.GET_LEADER:
+                    return gson.fromJson(clientStr, GiveMeLeader.class);
+                case MessageType.GET_HAND:
+                    return gson.fromJson(clientStr, GetHand.class);
             }
             return null;
         } catch (Exception e) {
