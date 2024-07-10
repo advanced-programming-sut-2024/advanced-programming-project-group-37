@@ -237,7 +237,7 @@ public class ServerTCP extends Thread {
         String code = msg.getCode();
 
         HashMap<String, Integer> hashMap = SendEmailVerification.codeAndEmail;
-
+        System.out.println("hi");
         if (hashMap.get(email) == Integer.parseInt(code)){
             sendMessage(new ServerMessage(true));
         } else sendMessage(new ServerMessage(false));
