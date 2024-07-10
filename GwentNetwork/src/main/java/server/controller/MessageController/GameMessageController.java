@@ -17,6 +17,9 @@ import java.util.ArrayList;
 public class GameMessageController {
     public static ServerMessage passLeaderNetwork(GiveMeLeader msg) {
         GameMenuController game = GameMenuController.getGame(msg.getToken());
+        if (game == null){
+            System.out.println("null");
+        }
         User user = User.getUserByToken(msg.getToken());
 
         if (game.getPlayer1().getUser() == user) {
