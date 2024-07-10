@@ -60,10 +60,14 @@ public class GameMessageController {
         //get deck
         ArrayList<Card> myDeck = mygameTable.getDeckCards();
         ArrayList<Card> opponentDeck = opponentGameTable.getDeckCards();
+        //get dead
+        ArrayList<Card> myDead = mygameTable.getDeadCards();
+        ArrayList<Card> opponentDead = opponentGameTable.getDeadCards();
+
         //get spell
         ArrayList<Card> spells = game.getSpells();
 
-        return new ServerMessage(myCards, opponentCards, spells, myHp, opponentHp, myInHand, opponentHand, myScores, opponentScores, myDeck, opponentDeck);
+        return new ServerMessage(myCards, opponentCards, spells, myHp, opponentHp, myInHand, opponentHand, myScores, opponentScores, myDeck, opponentDeck, myDead, opponentDead);
     }
 
     private static ArrayList<Integer> calculateScore(UserInGame userInGame, GameMenuController game) {

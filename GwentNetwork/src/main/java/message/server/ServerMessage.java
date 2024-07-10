@@ -176,11 +176,14 @@ public class ServerMessage {
     private ArrayList<Integer> opponentScores;
     private ArrayList<Card> myDeck;
     private ArrayList<Card> opponentDeck;
+    private ArrayList<Card> myDead;
+    private ArrayList<Card> opponentDead;
 
 
     public ServerMessage(Pair<Card, ArrayList<Card>>[] myCards, Pair<Card, ArrayList<Card>>[] opponentCards, ArrayList<Card> spells,
                          int myHp, int opponentHp, ArrayList<Card> myInHand, ArrayList<Card> opponentInHand, ArrayList<Integer> myScores,
-                         ArrayList<Integer> opponentScores, ArrayList<Card> myDeck, ArrayList<Card> opponentDeck) {
+                         ArrayList<Integer> opponentScores, ArrayList<Card> myDeck, ArrayList<Card> opponentDeck,
+                         ArrayList<Card> myDead, ArrayList<Card> opponentDead) {
         this.myCards = myCards;
         this.opponentCards = opponentCards;
         this.spells = spells;
@@ -192,6 +195,8 @@ public class ServerMessage {
         this.opponentScores = opponentScores;
         this.myDeck = myDeck;
         this.opponentDeck = opponentDeck;
+        this.myDead = myDead;
+        this.opponentDead = opponentDead;
     }
 
     public Pair<Card, ArrayList<Card>>[] getMyCards() {
@@ -236,6 +241,14 @@ public class ServerMessage {
 
     public ArrayList<Card> getOpponentDeck() {
         return opponentDeck;
+    }
+
+    public ArrayList<Card> getMyDead() {
+        return myDead;
+    }
+
+    public ArrayList<Card> getOpponentDead() {
+        return opponentDead;
     }
 
     //get  number of veto
