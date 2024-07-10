@@ -59,4 +59,5 @@ module GwentNetwork {
     exports server.model.gameTable;
     exports server.model.toolClasses;
     exports message.enums.loginMenu;
+
 }

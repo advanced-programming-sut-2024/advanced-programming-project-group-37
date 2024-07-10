@@ -7,14 +7,14 @@ import java.util.regex.Matcher;
 
 public class ForgetPasswordMessage extends ClientMessage {
 
-    Matcher matcher;
+    String matcher;
 
-    public ForgetPasswordMessage(Matcher matcher) {
+    public ForgetPasswordMessage(String matcher) {
         this.matcher = matcher;
         this.type = MessageType.FORGET_PASSWORD;
     }
 
-    public Matcher getMatcher() {
+    public String getMatcher() {
         return matcher;
     }
 }

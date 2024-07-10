@@ -39,7 +39,6 @@ public class LoginMenu {
     private String usernameForForget;
 
     private RegisterMassage saveRegister;
-
     public void showTerminal(KeyEvent keyEvent) {
         if (keyEvent.getCode().equals(KeyCode.ESCAPE)) {
             terminalPane.setVisible(isTerminalVisible = !isTerminalVisible);
@@ -79,7 +78,7 @@ public class LoginMenu {
                 terminalTextArea.setText(terminalTextArea.getText() + message.getInfo() + "\n");
             }
             else if ((matcher = LoginMenuCommands.forgetPassword.getMatcher(inputLine)) != null) {
-                clientTPC.sendMassage(clientTPC.gson.toJson(new ForgetPasswordMessage(matcher)));
+                clientTPC.sendMassage(clientTPC.gson.toJson(new ForgetPasswordMessage(matcher.group(1))));
                 ServerMessage message = clientTPC.receiveMassage();
 
                 usernameForForget = matcher.group("username");
@@ -109,6 +108,7 @@ public class LoginMenu {
             terminalTextArea.positionCaret(terminalTextArea.getText().length());
         }
     }
+
     private ServerMessage loginCommand(Matcher matcher) {
         String username = matcher.group("username");
         String password = matcher.group("password");
@@ -117,7 +117,6 @@ public class LoginMenu {
 
         return clientTPC.receiveMassage();
     }
-
     private ServerMessage pickQuestion(Matcher matcher) {
         String questionNum = matcher.group("questionnum");
         String answer = matcher.group("answer");
@@ -172,11 +171,13 @@ public class LoginMenu {
     }
 
 
-//     graphic part
+
+    //     graphic part
 //     declare some fields for fxml file
     public TextField usernameTextField;
     public PasswordField passwordField;
     public TextField nicknameTextField;
+    public AnchorPane emailPane;
     public AnchorPane passwordPane;
     public TextField emailTextField;
     public AnchorPane questionPane;
@@ -229,8 +230,7 @@ public class LoginMenu {
         TextField textField = (TextField) forgetPane.getChildren().get(1);
 
         button.setOnAction(event -> {
-            clientTPC.sendMassage(clientTPC.gson.toJson(new ForgetPasswordMessage(
-                    LoginMenuCommands.forgetPassword.getMatcher("forget password -u " + textField.getText()))));
+            clientTPC.sendMassage(clientTPC.gson.toJson(new ForgetPasswordMessage(textField.getText())));
 
             ServerMessage message = clientTPC.receiveMassage();
 
@@ -281,6 +281,8 @@ public class LoginMenu {
         nickname = nicknameTextField.getText();
         email = emailTextField.getText();
 
+
+
         // show password pane
         passwordPane.setVisible(true);
 
@@ -295,7 +297,7 @@ public class LoginMenu {
 
             RegisterMassage registerMassage;
             clientTPC.sendMassage(clientTPC.gson.toJson(
-                   registerMassage = new RegisterMassage(username, ref.password, ref.confirmPassword, nickname, email)));
+                    registerMassage = new RegisterMassage(username, ref.password, ref.confirmPassword, nickname, email)));
 
             ref.message = clientTPC.receiveMassage();
 
@@ -319,55 +321,72 @@ public class LoginMenu {
 
                 return;
             }
+            emailPane.setVisible(true);
 
-            // show question page
-            questionPane.setVisible(true);
+            Button b = (Button) emailPane.getChildren().get(1);
 
-            var ref2 = new Object() {
-                ConfirmQuestions confirmQuestions;
-                String answer;
-            };
+            b.setOnAction(action -> {
 
-            // for all buttons that I declare in fxml we must set text -> <question> and setOnMouthClick for all
-            for (int i = 1; i <= 5; i++) {
-                // get button no.i
-                Button button = ((Button) questionPane.getChildren().get(i));
-                // set text
-                button.setText(ConfirmQuestions.valueOf("q" + i).getQuestion());
+                String code = ((TextField) emailPane.getChildren().get(0)).getText();
 
-                // declare x to use that in lambda
-                int x = i;
-                button.setOnMouseClicked(event2 -> {
-                    // get ConfirmQuestion
-                    ref2.confirmQuestions = ConfirmQuestions.valueOf("q" + x);
-                    AnchorPane pane = (AnchorPane) questionPane.getChildren().get(6);
-                    // show textArea
-                    pane.setVisible(true);
-                    TextArea textArea = (TextArea) pane.getChildren().get(0);
-                    // set prompt text of textArea --> question
-                    textArea.setPromptText(ConfirmQuestions.valueOf("q" + x).getQuestion());
-                    pane.getChildren().get(1).setOnMouseClicked(event3 -> {
-                        // set questionPane invisible
-                        questionPane.setVisible(false);
-                        ref2.answer = textArea.getText();
+                clientTPC.sendMassage(clientTPC.gson.toJson(new EmailVerify(code, email)));
 
-                        // clear textFields and passwordFields
-                        ((TextField) passwordPane.getChildren().get(0)).setText("");
-                        ((TextField) passwordPane.getChildren().get(1)).setText("");
-                        usernameTextField.setText("");
-                        nicknameTextField.setText("");
-                        emailTextField.setText("");
-                        textArea.setText("");
-                    });
-                });
-            }
+                ServerMessage serverMessage = clientTPC.receiveMassage();
 
-            // now we sure that register can successful, so we call method registerNewUser in LoginMEnuController
-            clientTPC.sendMassage(clientTPC.gson.toJson(new PickQuestionMessage(
-                    ref2.confirmQuestions, registerMassage, ref2.answer)));
+                if (serverMessage.isSuccess()) {
+                    // show question page
+                    questionPane.setVisible(true);
 
-            clientTPC.receiveMassage();
+                    var ref2 = new Object() {
+                        ConfirmQuestions confirmQuestions;
+                        String answer;
+                    };
+
+                    // for all buttons that I declare in fxml we must set text -> <question> and setOnMouthClick for all
+                    for (int i = 1; i <= 5; i++) {
+                        // get button no.i
+                        Button button = ((Button) questionPane.getChildren().get(i));
+                        // set text
+                        button.setText(ConfirmQuestions.valueOf("q" + i).getQuestion());
+
+                        // declare x to use that in lambda
+                        int x = i;
+                        button.setOnMouseClicked(event2 -> {
+                            // get ConfirmQuestion
+                            ref2.confirmQuestions = ConfirmQuestions.valueOf("q" + x);
+                            AnchorPane pane = (AnchorPane) questionPane.getChildren().get(6);
+                            // show textArea
+                            pane.setVisible(true);
+                            TextArea textArea = (TextArea) pane.getChildren().get(0);
+                            // set prompt text of textArea --> question
+                            textArea.setPromptText(ConfirmQuestions.valueOf("q" + x).getQuestion());
+                            pane.getChildren().get(1).setOnMouseClicked(event3 -> {
+                                // set questionPane invisible
+                                questionPane.setVisible(false);
+                                ref2.answer = textArea.getText();
+
+                                // clear textFields and passwordFields
+                                ((TextField) passwordPane.getChildren().get(0)).setText("");
+                                ((TextField) passwordPane.getChildren().get(1)).setText("");
+                                usernameTextField.setText("");
+                                nicknameTextField.setText("");
+                                emailTextField.setText("");
+                                textArea.setText("");
+                            });
+                        });
+                    }
+
+                    // now we sure that register can successful, so we call method registerNewUser in LoginMEnuController
+                    clientTPC.sendMassage(clientTPC.gson.toJson(new PickQuestionMessage(
+                            ref2.confirmQuestions, registerMassage, ref2.answer)));
+
+                    clientTPC.receiveMassage();
+                }
+            });
         });
+    }
+
+    public void sendEmail() {
     }
 
     public void mute(ActionEvent actionEvent) {
@@ -378,5 +397,4 @@ public class LoginMenu {
         if (isMute) button.setText("UNMUTE");
         else button.setText("MUTE");
     }
-
 }

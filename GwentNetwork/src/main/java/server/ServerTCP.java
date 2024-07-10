@@ -394,7 +394,7 @@ public class ServerTCP extends Thread {
     }
 
     private void forgetPassNetwork(ForgetPasswordMessage msg) {
-        Matcher matcher = msg.getMatcher();
+        String matcher = msg.getMatcher();
 
         Result result = LoginMenuController.forgetPasswordCommand(matcher);
         sendMessage(new ServerMessage(result));
