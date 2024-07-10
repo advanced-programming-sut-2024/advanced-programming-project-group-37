@@ -13,6 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import message.client.Game.GetHand;
 import message.client.Game.GiveMeLeader;
+import message.client.Game.SelectVetoCard;
 import message.enums.card.Card;
 import message.enums.card.CardType;
 import message.enums.card.Leaders;
@@ -139,16 +140,14 @@ public class GameMenu {
 
         Card card = Card.getCardByImage(image);
 
-        Result result = game.vetoCard(String.valueOf(hand.indexOf(card) + 1));
+        clientTPC.sendMassage(clientTPC.gson.toJson(new SelectVetoCard(clientTPC.token, String.valueOf(hand.indexOf(card) + 1))));
 
-        String[] temp = result.getMessage().split(" ");
-        int numOfVeto = Integer.parseInt(temp[temp.length - 1]);
+        ServerMessage message = clientTPC.receiveMassage();
+
+        int numOfVeto = 5; // todo
 
         if (numOfVeto == 1) {
-            showVetoCards(player);
-        } else if (player.equals(player1)) {
-            changeTurn();
-            showVetoCards(player2);
+            showVetoCards();
         } else {
             selectPane.setVisible(false);
             changeTurn();
