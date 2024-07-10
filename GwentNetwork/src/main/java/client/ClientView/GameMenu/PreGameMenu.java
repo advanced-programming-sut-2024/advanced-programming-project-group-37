@@ -75,7 +75,9 @@ public class PreGameMenu {
 
                 ServerMessage message = clientTPC.receiveMassage();
 
-
+                if (message.getType() == ServerType.BOTH_HAVE_READY_DECK) {
+                    HeadViewController.changeScene("game page");
+                }
             });
 
             timeline.getKeyFrames().add(keyFrame);

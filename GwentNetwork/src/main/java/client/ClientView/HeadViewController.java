@@ -128,8 +128,8 @@ public class HeadViewController extends Application {
         // add pregame page
         addAScene("pregame page", HeadViewController.class.getResource("/FXML/PregamePage.fxml"));
 
-//        // add game page
-//        addAScene("game page", HeadViewController.class.getResource("/FXML/GamePage.fxml"));
+        // add game page
+        addAScene("game page", HeadViewController.class.getResource("/FXML/GamePage.fxml"));
     }
     private static void addAScene(String pageName, URL url) throws Exception {
         Pane pane = FXMLLoader.load(url);
