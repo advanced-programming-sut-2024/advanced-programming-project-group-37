@@ -7,9 +7,9 @@ import java.util.regex.Matcher;
 
 public class AnswerQMessage extends ClientMessage {
     String username;
-    private Matcher matcher;
+    private String matcher;
 
-    public AnswerQMessage(Matcher matcher, String username) {
+    public AnswerQMessage(String matcher, String username) {
         this.username = username;
         this.matcher = matcher;
         this.type = MessageType.ANSWER_Q;
@@ -19,7 +19,7 @@ public class AnswerQMessage extends ClientMessage {
         return username;
     }
 
-    public Matcher getMatcher() {
+    public String getMatcher() {
         return matcher;
     }
 }

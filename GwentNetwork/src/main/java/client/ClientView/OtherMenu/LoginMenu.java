@@ -86,7 +86,7 @@ public class LoginMenu {
                 terminalTextArea.setText(terminalTextArea.getText() + message.getInfo() + "\n");
             }
             else if ((matcher = LoginMenuCommands.answerQ.getMatcher(inputLine)) != null) {
-                clientTPC.sendMassage(clientTPC.gson.toJson(new AnswerQMessage(matcher, usernameForForget)));
+                clientTPC.sendMassage(clientTPC.gson.toJson(new AnswerQMessage(matcher.group(1), usernameForForget)));
 
                 ServerMessage message = clientTPC.receiveMassage();
 
@@ -239,9 +239,7 @@ public class LoginMenu {
                 forgetPane.getChildren().get(4).setVisible(true);
 
                 button.setOnAction(event1 -> {
-                    clientTPC.sendMassage(clientTPC.gson.toJson(new AnswerQMessage(
-                        LoginMenuCommands.answerQ.getMatcher("answer -a " +
-                        ((TextField) forgetPane.getChildren().get(3)).getText()), textField.getText())));
+                    clientTPC.sendMassage(clientTPC.gson.toJson(new AnswerQMessage(((TextField) forgetPane.getChildren().get(3)).getText(), textField.getText())));
 
                     ServerMessage message1 = clientTPC.receiveMassage();
 
