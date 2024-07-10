@@ -16,8 +16,8 @@ module GwentNetwork {
     opens message.client.MainMenu to javafx.fxml, javafx.graphics, com.google.gson;
     opens message.client.gameLobby to javafx.fxml, javafx.graphics, com.google.gson;
     opens message.client.pregame to javafx.fxml, javafx.graphics, com.google.gson;
-    opens message.server  to javafx.fxml, javafx.graphics, com.google.gson;
     opens message.client.Game to javafx.fxml, javafx.graphics, com.google.gson;
+    opens message.server  to javafx.fxml, javafx.graphics, com.google.gson;
     opens message.enums.card to javafx.fxml, javafx.graphics, com.google.gson;
     opens message.enums.gameMenu to javafx.fxml, javafx.graphics, com.google.gson;
     opens message.enums.loginMenu to javafx.fxml, javafx.graphics, com.google.gson;
@@ -27,6 +27,8 @@ module GwentNetwork {
     opens server to javafx.fxml, javafx.graphics, com.google.gson;
     opens server.controller.loginController to javafx.fxml, javafx.graphics, com.google.gson;
     opens server.controller.profileController to javafx.fxml, javafx.graphics, com.google.gson;
+    opens server.controller.MessageController to javafx.fxml, javafx.graphics, com.google.gson;
+    opens server.controller.GameController to javafx.fxml, javafx.graphics, com.google.gson;
     opens server.model to javafx.fxml, javafx.graphics, com.google.gson;
     opens server.model.toolClasses to javafx.fxml, javafx.graphics, com.google.gson;
     opens server.model.gameTable to javafx.fxml, javafx.graphics, com.google.gson;
@@ -37,19 +39,23 @@ module GwentNetwork {
     exports client;
     exports client.ClientView;
     exports client.ClientView.OtherMenu;
+    exports client.ClientView.GameMenu;
 
     exports message.client;
     exports message.client.LoginMenu;
     exports message.client.profileMenu;
     exports message.client.MainMenu;
+    exports message.client.Game;
+    exports message.client.gameLobby;
+    exports message.client.pregame;
 
     exports server;
     exports server.controller.profileController;
     exports server.controller.loginController;
+    exports server.controller.MessageController;
+    exports server.controller.GameController;
     exports server.model;
     exports server.model.gameTable;
     exports server.model.toolClasses;
     exports message.enums.loginMenu;
-    exports client.ClientView.GameMenu;
-
 }

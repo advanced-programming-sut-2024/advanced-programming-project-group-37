@@ -7,8 +7,12 @@ import javafx.animation.Timeline;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -25,11 +29,10 @@ import message.server.ServerType;
 import server.model.toolClasses.Pair;
 import server.model.toolClasses.Result;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 import static client.ClientView.HeadViewController.clientTPC;
-
-
 
 public class GameMenu {
     // check server
@@ -79,6 +82,8 @@ public class GameMenu {
 
         timeline.play();
     }
+
+
     public HBox player2siege;
     public HBox player2rangedCombat;
     public HBox player2closeCombat;
@@ -114,6 +119,10 @@ public class GameMenu {
     public AnchorPane passPane;
     public AnchorPane result;
     public AnchorPane winnerPane;
+    public ScrollPane chatScrollPane;
+    private GridPane gridPane;
+    public TextField messageTextField;
+    private int lineOfChat = 0;
     private boolean isMyTurn;
     public final int pictureWidth = 90;
 
@@ -124,6 +133,15 @@ public class GameMenu {
         if (!isCalled) {
             checkServer();
             isCalled = true;
+
+            // set content of chat
+            gridPane = new GridPane();
+            chatScrollPane.setContent(gridPane);
+            gridPane.setHgap(10);
+            gridPane.setVgap(20);
+
+            chatScrollPane.setFitToWidth(true);
+            chatScrollPane.setFitToHeight(true);
 
             // set whose turn
             clientTPC.sendMassage(clientTPC.gson.toJson(new WhoseTrun(clientTPC.token)));
@@ -470,6 +488,31 @@ public class GameMenu {
         }
         else {
             player1shield.setImage(Shields.valueOf(message.yourLeader.getFaction().name()).getImage2());
+        }
+    }
+
+    public void showChat(KeyEvent event) {
+        if (event.getCode().equals(KeyCode.ESCAPE)) {
+            chatScrollPane.setVisible(!chatScrollPane.isVisible());
+            messageTextField.setVisible(true);
+        }
+    }
+    public void sendMessage(KeyEvent keyEvent) {
+        if (keyEvent.getCode().equals(KeyCode.ENTER)) {
+            String message = messageTextField.getText();
+
+            LocalTime time = LocalTime.now();
+            int hour = time.getHour(); int minute = time.getMinute();
+            String localTime = hour + ":" + String.format("%02d", minute);
+            gridPane.add(new Label(localTime), lineOfChat, 2);
+
+            Button button = new Button(message);
+            button.setStyle("-fx-background-color: #5500ff; -fx-fill: #fff;");
+            button.setMaxWidth(200);
+            gridPane.add(new Button(message), lineOfChat++, 0);
+
+            clientTPC.sendMassage(clientTPC.gson.toJson(new Chat(clientTPC.token, message, localTime)));
+            clientTPC.receiveMassage();
         }
     }
 }

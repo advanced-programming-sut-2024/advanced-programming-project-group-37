@@ -60,7 +60,8 @@ public class PreGameMenu {
     private static Timeline timeline;
     private static boolean isCalled = false;
     public void checkServer() {
-        // this method check if Server have massage
+        // this method check if Server have massage 🥰💀✌️🍻👑😬👀🔥🙂‍↕️🏆😻🧿🔋
+        //😂❤️😍🤣😊🥺🙏💕😭😘👍😅👏😁🔥💖
         if (!isCalled){
             showFaction();
 

@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="900.0" prefWidth="1500.0" style="-fx-background-color: #160C06FF;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.ClientView.GameMenu.GameMenu">
+<AnchorPane onKeyPressed="#showChat" prefHeight="900.0" prefWidth="1500.0" style="-fx-background-color: #160C06FF;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.ClientView.GameMenu.GameMenu">
    <children>
       <ImageView fitHeight="900.0" fitWidth="1500.0" layoutY="29.0" onMouseEntered="#firstOption" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -137,7 +137,7 @@
       </Label>
       <ImageView fx:id="player2shield" fitHeight="60.0" fitWidth="60.0" layoutX="134.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="player1shield" fitHeight="60.0" fitWidth="60.0" layoutX="134.0" layoutY="550.0" pickOnBounds="true" preserveRatio="true" />
-      <Button layoutX="247.0" layoutY="127.0" mnemonicParsing="false" onAction="#passTurn" prefHeight="40.0" prefWidth="94.0" style="-fx-background-color: #0007; -fx-border-color: c48000;" text="PASS" textFill="#c48000">
+      <Button layoutX="247.0" layoutY="127.0" mnemonicParsing="false" onAction="#passTurn" prefHeight="40.0" prefWidth="94.0" style="-fx-background-color: #0007; -fx-border-color: c48000;" text="PASS" textFill="#c27e00">
          <font>
             <Font name="System Bold Italic" size="17.0" />
          </font></Button>
@@ -233,5 +233,7 @@
             </ImageView>
          </children>
       </AnchorPane>
+      <ScrollPane fx:id="chatScrollPane" layoutX="1214.0" layoutY="240.0" prefHeight="342.0" prefWidth="254.0" stylesheets="@../../../../../Gwent/src/main/resources/CSS/css1.css" />
+      <TextField fx:id="messageTextField" layoutX="1213.0" layoutY="594.0" onKeyPressed="#sendMessage" prefHeight="26.0" prefWidth="254.0" />
    </children>
 </AnchorPane>
