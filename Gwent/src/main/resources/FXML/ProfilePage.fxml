@@ -11,7 +11,8 @@
       <children>
          <Button layoutX="375.0" layoutY="60.0" mnemonicParsing="false" onAction="#showUserInfo" prefHeight="26.0" prefWidth="326.0" style="-fx-background-color: rgba(150,150,150,0.09);" text="SHOW USER INFORMATION" textFill="WHITE" />
          <Button layoutX="20.0" layoutY="60.0" mnemonicParsing="false" onAction="#editProfile" prefHeight="26.0" prefWidth="326.0" style="-fx-background-color: rgba(150,150,150,0.09);" text="EDIT PROFILE" textFill="WHITE" />
-         <Button layoutX="198.0" layoutY="116.0" mnemonicParsing="false" onAction="#showGameHis" prefHeight="26.0" prefWidth="326.0" style="-fx-background-color: rgba(150,150,150,0.09);" text="GAME HISTORY" textFill="WHITE" />
+         <Button layoutX="20.0" layoutY="110.0" mnemonicParsing="false" onAction="#showGameHis" prefHeight="26.0" prefWidth="326.0" style="-fx-background-color: rgba(150,150,150,0.09);" text="GAME HISTORY" textFill="WHITE" />
+         <Button fx:id="ranking" layoutX="375.0" layoutY="110.0" mnemonicParsing="false" onAction="#showRanking" prefHeight="26.0" prefWidth="326.0" style="-fx-background-color: rgba(150,150,150,0.09);" text="RANKING" textFill="WHITE" />
       </children>
    </AnchorPane>
    <AnchorPane fx:id="editPane" layoutX="65.0" layoutY="45.0" prefHeight="370.0" prefWidth="670.0" style="-fx-background-color: #000a;" visible="false">
@@ -63,7 +64,12 @@
    <AnchorPane fx:id="gameHisPane" layoutX="76.0" layoutY="16.0" prefHeight="240.0" prefWidth="648.0">
       <children>
          <ScrollPane fx:id="gameHisScroll" layoutY="-5.0" prefHeight="215.0" prefWidth="655.0" />
-         <Button fx:id="closeGameHis" layoutX="301.0" layoutY="213.0" mnemonicParsing="false" onAction="#hideGameHis" style="-fx-background-color: #0009;" text="BACK" textFill="WHITE" />
+         <Button fx:id="closeGameHis" layoutX="301.0" layoutY="213.0" mnemonicParsing="false" onAction="#hideGameHis" style="-fx-background-color: #0009;" text="BACK" textFill="WHITE" visible="false" />
       </children>
    </AnchorPane>
+   <AnchorPane fx:id="RankingPane" layoutX="55.0" layoutY="45.0" prefHeight="223.0" prefWidth="697.0">
+      <children>
+         <ScrollPane fx:id="RankingScroll" layoutX="2.0" layoutY="4.0" prefHeight="165.0" prefWidth="691.0" />
+         <Button fx:id="backFromRanking" layoutX="322.0" layoutY="196.0" mnemonicParsing="false" onAction="#backFromRanking" style="-fx-background-color: rgba(150,150,150,0.09);" text="BACK" textFill="WHITE" visible="false" />
+      </children></AnchorPane>
 </AnchorPane>

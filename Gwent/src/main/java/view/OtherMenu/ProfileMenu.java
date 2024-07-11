@@ -33,6 +33,10 @@ public class ProfileMenu {
     public AnchorPane gameHisPane;
     public ScrollPane gameHisScroll;
     public Button closeGameHis;
+    public Button ranking;
+    public AnchorPane RankingPane;
+    public ScrollPane RankingScroll;
+    public Button backFromRanking;
     private boolean isTerminalVisible = false;
     public void showTerminal(KeyEvent keyEvent) {
         if (keyEvent.getCode().equals(KeyCode.ESCAPE)) {
@@ -273,5 +277,35 @@ public class ProfileMenu {
         gameHisPane.setVisible(false);
         gameHisScroll.setVisible(false);
         closeGameHis.setVisible(false);
+    }
+
+    public void showRanking(ActionEvent actionEvent) {
+        RankingPane.setVisible(true);
+        RankingScroll.setVisible(true);
+        backFromRanking.setVisible(true);
+
+        GridPane gridPane = new GridPane();
+//        gridPane.setHgap(25);
+        gridPane.setVgap(30);
+
+        gameHisScroll.setFitToHeight(true);
+        gameHisScroll.setFitToWidth(true);
+
+        gameHisScroll.setContent(gridPane);
+
+        ArrayList<User> users = User.getAllUsers();
+
+        User.rankUsers();
+
+        for (User user: users){
+
+
+        }
+    }
+
+    public void backFromRanking(ActionEvent actionEvent) {
+        RankingPane.setVisible(false);
+        RankingScroll.setVisible(false);
+        backFromRanking.setVisible(false);
     }
 }

@@ -79,8 +79,9 @@ public class ServerMessage {
         this.friends = list1;
     }
     private Image image;
-    public ServerMessage(Image last) {
+    public ServerMessage(Image last, ServerType type) {
         this.image = last;
+        this.type = type;
     }
 
     public Image getImage() {

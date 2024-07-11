@@ -8,6 +8,7 @@ import message.client.gameLobby.GetListOfGame;
 import message.client.gameLobby.LiveGame;
 import message.client.gameLobby.SendMessageFromTvToPlayers;
 import message.server.ServerMessage;
+import message.server.ServerType;
 import server.model.TvOnlineShow;
 import server.model.User;
 
@@ -52,7 +53,7 @@ public class TvController {
         User user = User.getUserByToken(msg.getToken());
         TvOnlineShow tvOnlineShow = user.tv;
 
-        return new ServerMessage(tvOnlineShow.allStates.getLast());
+        return new ServerMessage(tvOnlineShow.allStates.getLast(), ServerType.UPDATE_STATE);
 
     }
 

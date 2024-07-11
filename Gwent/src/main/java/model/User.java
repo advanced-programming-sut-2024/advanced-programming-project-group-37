@@ -45,6 +45,16 @@ public class User {
         allUsers.add(this);
     }
 
+    public static void rankUsers() {
+        for (int i = 0; i < allUsers.size(); i++) {
+            for (int j = i; j < allUsers.size(); j++){
+                if (allUsers.get(i).getHighestScore() > allUsers.get(j).getHighestScore()) {
+
+                }
+            }
+        }
+    }
+
     public String getUsername() {
         return username;
     }
