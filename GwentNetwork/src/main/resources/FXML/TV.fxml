@@ -5,18 +5,19 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane onKeyPressed="#showTerminal" prefHeight="450.0" prefWidth="800.0" style="-fx-background-color: #000f;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.ClientView.GameMenu.TV">
+<AnchorPane onKeyPressed="#showTerminal" prefHeight="450.0" prefWidth="800.0" style="-fx-background-color: #000f;" stylesheets="@../CSS/css1.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.ClientView.GameMenu.TV">
    <children>
-      <AnchorPane fx:id="terminalPane" layoutX="14.0" layoutY="11.0" prefHeight="428.0" prefWidth="450.0" style="-fx-background-color: #00000055;" visible="false">
-         <children>
-            <TextArea fx:id="terminalTextArea" layoutX="14.0" layoutY="14.0" onKeyPressed="#checkCommand" prefHeight="400.0" prefWidth="420.0" styleClass="terminal" />
-         </children>
-      </AnchorPane>
       <ImageView fitHeight="450.0" fitWidth="829.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../asset/img/back.jpg" />
          </image>
       </ImageView>
+      <AnchorPane fx:id="terminalPane" layoutX="14.0" layoutY="11.0" prefHeight="428.0" prefWidth="450.0" style="-fx-background-color: #00000055;">
+         <children>
+            <TextArea fx:id="terminalTextArea" layoutX="14.0" layoutY="14.0" prefHeight="373.0" prefWidth="420.0" styleClass="terminal" />
+            <TextField fx:id="terminalTextField" layoutX="14.0" layoutY="388.0" onKeyPressed="#checkCommand" prefHeight="26.0" prefWidth="420.0" promptText="message" style="-fx-background-color: #6faf48;" />
+         </children>
+      </AnchorPane>
       <Button layoutX="582.0" layoutY="406.0" mnemonicParsing="false" onAction="#backToGameLobby" prefHeight="26.0" prefWidth="194.0" style="-fx-background-color: green;" text="back" textFill="WHITE">
          <font>
             <Font name="System Bold Italic" size="14.0" />

@@ -5,10 +5,7 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -21,6 +18,7 @@ import message.client.MessageType;
 import message.client.gameLobby.CheckServerMessage;
 import message.client.gameLobby.GetListOfGame;
 import message.client.gameLobby.LiveGame;
+import message.client.gameLobby.SendMessageFromTvToPlayers;
 import message.server.ServerMessage;
 import message.server.ServerType;
 
@@ -32,6 +30,7 @@ public class TV {
     // terminal for game lobby
     public AnchorPane terminalPane;
     public TextArea terminalTextArea;
+    public TextField terminalTextField;
     private boolean isTerminalVisible = false;
     public void showTerminal(KeyEvent keyEvent) {
         if (keyEvent.getCode().equals(KeyCode.ESCAPE)) {
@@ -40,21 +39,30 @@ public class TV {
     }
     public void checkCommand(KeyEvent keyEvent) {
         if (keyEvent.getCode().equals(KeyCode.ENTER)) {
-            String[] inputLines = terminalTextArea.getText().split("\n");
-            String inputLine = inputLines[inputLines.length - 1];
+            String m = terminalTextField.getText();
 
             terminalTextArea.setText(terminalTextArea.getText() + "\n" + "-------------------------------------------" +
                     "-----------------------------------------" + "\n");
 
-            Matcher matcher;
-            // some if else
-            if (false) System.out.println();
-            else terminalTextArea.setText(terminalTextArea.getText() +"Invalid Command" + "\n");
+            terminalTextArea.setText(terminalTextArea.getText() + "me: " + m + "\n");
 
             terminalTextArea.setText(terminalTextArea.getText() + "-------------------------------------------" +
                     "-----------------------------------------" + "\n");
             terminalTextArea.positionCaret(terminalTextArea.getText().length());
+
+            clientTPC.sendMassage(clientTPC.gson.toJson(new SendMessageFromTvToPlayers(username)));
+            clientTPC.receiveMassage();
         }
+    }
+    private void updateTextArea(String message) {
+        terminalTextArea.setText(terminalTextArea.getText() + "\n" + "-------------------------------------------" +
+                "-----------------------------------------" + "\n");
+
+        terminalTextArea.setText(terminalTextArea.getText() + "player: \n" + message + "\n");
+
+        terminalTextArea.setText(terminalTextArea.getText() + "-------------------------------------------" +
+                "-----------------------------------------" + "\n");
+        terminalTextArea.positionCaret(terminalTextArea.getText().length());
     }
 
     // check server
@@ -74,7 +82,10 @@ public class TV {
 
                 ServerMessage message = clientTPC.receiveMassage();
 
-                if () {} // todo : for live watch
+//                if () {} // todo : for live watch
+//                if () {
+//                  updateTextArea(message.getInfo());
+//                } // todo : for get message
             });
 
             timeline.getKeyFrames().add(keyFrame);
@@ -88,6 +99,8 @@ public class TV {
     public ScrollPane listScrollPane;
     public ImageView liveImage;
     public AnchorPane livePane;
+
+    private String username;
 
     public void showListOfGames() {
         listPane.setVisible(!listPane.isVisible());
@@ -129,6 +142,8 @@ public class TV {
         }
     }
     private void watchThisGame(String username) {
+        this.username = username;
+
         clientTPC.sendMassage(clientTPC.gson.toJson(new LiveGame(clientTPC.token, username)));
         clientTPC.receiveMassage();
     }
