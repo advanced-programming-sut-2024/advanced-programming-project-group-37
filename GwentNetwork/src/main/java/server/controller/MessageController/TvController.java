@@ -6,6 +6,7 @@ import message.client.MessageType;
 import message.client.gameLobby.CheckServerMessage;
 import message.client.gameLobby.GetListOfGame;
 import message.client.gameLobby.LiveGame;
+import message.client.gameLobby.SendMessageFromTvToPlayers;
 import message.server.ServerMessage;
 import server.model.TvOnlineShow;
 import server.model.User;
@@ -53,5 +54,19 @@ public class TvController {
 
         return new ServerMessage(tvOnlineShow.allStates.getLast());
 
+    }
+
+    public static ServerMessage sendMessageToPlayers(SendMessageFromTvToPlayers msg) {
+        User user= User.getUserByToken(msg.getToken());
+        TvOnlineShow tvOnlineShow = user.tv;
+
+        User user1 = tvOnlineShow.player1.getUser();
+        User user2 = tvOnlineShow.player2.getUser();
+        user2.haveNewMessage = true;
+        user1.haveNewMessage = true;
+        user1.message = user.getUsername()+ " : " + msg.getM();
+        user2.message = user.getUsername()+ " : " + msg.getM();
+
+        return new ServerMessage();
     }
 }

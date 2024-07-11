@@ -238,6 +238,9 @@ public class ServerTCP extends Thread {
             } else if (msg instanceof CheckServerMessage && msg.getType() == MessageType.CHECK_SERVER3) {
                 ServerMessage serverMessage = TvController.passLastState((CheckServerMessage) msg);
                 sendMessage(serverMessage);
+            } else if (msg instanceof SendMessageFromTvToPlayers) {
+                ServerMessage serverMessage = TvController.sendMessageToPlayers((SendMessageFromTvToPlayers) msg);
+                sendMessage(serverMessage);
             }
 
 
@@ -632,6 +635,8 @@ public class ServerTCP extends Thread {
                     return gson.fromJson(clientStr, GetListOfGame.class);
                 case MessageType.CHECK_SERVER4:
                     return gson.fromJson(clientStr, CheckServerMessage.class);
+                case MessageType.SEND_MESSAGE_FROM_TV:
+                    return gson.fromJson(clientStr, SendMessageFromTvToPlayers.class);
             }
             return null;
         } catch (Exception e) {
