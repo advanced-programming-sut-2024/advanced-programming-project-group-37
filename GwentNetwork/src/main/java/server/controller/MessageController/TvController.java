@@ -2,6 +2,7 @@ package server.controller.MessageController;
 
 import javafx.scene.image.Image;
 import message.client.Game.LastState;
+import message.client.Game.SendMessageFromGame;
 import message.client.MessageType;
 import message.client.gameLobby.CheckServerMessage;
 import message.client.gameLobby.GetListOfGame;
@@ -22,6 +23,7 @@ public class TvController {
         TvOnlineShow temp = TvOnlineShow.getByUser(user);
 
         temp.allStates.add(image);
+        temp.isUpdate = true;
         return new ServerMessage();
     }
 
@@ -41,33 +43,51 @@ public class TvController {
         ArrayList<String> player1 = new ArrayList<>();
         ArrayList<String> player2 = new ArrayList<>();
 
-        for(TvOnlineShow tv: TvOnlineShow.allShows){
+        for (TvOnlineShow tv : TvOnlineShow.allShows) {
             player1.add(tv.player1.getUser().getUsername());
             player2.add(tv.player2.getUser().getUsername());
         }
 
-        return new ServerMessage(player1, player2 , true);
+        return new ServerMessage(player1, player2, true);
     }
 
     public static ServerMessage passLastState(CheckServerMessage msg) {
         User user = User.getUserByToken(msg.getToken());
         TvOnlineShow tvOnlineShow = user.tv;
+        if (tvOnlineShow.isUpdate) {
+            tvOnlineShow.isUpdate =false;
+            return new ServerMessage(tvOnlineShow.allStates.getLast(), ServerType.UPDATE_STATE);
+        }
 
-        return new ServerMessage(tvOnlineShow.allStates.getLast(), ServerType.UPDATE_STATE);
 
+        if (user.isHaveNewMessageinOnline){
+            user.isHaveNewMessageinOnline = false;
+            return new ServerMessage(ServerType.NEW_MESSAGE, user.messageinOnline);
+        }
+
+        return new ServerMessage();
     }
 
     public static ServerMessage sendMessageToPlayers(SendMessageFromTvToPlayers msg) {
-        User user= User.getUserByToken(msg.getToken());
+        User user = User.getUserByToken(msg.getToken());
         TvOnlineShow tvOnlineShow = user.tv;
 
         User user1 = tvOnlineShow.player1.getUser();
         User user2 = tvOnlineShow.player2.getUser();
         user2.haveNewMessage = true;
         user1.haveNewMessage = true;
-        user1.message = user.getUsername()+ " : " + msg.getM();
-        user2.message = user.getUsername()+ " : " + msg.getM();
+        user1.message = user.getUsername() + " : " + msg.getM();
+        user2.message = user.getUsername() + " : " + msg.getM();
 
+        return new ServerMessage();
+    }
+
+    public static ServerMessage sendMessageToWatchers(SendMessageFromGame msg) {
+        String token = msg.getToken();
+        User user = User.getUserByToken(token);
+
+        user.isHaveNewMessageinOnline = true;
+        user.messageinOnline = msg.getMessage();
         return new ServerMessage();
     }
 }

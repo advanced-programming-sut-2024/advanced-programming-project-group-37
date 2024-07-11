@@ -7,6 +7,7 @@ import server.model.gameTable.UserInGame;
 import java.util.ArrayList;
 
 public class TvOnlineShow {
+    public boolean isUpdate = false;
     public static ArrayList<TvOnlineShow> allShows = new ArrayList<>();
     public UserInGame player1;
     public UserInGame player2;

@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import java.util.SplittableRandom;
 
 public class User implements Serializable {
+    //for message in tv online show
+    public boolean isHaveNewMessageinOnline;
+    public String messageinOnline;
+
     //for tv
     public TvOnlineShow tv;
     //for message
