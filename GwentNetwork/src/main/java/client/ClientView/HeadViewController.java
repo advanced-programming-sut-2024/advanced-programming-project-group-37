@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -15,8 +16,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import message.client.Game.LastState;
+import message.client.gameLobby.Imageee;
 import java.net.URL;
 import java.util.HashMap;
 
@@ -171,5 +173,14 @@ public class HeadViewController extends Application {
             player.play();
             player.setMute(isMute);
         }
+    }
+
+    public static void takeShot() {
+        WritableImage image = new WritableImage((int) stage.getWidth(), (int) stage.getHeight());
+        stage.getScene().snapshot(image);
+
+        Imageee.image = image;
+
+        clientTPC.sendMassage(clientTPC.gson.toJson(new LastState(clientTPC.token)));
     }
 }

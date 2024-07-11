@@ -12,7 +12,7 @@
             <Image url="@../asset/img/back.jpg" />
          </image>
       </ImageView>
-      <AnchorPane fx:id="terminalPane" layoutX="14.0" layoutY="11.0" prefHeight="428.0" prefWidth="450.0" style="-fx-background-color: #00000055;">
+      <AnchorPane fx:id="terminalPane" layoutX="14.0" layoutY="11.0" prefHeight="428.0" prefWidth="450.0" style="-fx-background-color: #00000055;" visible="false">
          <children>
             <TextArea fx:id="terminalTextArea" layoutX="14.0" layoutY="14.0" prefHeight="373.0" prefWidth="420.0" styleClass="terminal" />
             <TextField fx:id="terminalTextField" layoutX="14.0" layoutY="388.0" onKeyPressed="#checkCommand" prefHeight="26.0" prefWidth="420.0" promptText="message" style="-fx-background-color: #6faf48;" />

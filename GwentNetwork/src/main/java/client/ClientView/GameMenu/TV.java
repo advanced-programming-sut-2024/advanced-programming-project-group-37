@@ -82,10 +82,12 @@ public class TV {
 
                 ServerMessage message = clientTPC.receiveMassage();
 
-//                if () {} // todo : for live watch
-//                if () {
-//                  updateTextArea(message.getInfo());
-//                } // todo : for get message
+                if (message.getType() == ServerType.UPDATE_STATE) {
+                    liveImage.setImage(message.getImage());
+                }
+                if (message.getType() == ServerType.NEW_MESSAGE) {
+                  updateTextArea(message.getOpponent());
+                }
             });
 
             timeline.getKeyFrames().add(keyFrame);
@@ -100,7 +102,6 @@ public class TV {
     public ImageView liveImage;
     public AnchorPane livePane;
 
-    private String username;
 
     public void showListOfGames() {
         listPane.setVisible(!listPane.isVisible());
@@ -142,10 +143,10 @@ public class TV {
         }
     }
     private void watchThisGame(String username) {
-        this.username = username;
-
         clientTPC.sendMassage(clientTPC.gson.toJson(new LiveGame(clientTPC.token, username)));
         clientTPC.receiveMassage();
+
+        checkServer();
     }
 
     public void backToGameLobby() {
@@ -153,5 +154,8 @@ public class TV {
     }
 
     public void backFromLive() {
+        timeline.stop();
+        isCalled = false;
+        listPane.setVisible(false);
     }
 }

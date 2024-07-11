@@ -4,6 +4,7 @@ module GwentNetwork {
     requires javafx.media;
     requires com.google.gson;
     requires java.mail;
+    requires java.desktop;
 
     //opens views to javafx.fxml;
     opens client to javafx.fxml, javafx.graphics, com.google.gson;

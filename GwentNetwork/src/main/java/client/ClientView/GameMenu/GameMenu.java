@@ -226,6 +226,8 @@ public class GameMenu {
             hand.setSpacing(10);
 
             showVetoCards();
+
+            HeadViewController.takeShot();
         }
     }
 // show vetoCards
@@ -327,6 +329,8 @@ public class GameMenu {
         // update num of card in deck
         player1deckNum.setText(String.valueOf(message.getMyDeck().size()));
         player2deckNum.setText(String.valueOf(message.getOpponentDeck().size()));
+
+        HeadViewController.takeShot();
     }
     // this method is for remove card from all line
     private void removeAllLines() {
@@ -424,6 +428,8 @@ public class GameMenu {
             }
         }
 
+
+        HeadViewController.takeShot();
     } // todo.for.debug
     private void minimize(MouseEvent mouseEvent) {
         ImageView image = (ImageView) mouseEvent.getSource();
@@ -449,6 +455,8 @@ public class GameMenu {
             player1rangedCombat.setOnMouseClicked(null);
             player1closeCombat.setOnMouseClicked(null);
         }
+
+        HeadViewController.takeShot();
     } // todo.for.debug
 // play card method
 
@@ -501,6 +509,8 @@ public class GameMenu {
             changeTurn();
             updateTable();
         })).play();
+
+        HeadViewController.takeShot();
     }
     private void updateEndPage(boolean win) {
         winnerPane.setVisible(true);
