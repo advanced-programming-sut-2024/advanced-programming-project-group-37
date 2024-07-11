@@ -243,6 +243,7 @@ public class ServerTCP extends Thread {
                 sendMessage(serverMessage);
             } else if (msg instanceof SendMessageFromGame) {
                 ServerMessage serverMessage = TvController.sendMessageToWatchers((SendMessageFromGame) msg);
+                sendMessage(serverMessage);
             }
 
 

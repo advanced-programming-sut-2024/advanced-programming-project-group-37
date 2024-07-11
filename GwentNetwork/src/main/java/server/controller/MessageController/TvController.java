@@ -74,10 +74,10 @@ public class TvController {
 
         User user1 = tvOnlineShow.player1.getUser();
         User user2 = tvOnlineShow.player2.getUser();
-        user2.haveNewMessage = true;
-        user1.haveNewMessage = true;
-        user1.message = user.getUsername() + " : " + msg.getM();
-        user2.message = user.getUsername() + " : " + msg.getM();
+        user2.haveMessageFromWatcher = true;
+        user1.haveMessageFromWatcher = true;
+        user1.messageFromWatcher = user.getUsername() + " : " + msg.getM();
+        user2.messageFromWatcher = user.getUsername() + " : " + msg.getM();
 
         return new ServerMessage();
     }

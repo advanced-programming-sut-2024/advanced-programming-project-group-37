@@ -146,6 +146,11 @@ public class GameMessageController {
             return new ServerMessage(ServerType.REACTION, user.react);
         }
 
+        //check for message from watcher
+        if (user.haveMessageFromWatcher) {
+            user.haveMessageFromWatcher = false;
+            return new ServerMessage(ServerType.NEW_MESSAGE_FROM_WATCHER);
+        }
 
         //check for new message
         if (user.haveNewMessage){
