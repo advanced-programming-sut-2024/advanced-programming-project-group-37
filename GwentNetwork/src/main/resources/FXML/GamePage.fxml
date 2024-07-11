@@ -282,5 +282,16 @@
             <Font size="35.0" />
          </font>
       </Label>
+      <Button layoutX="6.0" layoutY="6.0" mnemonicParsing="false" onAction="#showTerminal" style="-fx-background-color: brown;" text="chat" textFill="WHITE">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Button>
+      <AnchorPane fx:id="terminalPane" layoutX="14.0" layoutY="11.0" prefHeight="428.0" prefWidth="450.0" style="-fx-background-color: #00000055;" stylesheets="@../CSS/css1.css" visible="false">
+         <children>
+            <TextArea fx:id="terminalTextArea" layoutX="14.0" layoutY="14.0" prefHeight="385.0" prefWidth="420.0" styleClass="terminal" />
+            <TextField layoutX="14.0" layoutY="400.0" onKeyPressed="#checkCommand" prefHeight="26.0" prefWidth="420.0" promptText="message" style="-fx-background-color: #6faf48;" />
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

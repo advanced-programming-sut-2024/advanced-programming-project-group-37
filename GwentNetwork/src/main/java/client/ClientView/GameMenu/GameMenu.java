@@ -6,10 +6,7 @@ import javafx.animation.RotateTransition;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -21,6 +18,7 @@ import javafx.util.Duration;
 import message.client.Game.*;
 import message.client.MessageType;
 import message.client.gameLobby.CheckServerMessage;
+import message.client.gameLobby.SendMessageFromTvToPlayers;
 import message.enums.card.Card;
 import message.enums.card.CardType;
 import message.enums.card.Leaders;
@@ -38,6 +36,42 @@ import static client.ClientView.HeadViewController.clientTPC;
 public class GameMenu {
     // check server
     private static Timeline timeline;
+    public AnchorPane terminalPane;
+    public TextArea terminalTextArea;
+    public TextField terminalTextField;
+    private boolean isTerminalVisible = false;
+    public void showTerminal() {
+        terminalPane.setVisible(isTerminalVisible = !isTerminalVisible);
+    }
+    public void checkCommand(KeyEvent keyEvent) {
+        if (keyEvent.getCode().equals(KeyCode.ENTER)) {
+            String m = terminalTextField.getText();
+
+            terminalTextArea.setText(terminalTextArea.getText() + "\n" + "-------------------------------------------" +
+                    "-----------------------------------------" + "\n");
+
+            terminalTextArea.setText(terminalTextArea.getText() + "me: " + m + "\n");
+
+            terminalTextArea.setText(terminalTextArea.getText() + "-------------------------------------------" +
+                    "-----------------------------------------" + "\n");
+            terminalTextArea.positionCaret(terminalTextArea.getText().length());
+
+            clientTPC.sendMassage(clientTPC.gson.toJson(new SendMessageFromGame(clientTPC.token, m)));
+            clientTPC.receiveMassage();
+        }
+    }
+    private void updateTextArea(String message) {
+        terminalTextArea.setText(terminalTextArea.getText() + "\n" + "-------------------------------------------" +
+                "-----------------------------------------" + "\n");
+
+        terminalTextArea.setText(terminalTextArea.getText() + message + "\n");
+
+        terminalTextArea.setText(terminalTextArea.getText() + "-------------------------------------------" +
+                "-----------------------------------------" + "\n");
+        terminalTextArea.positionCaret(terminalTextArea.getText().length());
+    }
+
+    // check server
     public void checkServer() {
         timeline = new Timeline();
 
