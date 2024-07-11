@@ -64,6 +64,11 @@ public class TvController {
             return new ServerMessage(ServerType.NEW_MESSAGE, user.messageinOnline);
         }
 
+        if (user.haveMessageFromWatcher){
+            user.haveMessageFromWatcher = false;
+            return new ServerMessage(ServerType.NEW_MESSAGE_FROM_WATCHER, user.messageFromWatcher);
+        }
+
         return new ServerMessage();
     }
 
