@@ -2,6 +2,7 @@ package message.client.LoginMenu;
 
 import message.client.ClientMessage;
 import message.client.MessageType;
+import message.enums.loginMenu.ConfirmQuestions;
 
 public class RegisterMassage extends ClientMessage {
     String username, password, nickname, email, passwordConfirm;

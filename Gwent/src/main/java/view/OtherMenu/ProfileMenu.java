@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
@@ -307,5 +308,10 @@ public class ProfileMenu {
         RankingPane.setVisible(false);
         RankingScroll.setVisible(false);
         backFromRanking.setVisible(false);
+    }
+
+    public void show(MouseEvent mouseEvent) {
+        editPane.setVisible(false);
+        buttonPane.setVisible(true);
     }
 }
