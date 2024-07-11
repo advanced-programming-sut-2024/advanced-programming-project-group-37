@@ -29,6 +29,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.Random;
 import java.util.regex.Matcher;
 
@@ -241,8 +242,10 @@ public class ServerTCP extends Thread {
 
         HashMap<String, Integer> hashMap = SendEmailVerification.codeAndEmail;
         System.out.println("hi");
-        if (code == null)
+        if (Objects.equals(code, "")) {
             sendMessage(new ServerMessage(true));
+            return;
+        }
         if (hashMap.get(email) == Integer.parseInt(code)){
             sendMessage(new ServerMessage(true));
         } else sendMessage(new ServerMessage(false));
@@ -354,12 +357,14 @@ public class ServerTCP extends Thread {
         }
 
         if (User.getUserByToken(token).isRandMatch()) {
+            User.getUserByToken(token).setStartGame(false);
             sendMessage(new ServerMessage(ServerType.START_RAND_GAME));
             return;
         }
 
         result = GameLobbyController.checkRandMatch(token);
         if (result.isSuccessful()) {
+            User.getUserByToken(token).setStartGame(false);
             sendMessage(new ServerMessage(ServerType.START_RAND_GAME, result.getMessage()));
             return;
         }
@@ -368,12 +373,14 @@ public class ServerTCP extends Thread {
         Boolean bool = GameLobbyController.checkFriendMatchAccept(token);
 
         if (bool) {
+            User.getUserByToken(token).setStartGame(false);
             sendMessage(new ServerMessage(ServerType.ACCEPTED_FRIEND_MATCH));
             return;
         }
 
         bool = GameLobbyController.checkRejectMatch(token);
         if (bool) {
+            User.getUserByToken(token).setStartGame(false);
             sendMessage(new ServerMessage(ServerType.SHARMANDE_KIR_SHODI));
             return;
         }

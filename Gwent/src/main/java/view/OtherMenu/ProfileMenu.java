@@ -3,24 +3,36 @@ package view.OtherMenu;
 import controller.profileController.ProfileMenuController;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.event.ActionEvent;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
+import model.GameHistory;
+import model.User;
 import model.enums.profileMenu.ProfileMenuCommands;
 import model.toolClasses.Result;
 import view.HeadViewController;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Locale;
 import java.util.regex.Matcher;
 
 public class ProfileMenu {
 
     public AnchorPane terminalPane;
     public TextArea terminalTextArea;
+    public TextField usernameField;
+    public TextField nicknameField;
+    public TextField highestScore;
+    public TextField emailField;
+    public AnchorPane userInfoPane;
+    public AnchorPane gameHisPane;
+    public ScrollPane gameHisScroll;
+    public Button closeGameHis;
     private boolean isTerminalVisible = false;
     public void showTerminal(KeyEvent keyEvent) {
         if (keyEvent.getCode().equals(KeyCode.ESCAPE)) {
@@ -185,7 +197,13 @@ public class ProfileMenu {
     }
 
     public void showUserInfo() {
-        // todo: IF
+        userInfoPane.setVisible(true);
+        User user = User.getLoggedInUser();
+
+        usernameField.setText("USERNAME : " + user.getUsername());
+        nicknameField.setText("NICKNAME : " + user.getNickname());
+        emailField.setText("EMAIL : " + user.getEmail());
+        highestScore.setText("HIGHEST SCORE : " + user.getHighestScore());
     }
 
     public void mute() {
@@ -194,5 +212,66 @@ public class ProfileMenu {
     public void back() {
         // back to main page
         HeadViewController.changeScene("main page");
+    }
+
+    public void hidePane(ActionEvent actionEvent) {
+        userInfoPane.setVisible(false);
+
+    }
+
+    public void showGameHis(ActionEvent actionEvent) {
+        //set visible
+        gameHisPane.setVisible(true);
+        gameHisScroll.setVisible(true);
+        closeGameHis.setVisible(true);
+
+        User user = User.getLoggedInUser();
+
+        ArrayList<GameHistory> gameHistories = user.getAllPlayedGamesHistory();
+        gameHistories.add(new GameHistory(user, user, LocalDate.now(), 51, 26));
+
+        GridPane gridPane = new GridPane();
+//        gridPane.setHgap(25);
+        gridPane.setVgap(30);
+
+        gameHisScroll.setFitToHeight(true);
+        gameHisScroll.setFitToWidth(true);
+
+        gameHisScroll.setContent(gridPane);
+
+        for (int i = 0; i < gameHistories.size(); i++){
+            User winnerUSer = gameHistories.get(i).getWinner();
+            User losserUser = gameHistories.get(i).getLosser();
+            LocalDate dateOfGame = gameHistories.get(i).getDateOfGame();
+            double winnerScore = gameHistories.get(i).getWinnerTotalPoint();
+            double losser = gameHistories.get(i).getLosserFinalPoint();
+
+            Label winner = new Label("winner : " + winnerUSer.getUsername());
+            winner.setPrefWidth(200);
+
+            Label loser = new Label("loser : " + losserUser.getUsername());
+            loser.setPrefWidth(200);
+            Label date = new Label(dateOfGame.toString() + " ");
+            date.setPrefWidth(200);
+            Label winnerPoint = new Label("winner point : " + winnerScore);
+            winnerPoint.setPrefWidth(200);
+            Label loserPoint = new Label("loser point : " + losser);
+            loserPoint.setPrefWidth(200);
+
+            gridPane.add(winner, 0,i);
+            gridPane.add(winnerPoint, 1, i);
+            gridPane.add(loser,2,i );
+            gridPane.add(loserPoint, 3, i);
+            gridPane.add(date, 4, i);
+
+        }
+
+
+    }
+
+    public void hideGameHis(ActionEvent actionEvent) {
+        gameHisPane.setVisible(false);
+        gameHisScroll.setVisible(false);
+        closeGameHis.setVisible(false);
     }
 }

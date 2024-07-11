@@ -27,13 +27,14 @@ import view.GameMenu.PreGameMenu;
 import java.util.ArrayList;
 
 public class test {
-    private static ArrayList<Card> sampleDeck = new ArrayList<>();
-    private static ArrayList<Card> sampleDeck2 = new ArrayList<>();
+    private static ArrayList<Pair<Card, Integer>> sampleDeck = new ArrayList<>();
+    private static ArrayList<Pair<Card, Integer>> sampleDeck2 = new ArrayList<>();
     private boolean temp = true;
     private static User user1;
     private static GameMenuController game;
     private static ArrayList<Card> arrayList = new ArrayList<>();
     private static ArrayList<Card> arrayList2 = new ArrayList<>();
+
 
     private static User user2;
 
@@ -89,42 +90,42 @@ public class test {
 
 
 
-            sampleDeck.add(Card.Cow);
-            sampleDeck.add(Card.Rainfarn);
-            sampleDeck.add(Card.Svanrige);
-            sampleDeck.add(Card.TorrentialRain);
-            sampleDeck.add(Card.TorrentialRain);
-            sampleDeck.add(Card.Foglet);
-            sampleDeck.add(Card.Mardoeme);
-            sampleDeck.add(Card.BlackInfantryArcher);
-            sampleDeck.add(Card.BlueStripesCommando);
-            sampleDeck.add(Card.Gargoyle);
-            sampleDeck.add(Card.Albrich);
-            sampleDeck.add(Card.Cynthia);
-            sampleDeck.add(Card.Dandelion);
+            sampleDeck.add(new Pair<>(Card.Cow, 2));
+            sampleDeck.add(new Pair<>(Card.Rainfarn, 2));
+            sampleDeck.add(new Pair<>(Card.Svanrige, 2));
+            sampleDeck.add(new Pair<>(Card.TorrentialRain, 2));
+            sampleDeck.add(new Pair<>(Card.TorrentialRain, 2));
+            sampleDeck.add(new Pair<>(Card.Foglet, 2));
+            sampleDeck.add(new Pair<>(Card.Mardoeme, 2));
+            sampleDeck.add(new Pair<>(Card.BlackInfantryArcher, 2));
+            sampleDeck.add(new Pair<>(Card.BlueStripesCommando, 2));
+            sampleDeck.add(new Pair<>(Card.Gargoyle, 2));
+            sampleDeck.add(new Pair<>(Card.Albrich, 2));
+            sampleDeck.add(new Pair<>(Card.Cynthia, 2));
+            sampleDeck.add(new Pair<>(Card.Dandelion, 2));
 
 
-            sampleDeck2.add(Card.Rainfarn);
-            sampleDeck2.add(Card.Svanrige);
-            sampleDeck2.add(Card.TorrentialRain);
-            sampleDeck2.add(Card.TorrentialRain);
-            sampleDeck2.add(Card.Foglet);
-            sampleDeck2.add(Card.Mardoeme);
-            sampleDeck2.add(Card.BlackInfantryArcher);
-            sampleDeck2.add(Card.BlueStripesCommando);
-            sampleDeck2.add(Card.Gargoyle);
-            sampleDeck2.add(Card.Albrich);
-            sampleDeck2.add(Card.Cynthia);
-            sampleDeck2.add(Card.Dandelion);
+            sampleDeck2.add(new Pair<>(Card.Rainfarn, 2));
+            sampleDeck2.add(new Pair<>(Card.Svanrige, 2));
+            sampleDeck2.add(new Pair<>(Card.TorrentialRain, 2));
+            sampleDeck2.add(new Pair<>(Card.TorrentialRain, 2));
+            sampleDeck2.add(new Pair<>(Card.Foglet, 2));
+            sampleDeck2.add(new Pair<>(Card.Mardoeme, 2));
+            sampleDeck2.add(new Pair<>(Card.BlackInfantryArcher, 2));
+            sampleDeck2.add(new Pair<>(Card.BlueStripesCommando, 2));
+            sampleDeck2.add(new Pair<>(Card.Gargoyle, 2));
+            sampleDeck2.add(new Pair<>(Card.Albrich, 2));
+            sampleDeck2.add(new Pair<>(Card.Cynthia, 2));
+            sampleDeck2.add(new Pair<>(Card.Dandelion, 2));
 
 
 
             UserInGame user1 = game.getPlayer1();
             UserInGame user2 = game.getPlayer2();
             GameTable gameTable = user1.getGameTable();
-            gameTable.setDeckCards(sampleDeck);
+            gameTable.setDeckPairs(sampleDeck);
             GameTable gameTable1 = user2.getGameTable();
-            gameTable1.setDeckCards(sampleDeck2);
+            gameTable1.setDeckPairs(sampleDeck2);
         });
     }
 

@@ -19,4 +19,24 @@ public class GameHistory {
         this.losserFinalPoint = opponentFinalPoint;
         this.winnerTotalPoint = myFinalPoint;
     }
+
+    public User getWinner() {
+        return winner;
+    }
+
+    public User getLosser() {
+        return losser;
+    }
+
+    public LocalDate getDateOfGame() {
+        return dateOfGame;
+    }
+
+    public double getLosserFinalPoint() {
+        return losserFinalPoint;
+    }
+
+    public double getWinnerTotalPoint() {
+        return winnerTotalPoint;
+    }
 }
