@@ -15,6 +15,7 @@ import java.util.ArrayList;
 public class TvController {
     public static ServerMessage updateLastPic(LastState msg) {
         Image image = Imageee.image;
+        Imageee.back = Imageee.image;
         User user = User.getUserByToken(msg.getToken());
 
         TvOnlineShow temp = TvOnlineShow.getByUser(user);
@@ -30,7 +31,7 @@ public class TvController {
         User user1 = User.getUserByToken(token);
         User user2 = User.getUserByUsername(username);
 
-        TvOnlineShow temp = TvOnlineShow.getByUser(user2);
+        TvOnlineShow temp = TvOnlineShow.allShows.get(0);
         user1.tv = temp;
 
         return new ServerMessage();
@@ -50,7 +51,7 @@ public class TvController {
 
     public static ServerMessage passLastState(CheckServerMessage msg) {
         User user = User.getUserByToken(msg.getToken());
-        TvOnlineShow tvOnlineShow = user.tv;
+        TvOnlineShow tvOnlineShow = TvOnlineShow.allShows.get(0);
         if (tvOnlineShow.isUpdate) {
             tvOnlineShow.isUpdate =false;
             Imageee.image = tvOnlineShow.allStates.getLast();
@@ -68,7 +69,7 @@ public class TvController {
 
     public static ServerMessage sendMessageToPlayers(SendMessageFromTvToPlayers msg) {
         User user = User.getUserByToken(msg.getToken());
-        TvOnlineShow tvOnlineShow = user.tv;
+        TvOnlineShow tvOnlineShow = TvOnlineShow.allShows.get(0);
 
         User user1 = tvOnlineShow.player1;
         User user2 = tvOnlineShow.player2;
