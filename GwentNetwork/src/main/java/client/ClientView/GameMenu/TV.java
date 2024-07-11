@@ -123,7 +123,7 @@ public class TV {
                 int ii = i;
                 button.setOnAction(event -> {
                     listPane.setVisible(false);
-                    watchThisGame(message.getFriends().get(0));
+                    watchThisGame(message.getFriends().get(ii));
                 });
 
                 gridPane.add(button, 0, i);
@@ -143,6 +143,8 @@ public class TV {
         }
     }
     private void watchThisGame(String username) {
+        livePane.setVisible(true);
+
         clientTPC.sendMassage(clientTPC.gson.toJson(new LiveGame(clientTPC.token, username)));
         clientTPC.receiveMassage();
 
