@@ -164,7 +164,7 @@ public class HeadViewController extends Application {
         HeadViewController.stage.setScene(scenes.get(scene));
 
         // set media
-        if (!scene.equals("pregame page") && !scene.equals("game page")) {
+        if (!scene.equals("pregame page") && !scene.equals("game page") && !scene.equals("tv")) {
             Media media = new Media(HeadViewController.class.getResource("/VIDEOS/2.mp4").toExternalForm());
             player = new MediaPlayer(media);
             MediaView mediaView1 = ((MediaView) ((AnchorPane) scenes.get(scene).getRoot()).getChildren().get(0));
