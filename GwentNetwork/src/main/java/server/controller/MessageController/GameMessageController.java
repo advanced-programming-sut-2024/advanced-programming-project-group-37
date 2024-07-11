@@ -149,7 +149,7 @@ public class GameMessageController {
         //check for message from watcher
         if (user.haveMessageFromWatcher) {
             user.haveMessageFromWatcher = false;
-            return new ServerMessage(ServerType.NEW_MESSAGE_FROM_WATCHER);
+            return new ServerMessage(ServerType.NEW_MESSAGE_FROM_WATCHER, user.messageFromWatcher);
         }
 
         //check for new message
