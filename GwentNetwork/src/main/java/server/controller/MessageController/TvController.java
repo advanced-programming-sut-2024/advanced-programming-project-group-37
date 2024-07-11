@@ -53,6 +53,7 @@ public class TvController {
         TvOnlineShow tvOnlineShow = user.tv;
         if (tvOnlineShow.isUpdate) {
             tvOnlineShow.isUpdate =false;
+            Imageee.image = tvOnlineShow.allStates.getLast();
             return new ServerMessage(tvOnlineShow.allStates.getLast(), ServerType.UPDATE_STATE);
         }
 
