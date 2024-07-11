@@ -556,7 +556,7 @@ public class GameMenu {
         new Timeline(new KeyFrame(Duration.seconds(7), event -> {
             reactionLabelPlayer2.setVisible(false);
             reactionImagePlayer2.setVisible(false);
-        }));
+        })).play();
     }
     public void showReaction(ActionEvent actionEvent) {
         reactionPane.setVisible(false);
@@ -566,11 +566,13 @@ public class GameMenu {
         sendReaction(message);
     }
     public void showReactionText(KeyEvent keyEvent) {
-        reactionPane.setVisible(false);
+        if (keyEvent.getCode() == KeyCode.ENTER){
+            reactionPane.setVisible(false);
 
-        String message = ((TextField) keyEvent.getSource()).getText();
+            String message = ((TextField) keyEvent.getSource()).getText();
 
-        sendReaction(message);
+            sendReaction(message);
+        }
     }
     private void sendReaction(String message) {
         reactionImagePlayer1.setVisible(true);
@@ -580,7 +582,7 @@ public class GameMenu {
         new Timeline(new KeyFrame(Duration.seconds(7), event -> {
             reactionLabelPlayer1.setVisible(false);
             reactionImagePlayer1.setVisible(false);
-        }));
+        })).play();
 
         clientTPC.sendMassage(clientTPC.gson.toJson(new Reaction(clientTPC.token, message)));
         clientTPC.receiveMassage();
