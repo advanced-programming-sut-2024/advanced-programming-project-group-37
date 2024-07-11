@@ -15,10 +15,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 import message.client.MessageType;
-import message.client.gameLobby.CheckServerMessage;
-import message.client.gameLobby.GetListOfGame;
-import message.client.gameLobby.LiveGame;
-import message.client.gameLobby.SendMessageFromTvToPlayers;
+import message.client.gameLobby.*;
 import message.server.ServerMessage;
 import message.server.ServerType;
 
@@ -83,7 +80,7 @@ public class TV {
                 ServerMessage message = clientTPC.receiveMassage();
 
                 if (message.getType() == ServerType.UPDATE_STATE) {
-                    liveImage.setImage(message.getImage());
+                    liveImage.setImage(Imageee.back);
                 }
                 if (message.getType() == ServerType.NEW_MESSAGE) {
                   updateTextArea(message.getOpponent());
