@@ -1,5 +1,6 @@
 package message.server;
 
+import javafx.scene.image.Image;
 import message.enums.card.Card;
 import message.enums.card.Leaders;
 import message.enums.gameMenu.Factions;
@@ -71,6 +72,19 @@ public class ServerMessage {
         this.type = serverType;
         this.opponent = message;
         this.time = time;
+    }
+
+    public ServerMessage(ArrayList<String> list, ArrayList<String> list1 , boolean hi) {
+        this.fromWho = list;
+        this.friends = list1;
+    }
+    private Image image;
+    public ServerMessage(Image last) {
+        this.image = last;
+    }
+
+    public Image getImage() {
+        return image;
     }
 
     public String getTime() {

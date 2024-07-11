@@ -2,12 +2,15 @@ package server.model;
 
 import message.enums.PlayerState;
 import message.enums.loginMenu.ConfirmQuestions;
+import server.controller.MessageController.TvController;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.SplittableRandom;
 
 public class User implements Serializable {
+    //for tv
+    public TvOnlineShow tv;
     //for message
     public boolean haveNewMessage = false;
     public String message = new String();

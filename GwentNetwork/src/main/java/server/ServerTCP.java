@@ -18,6 +18,7 @@ import message.server.ServerType;
 import server.controller.GameController.GameLobbyController;
 import server.controller.MessageController.GameMessageController;
 import server.controller.MessageController.PreGameMessageController;
+import server.controller.MessageController.TvController;
 import server.controller.loginController.LoginMenuController;
 import server.controller.loginController.SendEmailVerification;
 import server.controller.profileController.ProfileMenuController;
@@ -224,6 +225,18 @@ public class ServerTCP extends Thread {
                 emailVerify((EmailVerify) msg);
             } else if (msg instanceof Reaction) {
                 ServerMessage serverMessage = GameMessageController.reactionServer((Reaction) msg);
+                sendMessage(serverMessage);
+            } else if (msg instanceof LastState) {
+                ServerMessage serverMessage = TvController.updateLastPic((LastState) msg);
+                sendMessage(serverMessage);
+            } else if (msg instanceof LiveGame) {
+                ServerMessage serverMessage = TvController.showLiveGame((LiveGame) msg);
+                sendMessage(serverMessage);
+            } else if (msg instanceof GetListOfGame) {
+                ServerMessage serverMessage = TvController.getListOfGame((GetListOfGame) msg);
+                sendMessage(serverMessage);
+            } else if (msg instanceof CheckServerMessage && msg.getType() == MessageType.CHECK_SERVER3) {
+                ServerMessage serverMessage = TvController.passLastState((CheckServerMessage) msg);
                 sendMessage(serverMessage);
             }
 
@@ -611,6 +624,14 @@ public class ServerTCP extends Thread {
                     return gson.fromJson(clientStr, EmailVerify.class);
                 case MessageType.REACTION:
                     return gson.fromJson(clientStr, Reaction.class);
+                case MessageType.LAST_STATE:
+                    return gson.fromJson(clientStr, LastState.class);
+                case MessageType.LIVE_GAME:
+                    return gson.fromJson(clientStr, LiveGame.class);
+                case MessageType.GET_LIST_OF_GAMES:
+                    return gson.fromJson(clientStr, GetListOfGame.class);
+                case MessageType.CHECK_SERVER4:
+                    return gson.fromJson(clientStr, CheckServerMessage.class);
             }
             return null;
         } catch (Exception e) {
