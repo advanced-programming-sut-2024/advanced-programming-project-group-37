@@ -21,7 +21,11 @@ import javafx.stage.Stage;
 import message.client.Game.LastState;
 import message.client.gameLobby.Imageee;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 
@@ -181,12 +185,19 @@ public class HeadViewController extends Application {
     }
 
     public static void takeShot() {
-        WritableImage image = new WritableImage((int) stage.getWidth(), (int) stage.getHeight());
-        stage.getScene().snapshot(image);
-
-        HeadViewController.image = image;
-
-
+//        WritableImage image = new WritableImage((int) stage.getWidth(), (int) stage.getHeight());
+//        stage.getScene().snapshot(image);
+//
+//        BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, null);
+//
+//        File file = new File("screenshot.png");
+//        try {
+//            ImageIO.write(bufferedImage, "png", file);
+//            System.out.println("Screenshot saved to " + file.getAbsolutePath());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
 //        clientTPC.sendMassage(clientTPC.gson.toJson(new LastState(clientTPC.token)));
 //        clientTPC.receiveMassage();
     }

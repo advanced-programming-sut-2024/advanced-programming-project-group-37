@@ -7,7 +7,7 @@
 
 <AnchorPane onKeyPressed="#showTerminal" prefHeight="450.0" prefWidth="800.0" style="-fx-background-color: #000f;" stylesheets="@../CSS/css1.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.ClientView.GameMenu.TV">
    <children>
-      <ImageView fitHeight="450.0" fitWidth="829.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="450.0" fitWidth="829.0" onMouseEntered="#checkServer" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../asset/img/back.jpg" />
          </image>
