@@ -287,4 +287,8 @@ public class GameLobby {
 
         popUpPane.setVisible(false);
     }
+
+    public void goToTvMenu() {
+        HeadViewController.changeScene("tv");
+    }
 }

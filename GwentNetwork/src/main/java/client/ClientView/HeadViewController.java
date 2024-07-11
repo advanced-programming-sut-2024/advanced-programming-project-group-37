@@ -76,8 +76,6 @@ public class HeadViewController extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Font.loadFont(getClass().getResourceAsStream("/emoji.ttf"), 24);
-
         HeadViewController.stage = stage;
 
         stage.setScene(scenes.get("start page"));
@@ -127,6 +125,9 @@ public class HeadViewController extends Application {
 
         // add game lobby
         addAScene("game lobby", HeadViewController.class.getResource("/FXML/GameLobby.fxml"));
+
+        // add tv
+        addAScene("tv", HeadViewController.class.getResource("/FXML/TV.fxml"));
 
         // add pregame page
         addAScene("pregame page", HeadViewController.class.getResource("/FXML/PregamePage.fxml"));
