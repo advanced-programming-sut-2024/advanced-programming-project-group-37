@@ -41,8 +41,8 @@ public class TvController {
         ArrayList<String> player2 = new ArrayList<>();
 
         for (TvOnlineShow tv : TvOnlineShow.allShows) {
-            player1.add(tv.player1.getUser().getUsername());
-            player2.add(tv.player2.getUser().getUsername());
+            player1.add(tv.player1.getUsername());
+            player2.add(tv.player2.getUsername());
         }
 
         return new ServerMessage(player1, player2, true);
@@ -70,8 +70,8 @@ public class TvController {
         User user = User.getUserByToken(msg.getToken());
         TvOnlineShow tvOnlineShow = user.tv;
 
-        User user1 = tvOnlineShow.player1.getUser();
-        User user2 = tvOnlineShow.player2.getUser();
+        User user1 = tvOnlineShow.player1;
+        User user2 = tvOnlineShow.player2;
         user2.haveMessageFromWatcher = true;
         user1.haveMessageFromWatcher = true;
         user1.messageFromWatcher = user.getUsername() + " : " + msg.getM();

@@ -62,7 +62,6 @@ public class GameMenuController {
         this.player1 = new UserInGame(player1);
         this.player2 = new UserInGame(player2);
         this.userTurn = this.player1;
-        TvOnlineShow tvOnlineShow = new TvOnlineShow(this.player1, this.player2);
         games.add(this);
     }
 

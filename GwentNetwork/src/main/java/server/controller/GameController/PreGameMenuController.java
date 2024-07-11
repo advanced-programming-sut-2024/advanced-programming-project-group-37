@@ -1,5 +1,6 @@
 package server.controller.GameController;
 
+import server.model.TvOnlineShow;
 import server.model.User;
 import server.model.UserPreGameInfo;
 import message.enums.card.Card;
@@ -18,6 +19,8 @@ public class PreGameMenuController {
         this.currentUser = currentUser;
         this.opponentUser = opponentUser;
         preGameMenuControllers.add(this);
+
+        TvOnlineShow tvOnlineShow = new TvOnlineShow(currentUser, opponentUser);
     }
 
     public User currentUser = User.getLoggedInUser();

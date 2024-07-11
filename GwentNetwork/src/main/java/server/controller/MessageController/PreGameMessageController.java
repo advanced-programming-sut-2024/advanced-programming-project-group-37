@@ -78,6 +78,7 @@ public class PreGameMessageController {
         User user2 = pregame.opponentUser;
         if (user1.isReadyDeck() && user2.isReadyDeck()){
             GameMenuController game = new GameMenuController(user1, user2);
+
             return new ServerMessage(ServerType.BOTH_HAVE_READY_DECK);
         }
         return new ServerMessage();
