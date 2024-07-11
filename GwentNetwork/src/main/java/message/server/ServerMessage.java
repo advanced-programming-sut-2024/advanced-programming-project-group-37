@@ -78,15 +78,10 @@ public class ServerMessage {
         this.fromWho = list;
         this.friends = list1;
     }
-    private Image image;
     public ServerMessage(Image last, ServerType type) {
-        this.image = last;
         this.type = type;
     }
 
-    public Image getImage() {
-        return image;
-    }
 
     public String getTime() {
         return time;

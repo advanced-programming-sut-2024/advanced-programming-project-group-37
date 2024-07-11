@@ -4,10 +4,7 @@ import javafx.scene.image.Image;
 import message.client.Game.LastState;
 import message.client.Game.SendMessageFromGame;
 import message.client.MessageType;
-import message.client.gameLobby.CheckServerMessage;
-import message.client.gameLobby.GetListOfGame;
-import message.client.gameLobby.LiveGame;
-import message.client.gameLobby.SendMessageFromTvToPlayers;
+import message.client.gameLobby.*;
 import message.server.ServerMessage;
 import message.server.ServerType;
 import server.model.TvOnlineShow;
@@ -17,7 +14,7 @@ import java.util.ArrayList;
 
 public class TvController {
     public static ServerMessage updateLastPic(LastState msg) {
-        Image image = msg.getImage();
+        Image image = Imageee.image;
         User user = User.getUserByToken(msg.getToken());
 
         TvOnlineShow temp = TvOnlineShow.getByUser(user);
