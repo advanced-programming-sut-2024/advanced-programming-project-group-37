@@ -66,7 +66,7 @@ public class User implements Serializable {
         answer = input[4];
         token = input[5];
 
-        this.confirmQuestions = confirmQuestions;
+        this.confirmQuestions = ConfirmQuestions.q1;
         this.highestScore = 0;
         this.wonGames = 0;
         this.lostGames = 0;
@@ -154,7 +154,7 @@ public class User implements Serializable {
     }
 
     public void setConfirmQuestions(ConfirmQuestions confirmQuestions) {
-        this.confirmQuestions = confirmQuestions;
+        this.confirmQuestions = ConfirmQuestions.q1;
     }
 
     public int getHighestScore() {
