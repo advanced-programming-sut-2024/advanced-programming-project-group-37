@@ -118,6 +118,10 @@ public class GameMenu {
             if (message.getType() == ServerType.REACTION) {
                 showEnemyReaction(message.getOpponent());
             }
+
+            if (message.getType() == ServerType.NEW_MESSAGE_FROM_WATCHER) {
+                updateTextArea(message.getOpponent());
+            }
         });
 
         timeline.getKeyFrames().add(keyFrame);
