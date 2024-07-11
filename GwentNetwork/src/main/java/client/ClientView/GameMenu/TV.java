@@ -50,7 +50,7 @@ public class TV {
                     "-----------------------------------------" + "\n");
             terminalTextArea.positionCaret(terminalTextArea.getText().length());
 
-            clientTPC.sendMassage(clientTPC.gson.toJson(new SendMessageFromTvToPlayers(username)));
+            clientTPC.sendMassage(clientTPC.gson.toJson(new SendMessageFromTvToPlayers(clientTPC.token, m)));
             clientTPC.receiveMassage();
         }
     }
