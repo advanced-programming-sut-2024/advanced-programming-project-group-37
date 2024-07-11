@@ -42,5 +42,10 @@
             </Button>
          </children>
       </AnchorPane>
+      <Button layoutX="582.0" layoutY="316.0" mnemonicParsing="false" onAction="#whatLastMp4" prefHeight="26.0" prefWidth="194.0" style="-fx-background-color: green;" text="watch last public game" textFill="WHITE">
+         <font>
+            <Font name="System Bold Italic" size="14.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
