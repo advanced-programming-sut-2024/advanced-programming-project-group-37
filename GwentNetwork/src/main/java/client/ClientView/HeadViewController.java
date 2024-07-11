@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -19,6 +20,8 @@ import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 import message.client.Game.LastState;
 import message.client.gameLobby.Imageee;
+
+import java.awt.*;
 import java.net.URL;
 import java.util.HashMap;
 
@@ -30,6 +33,8 @@ import java.util.HashMap;
  */
 
 public class HeadViewController extends Application {
+
+    public static javafx.scene.image.Image image = new Image(HeadViewController.class.getResource("/asset/img/board.jpg").toExternalForm());
     // network
     public static ClientTPC clientTPC;
 
@@ -179,9 +184,10 @@ public class HeadViewController extends Application {
         WritableImage image = new WritableImage((int) stage.getWidth(), (int) stage.getHeight());
         stage.getScene().snapshot(image);
 
-        Imageee.image = image;
+        HeadViewController.image = image;
 
-        clientTPC.sendMassage(clientTPC.gson.toJson(new LastState(clientTPC.token)));
-        clientTPC.receiveMassage();
+
+//        clientTPC.sendMassage(clientTPC.gson.toJson(new LastState(clientTPC.token)));
+//        clientTPC.receiveMassage();
     }
 }

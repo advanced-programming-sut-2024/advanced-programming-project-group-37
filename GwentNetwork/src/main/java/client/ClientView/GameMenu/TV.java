@@ -79,10 +79,10 @@ public class TV {
 
                 ServerMessage message = clientTPC.receiveMassage();
 
-                if (message.getType() == ServerType.UPDATE_STATE) {
-                    liveImage.setImage(Imageee.back);
-                    liveImage.setImage(Imageee.back);
-                }
+//                if (message.getType() == ServerType.UPDATE_STATE) {
+                    liveImage.setImage(Imageee.image);
+                    liveImage.setImage(Imageee.image);
+//                }
                 if (message.getType() == ServerType.NEW_MESSAGE) {
                   updateTextArea(message.getOpponent());
                 }
