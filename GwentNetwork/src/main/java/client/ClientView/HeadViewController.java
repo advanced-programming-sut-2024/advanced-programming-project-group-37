@@ -182,5 +182,6 @@ public class HeadViewController extends Application {
         Imageee.image = image;
 
         clientTPC.sendMassage(clientTPC.gson.toJson(new LastState(clientTPC.token)));
+        clientTPC.receiveMassage();
     }
 }
