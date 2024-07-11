@@ -494,8 +494,8 @@ public class GameMenu {
             turnPane.setVisible(false);
         })).play();
     }
-// pass turn
 
+// pass turn
     public void passTurn() {
         passPane.setVisible(true);
         ((Label) passPane.getChildren().get(2)).setText("you pass turn");

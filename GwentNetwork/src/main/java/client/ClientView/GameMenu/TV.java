@@ -109,6 +109,8 @@ public class TV {
             gridPane.setHgap(10);
             gridPane.setVgap(40);
 
+            listScrollPane.setContent(gridPane);
+
             listScrollPane.setFitToWidth(true);
             listScrollPane.setFitToHeight(true);
 
