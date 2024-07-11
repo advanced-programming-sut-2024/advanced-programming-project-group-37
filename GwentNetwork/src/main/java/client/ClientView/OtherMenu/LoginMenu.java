@@ -14,7 +14,10 @@ import message.client.LoginMenu.*;
 import message.enums.loginMenu.ConfirmQuestions;
 import message.enums.loginMenu.LoginMenuCommands;
 import message.server.ServerMessage;
+import server.controller.loginController.SendEmailVerification;
+import server.model.User;
 
+import java.util.Random;
 import java.util.regex.Matcher;
 
 import static client.ClientView.HeadViewController.clientTPC;
@@ -35,6 +38,9 @@ public class LoginMenu {
     // terminal part
     public AnchorPane terminalPane;
     public TextArea terminalTextArea;
+    public TextField code;
+    public Button enter;
+    public AnchorPane emailPaneee;
     private boolean isTerminalVisible = false;
     private String usernameForForget;
 
@@ -386,7 +392,20 @@ public class LoginMenu {
         });
     }
 
+
     public void sendEmail() {
+        emailPaneee.setVisible(true);
+
+        String username = usernameTextField.getText();
+        String password = passwordField.getText();
+
+        User user = User.getUserByUsername(username);
+
+        clientTPC.sendMassage(clientTPC.gson.toJson(new EmailVerify("", "foad.kheirabady@gmail.com")));
+        ServerMessage serverMessage = clientTPC.receiveMassage();
+        if (serverMessage.isSuccess()){
+            login();
+        }
     }
 
     public void mute(ActionEvent actionEvent) {
@@ -396,5 +415,9 @@ public class LoginMenu {
 
         if (isMute) button.setText("UNMUTE");
         else button.setText("MUTE");
+    }
+
+    public void sendEmailjj(ActionEvent actionEvent) {
+        emailPaneee.setVisible(true);
     }
 }

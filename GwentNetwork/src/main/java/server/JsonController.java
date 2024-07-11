@@ -16,6 +16,7 @@ public class JsonController {
 
     private static void saveUsers() {
         try {
+//            User.setAllUsers(new ArrayList<User>());
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(
                     Paths.get(JsonController.class.getResource(USERS_FILE).toURI()).toString()));
             oos.writeObject(User.getAllUsers());

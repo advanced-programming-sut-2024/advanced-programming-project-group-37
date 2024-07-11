@@ -189,8 +189,7 @@ public class LoginMenuController{
     public static Result forgetPasswordCommand(String matcher) {
         User user = User.getUserByUsername(matcher);
         if ((user) == null) return new Result(false, "Username not found!");
-        return new Result(true, "answer your saved question\n" +
-                user.getConfirmQuestions().getQuestion() + "\n");
+        return new Result(true, "answer your saved question\n");
     }
 
 

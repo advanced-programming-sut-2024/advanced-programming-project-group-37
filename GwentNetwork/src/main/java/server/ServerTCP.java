@@ -663,7 +663,7 @@ public class ServerTCP extends Thread {
     public static void main(String[] args) {
 
         Runtime.getRuntime().addShutdownHook(new Thread(JsonController::save, "Shutdown-thread"));
-        JsonController.load();
+//        JsonController.load();
 
         try {
             ServerTCP.setupServer(5000, 10);

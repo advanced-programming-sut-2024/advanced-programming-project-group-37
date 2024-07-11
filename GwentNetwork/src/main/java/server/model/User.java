@@ -40,7 +40,7 @@ public class User implements Serializable {
     private String password;
     private String nickname;
     private String email;
-    private String answer;
+    private String answer = "265";
     private ConfirmQuestions confirmQuestions;
     private static User loggedInUser;
     private int highestScore;

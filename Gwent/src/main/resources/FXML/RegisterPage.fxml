@@ -25,13 +25,15 @@
       <Label layoutX="293.0" layoutY="261.0" prefHeight="18.0" prefWidth="200.0" text="* choose an emil" textFill="#acacac" />
       <Label fx:id="errorLabel" layoutX="300.0" layoutY="363.0" prefHeight="18.0" prefWidth="200.0" textFill="RED" />
       <Label alignment="CENTER" layoutX="365.0" layoutY="369.0" onMouseClicked="#backToLoginPage" prefHeight="26.0" prefWidth="55.0" styleClass="labelEffect" text="sign in" textFill="#0c58f2" />
-      <AnchorPane fx:id="passwordPane" layoutX="246.0" layoutY="184.0" prefHeight="230.0" prefWidth="308.0" style="-fx-background-color: #ffffff;" visible="false">
+      <AnchorPane fx:id="passwordPane" layoutX="246.0" layoutY="184.0" prefHeight="230.0" prefWidth="308.0" style="-fx-background-color: #ffffff;">
          <children>
             <PasswordField layoutX="80.0" layoutY="44.0" promptText="password" />
             <PasswordField layoutX="81.0" layoutY="96.0" promptText="confirm password" />
             <Label layoutX="80.0" layoutY="21.0" prefHeight="18.0" prefWidth="150.0" text="enter your passwod" />
             <Label layoutX="80.0" layoutY="77.0" prefHeight="18.0" prefWidth="150.0" text="confirm your password" />
             <Button layoutX="126.0" layoutY="190.0" mnemonicParsing="false" text="sign up" />
+            <Button layoutX="51.0" layoutY="132.0" mnemonicParsing="false" text="RANDOM PASSWORD GENERATOR" />
+            <Label layoutX="136.0" layoutY="165.0" prefHeight="1.0" prefWidth="34.0" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="questionPane" layoutX="246.0" layoutY="159.0" prefHeight="282.0" prefWidth="308.0" style="-fx-background-color: #ffffff;" visible="false">
