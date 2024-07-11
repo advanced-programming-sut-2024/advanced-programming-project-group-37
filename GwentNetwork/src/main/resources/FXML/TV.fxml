@@ -23,7 +23,7 @@
             <Font name="System Bold Italic" size="14.0" />
          </font>
       </Button>
-      <Button layoutX="582.0" layoutY="360.0" mnemonicParsing="false" onAction="#showListOfGames" prefHeight="26.0" prefWidth="194.0" style="-fx-background-color: green;" text="List of game" textFill="WHITE">
+      <Button layoutX="582.0" layoutY="360.0" mnemonicParsing="false" onAction="#watchThisGame" prefHeight="26.0" prefWidth="194.0" style="-fx-background-color: green;" text="List of game" textFill="WHITE">
          <font>
             <Font name="System Bold Italic" size="14.0" />
          </font>

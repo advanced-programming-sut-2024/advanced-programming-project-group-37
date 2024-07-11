@@ -80,8 +80,8 @@ public class TV {
                 ServerMessage message = clientTPC.receiveMassage();
 
 //                if (message.getType() == ServerType.UPDATE_STATE) {
-                    liveImage.setImage(Imageee.image);
-                    liveImage.setImage(Imageee.image);
+                    liveImage.setImage(HeadViewController.image);
+                    liveImage.setImage(HeadViewController.image);
 //                }
                 if (message.getType() == ServerType.NEW_MESSAGE) {
                   updateTextArea(message.getOpponent());
@@ -123,7 +123,7 @@ public class TV {
                 int ii = i;
                 button.setOnAction(event -> {
                     listPane.setVisible(false);
-                    watchThisGame(message.getFriends().get(ii));
+//                    watchThisGame(message.getFriends().get(ii));
                 });
 
                 gridPane.add(button, 0, i);
@@ -142,13 +142,20 @@ public class TV {
             }
         }
     }
-    private void watchThisGame(String username) {
+    public void watchThisGame() {
         livePane.setVisible(true);
 
-        clientTPC.sendMassage(clientTPC.gson.toJson(new LiveGame(clientTPC.token, username)));
-        clientTPC.receiveMassage();
+        Timeline timeline1 = new Timeline(new KeyFrame(Duration.seconds(1), actionEvent -> {
+            liveImage.setImage(HeadViewController.image);
+        }));
 
-        checkServer();
+        timeline1.setCycleCount(-1);
+
+        timeline1.play();
+//        clientTPC.sendMassage(clientTPC.gson.toJson(new LiveGame(clientTPC.token, username)));
+//        clientTPC.receiveMassage();
+
+//        checkServer();
     }
 
     public void backToGameLobby() {
@@ -156,9 +163,8 @@ public class TV {
     }
 
     public void backFromLive() {
-        timeline.stop();
         isCalled = false;
-        listPane.setVisible(false);
+        livePane.setVisible(false);
     }
 
     public void whatLastMp4() {
