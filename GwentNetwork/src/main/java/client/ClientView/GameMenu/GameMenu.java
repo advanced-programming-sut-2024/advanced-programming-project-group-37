@@ -99,7 +99,6 @@ public class GameMenu {
                 new Timeline(new KeyFrame(Duration.seconds(2), actionEvent -> result.setVisible(false))).play();
             }
 
-
             if (message.getType() == ServerType.END_GAME) {
                 updateEndPage(message.isSuccess());
             }

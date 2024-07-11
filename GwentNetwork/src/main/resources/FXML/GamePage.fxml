@@ -287,10 +287,10 @@
             <Font size="10.0" />
          </font>
       </Button>
-      <AnchorPane fx:id="terminalPane" layoutX="14.0" layoutY="11.0" prefHeight="428.0" prefWidth="450.0" style="-fx-background-color: #00000055;" stylesheets="@../CSS/css1.css" visible="false">
+      <AnchorPane fx:id="terminalPane" layoutX="14.0" layoutY="11.0" prefHeight="428.0" prefWidth="450.0" style="-fx-background-color: #00000055;" stylesheets="@../CSS/css1.css">
          <children>
             <TextArea fx:id="terminalTextArea" layoutX="14.0" layoutY="14.0" prefHeight="385.0" prefWidth="420.0" styleClass="terminal" />
-            <TextField layoutX="14.0" layoutY="400.0" onKeyPressed="#checkCommand" prefHeight="26.0" prefWidth="420.0" promptText="message" style="-fx-background-color: #6faf48;" />
+            <TextField fx:id="terminalTextField" layoutX="14.0" layoutY="400.0" onKeyPressed="#checkCommand" prefHeight="26.0" prefWidth="420.0" promptText="message" style="-fx-background-color: #6faf48;" />
          </children>
       </AnchorPane>
    </children>
